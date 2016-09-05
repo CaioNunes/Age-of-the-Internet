@@ -10,10 +10,10 @@ public class Animation implements RenderableTickable {
 	private int[] durations;
 	private int currentFrame = 0;
 	private int countDown = 0;
-	private int x=0, y=0;
-	private boolean looping=false;
+	private int x = 0, y = 0;
+	private boolean looping = false;
 	private boolean going = false;
-	
+
 	public Animation(Renderable[] frames, int[] durations, int x, int y, boolean looping) {
 		this.frames = frames;
 		this.durations = durations;
@@ -22,23 +22,26 @@ public class Animation implements RenderableTickable {
 		this.y = y;
 		this.looping = looping;
 	}
+
 	public Animation(Renderable[] frames, int duration, int x, int y, boolean looping) {
 		this(frames, new int[frames.length], x, y, looping);
 		int[] durs = new int[frames.length];
-		for(int i=0; i<durs.length; i++) {
+		for (int i = 0; i < durs.length; i++) {
 			durs[i] = duration;
 		}
 		durations = durs;
 	}
+
 	public Animation(int[] frames, int[] durations, int x, int y, boolean looping) {
 		this(new Renderable[frames.length], durations, x, y, looping);
-		for(int i=0; i<this.frames.length; i++) {
+		for (int i = 0; i < this.frames.length; i++) {
 			this.frames[i] = new Sprite(frames[i], x, y, false);
 		}
 	}
+
 	public Animation(int[] frames, int duration, int x, int y, boolean looping) {
 		this(new Renderable[frames.length], duration, x, y, looping);
-		for(int i=0; i<this.frames.length; i++) {
+		for (int i = 0; i < this.frames.length; i++) {
 			this.frames[i] = new Sprite(frames[i], x, y, false);
 		}
 	}
@@ -79,24 +82,27 @@ public class Animation implements RenderableTickable {
 		int dy = y - this.y;
 		this.x = x;
 		this.y = y;
-		for(Renderable r : frames) {
-			r.goTo(r.getX()+dx, r.getY()+dy);
+		for (Renderable r : frames) {
+			r.goTo(r.getX() + dx, r.getY() + dy);
 		}
 	}
+
 	public void go() {
 		going = true;
 	}
+
 	public void stop() {
 		going = false;
 	}
+
 	@Override
 	public void tick() {
-		if(going) {
+		if (going) {
 			countDown--;
-			if(countDown <= 0) {
+			if (countDown <= 0) {
 				currentFrame++;
-				if(currentFrame >= frames.length) {
-					if(looping) {
+				if (currentFrame >= frames.length) {
+					if (looping) {
 						currentFrame = 0;
 					} else {
 						going = false;
