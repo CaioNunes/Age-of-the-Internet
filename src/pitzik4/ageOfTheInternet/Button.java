@@ -10,59 +10,59 @@ import pitzik4.ageOfTheInternet.graphics.Sprite;
 public class Button implements Renderable, Tickable {
 	private Game owner;
 	private Sprite[] sprites;
-	private RenderableString str;
-	private int x=0, y=0;
+	private RenderableString renderableString;
+	private int positionX=0, positionY=0;
 	private int width;
 	public boolean isClicked = false;
 	public boolean isScrolled = false;
 	public boolean nowClicked = false;
 	public static final int BUTTON_SPRITE = 50;
 	
-	public Button(Game owner, int x, int y, int width, String text) {
+	public Button(Game owner, int positionX, int positionY, int width, String textRenderable) {
 		this.owner = owner;
-		this.x = x;
-		this.y = y;
+		this.positionX = positionX;
+		this.positionY = positionY;
 		this.width = width;
 		sprites = new Sprite[width/Sprite.SPRITE_WIDTH];
 		for(int i=0; i<width/Sprite.SPRITE_WIDTH; i++) {
 			if(i==0) {
-				sprites[i] = new Sprite(BUTTON_SPRITE, x, y, false);
+				sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
 			} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-				sprites[i] = new Sprite(BUTTON_SPRITE+2, x+i*Sprite.SPRITE_WIDTH, y, false);
+				sprites[i] = new Sprite(BUTTON_SPRITE+2, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 			} else {
-				sprites[i] = new Sprite(BUTTON_SPRITE+1, x+i*Sprite.SPRITE_WIDTH, y, false);
+				sprites[i] = new Sprite(BUTTON_SPRITE+1, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 			}
 		}
-		str = new RenderableString(text, 0, 0);
-		int strWidth = str.width;
-		str.goTo(x+(width-strWidth)/2, y+2);
+		renderableString = new RenderableString(textRenderable, 0, 0);
+		int strWidth = renderableString.width;
+		renderableString.goTo(positionX+(width-strWidth)/2, positionY+2);
 	}
 
 	@Override
 	public BufferedImage draw() {
 		BufferedImage out = new BufferedImage(width, Sprite.SPRITE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = out.createGraphics();
-		drawOn(g, x, y);
-		g.dispose();
+		Graphics2D graphics = out.createGraphics();
+		drawOn(graphics, positionX, positionY);
+		graphics.dispose();
 		return out;
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		for(Sprite s : sprites) {
-			s.drawOn(g, scrollx, scrolly);
+			s.drawOn(graphics, scrollx, scrolly);
 		}
-		str.drawOn(g, scrollx, scrolly);
+		renderableString.drawOn(graphics, scrollx, scrolly);
 	}
 
 	@Override
 	public int getX() {
-		return x;
+		return positionX;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return positionY;
 	}
 
 	@Override
@@ -76,20 +76,20 @@ public class Button implements Renderable, Tickable {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
-		int dx = x-this.x;
-		int dy = y-this.y;
-		this.x = x;
-		this.y = y;
-		for(Sprite s : sprites) {
-			s.goTo(s.getX()+dx, s.getY()+dy);
+	public void goTo(int positionX, int positionY) {
+		int dx = positionX-this.positionX;
+		int dy = positionY-this.positionY;
+		this.positionX = positionX;
+		this.positionY = positionY;
+		for(Sprite sprite : sprites) {
+			sprite.goTo(sprite.getX()+dx, sprite.getY()+dy);
 		}
-		str.goTo(str.getX()+dx, str.getY()+dy);
+		renderableString.goTo(renderableString.getX()+dx, renderableString.getY()+dy);
 	}
 
 	@Override
-	public void tick() {
-		if(owner.mouseInsideOf(x, y, width, Sprite.SPRITE_HEIGHT)) {
+	public void  tick() {
+		if(owner.mouseInsideOf(positionX, positionY, width, Sprite.SPRITE_HEIGHT)) {
 			beScrolled(true);
 			boolean wasClicked = isClicked;
 			if(owner.mouseDown) {
@@ -113,21 +113,21 @@ public class Button implements Renderable, Tickable {
 			if(isScrolled) {
 				for(int i=0; i<sprites.length; i++) {
 					if(i==0) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+3, x, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+3, positionX, positionY, false);
 					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+5, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+5, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+4, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+4, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					}
 				}
 			} else {
 				for(int i=0; i<sprites.length; i++) {
 					if(i==0) {
-						sprites[i] = new Sprite(BUTTON_SPRITE, x, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
 					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+2, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+2, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+1, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+1, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					}
 				}
 			}
@@ -139,21 +139,21 @@ public class Button implements Renderable, Tickable {
 			if(isClicked) {
 				for(int i=0; i<sprites.length; i++) {
 					if(i==0) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+6, x, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+6, positionX, positionY, false);
 					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+8, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+8, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+7, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+7, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					}
 				}
 			} else {
 				for(int i=0; i<sprites.length; i++) {
 					if(i==0) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+3, x, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+3, positionX, positionY, false);
 					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+5, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+5, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+4, x+i*Sprite.SPRITE_WIDTH, y, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE+4, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
 					}
 				}
 			}
