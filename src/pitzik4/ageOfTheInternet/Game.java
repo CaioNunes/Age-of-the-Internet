@@ -43,7 +43,7 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	public boolean stopping = false;
 	public List<Tickable> tickables = new ArrayList<Tickable>();
 	public Set<Integer> keysDown = new HashSet<Integer>();
-	public volatile int mouseX=0, mouseY=0;
+	public volatile int mousePositionX=0, mousePositionY=0;
 	public volatile boolean mouseDown = false;
 	private volatile boolean mouseActuallyDown = false;
 	private volatile boolean mouseReleasedTooSoon = false;
@@ -76,6 +76,9 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 			levels[i] = remakeLevel(i);
 		}
 	}
+	
+	//return player level.
+	
 	public Stage remakeLevel(int index) {
 		if(index == 0) {
 			return new StartingCutscene(this);
@@ -139,9 +142,9 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	}
 	@Override
 	public void start() {
-		Background bg = new Background(0, 0, WIDTH/Screen.POOR_RES, HEIGHT/Screen.POOR_RES);
-		screen.addRenderable(bg);
-		addTickable(bg);
+		Background backGround = new Background(0, 0, WIDTH/Screen.POOR_RES, HEIGHT/Screen.POOR_RES);
+		screen.addRenderable(backGround);
+		addTickable(backGround);
 		beginGame();
 		new Thread(this).start();
 	}	
@@ -151,13 +154,13 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	}
 	
 	@Override
-	public void paint(Graphics g) {
-		g.drawImage(img, 0, 0, getWidth(), getHeight(), 0, 0, img.getWidth()-1, img.getHeight()-1, null);
+	public void paint(Graphics graphics) {
+		graphics.drawImage(img, 0, 0, getWidth(), getHeight(), 0, 0, img.getWidth()-1, img.getHeight()-1, null);
 		frames++;
 	}
 	@Override
-	public void update(Graphics g) {
-		paint(g);
+	public void update(Graphics graphics) {
+		paint(graphics);
 	}
 	public void updateScreen() {
 		img = screen.draw();
@@ -197,8 +200,8 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 		if(!paused) {
 			ticks++;
 			tickAmount++;
-			for(Tickable t : tickables) {
-				t.tick();
+			for(Tickable tickables : tickables) {
+				tickables.tick();
 			}
 			if(currentLevel.isClosing()) {
 				nextLevel();
@@ -219,11 +222,11 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 			mouseDown = mouseActuallyDown;
 		}
 	}
-	public void addTickable(Tickable t) {
-		tickables.add(t);
+	public void addTickable(Tickable tickable) {
+		tickables.add(tickable);
 	}
-	public void removeTickable(Object t) {
-		tickables.remove(t);
+	public void removeTickable(Object tick) {
+		tickables.remove(tick);
 	}
 	public static void main(String[] args) {
 		Game game = new Game();
@@ -241,7 +244,7 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 		game.start();
 	}
 	
-	//Gameplay! WOOHOO
+	//Where games start's
 	public void beginGame() {
 		screen.closeAllMenus();
 		if(level >= levels.length) {
@@ -272,103 +275,107 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	
 	//Window event handling
 	@Override
-	public void windowActivated(WindowEvent evt) {
+	public void windowActivated(WindowEvent eventt) {
 		if(!pausedByKeyboard) {
 			pause(false);
 		}
 	}
 	@Override
-	public void windowClosed(WindowEvent evt) {
+	public void windowClosed(WindowEvent eventt) {
 		pause(true);
 	}
 	@Override
-	public void windowClosing(WindowEvent evt) {
+	public void windowClosing(WindowEvent eventt) {
 		pause(true);
 	}
 	@Override
-	public void windowDeactivated(WindowEvent evt) {
+	public void windowDeactivated(WindowEvent eventt) {
 		pause(true);
 	}
 	@Override
-	public void windowDeiconified(WindowEvent evt) {
+	public void windowDeiconified(WindowEvent eventt) {
 		//pause(false);
 	}
 	@Override
-	public void windowIconified(WindowEvent evt) {
+	public void windowIconified(WindowEvent eventt) {
 		pause(true);
 	}
 	@Override
-	public void windowOpened(WindowEvent evt) {
+	public void windowOpened(WindowEvent eventt) {
 		//pause(false);
 	}
+	
+	//Keyboard event
 	@Override
-	public void keyPressed(KeyEvent evt) {
-		keysDown.add(evt.getKeyCode());
+	public void keyPressed(KeyEvent eventt) {
+		keysDown.add(eventt.getKeyCode());
 		//System.out.println(evt.getKeyCode());
 	}
 	@Override
-	public void keyReleased(KeyEvent evt) {
-		keysDown.remove(evt.getKeyCode());
+	public void keyReleased(KeyEvent eventt) {
+		keysDown.remove(eventt.getKeyCode());
 	}
 	@Override
-	public void keyTyped(KeyEvent evt) {
+	public void keyTyped(KeyEvent eventt) {
 		
 	}
+	//Mouse events
 	@Override
-	public void mouseDragged(MouseEvent evt) {
-		mouseX=evt.getX()/Screen.POOR_RES;
-		mouseY=evt.getY()/Screen.POOR_RES;
+	public void mouseDragged(MouseEvent event) {
+		mousePositionX=event.getX()/Screen.POOR_RES;
+		mousePositionY=event.getY()/Screen.POOR_RES;
 	}
 	@Override
-	public void mouseMoved(MouseEvent evt) {
-		mouseX=evt.getX()/Screen.POOR_RES;
-		mouseY=evt.getY()/Screen.POOR_RES;
+	public void mouseMoved(MouseEvent eventt) {
+		mousePositionX=eventt.getX()/Screen.POOR_RES;
+		mousePositionY=eventt.getY()/Screen.POOR_RES;
 	}
 	@Override
-	public void mouseClicked(MouseEvent evt) {
+	public void mouseClicked(MouseEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void mouseEntered(MouseEvent evt) {
+	public void mouseEntered(MouseEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void mouseExited(MouseEvent evt) {
+	public void mouseExited(MouseEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void mousePressed(MouseEvent evt) {
+	public void mousePressed(MouseEvent event) {
 		mouseDown = true;
 		mouseActuallyDown = true;
 		mouseReleasedTooSoon = true;
-		rightButton = evt.getButton()==MouseEvent.BUTTON3;
+		rightButton = event.getButton()==MouseEvent.BUTTON3;
 	}
 	@Override
-	public void mouseReleased(MouseEvent evt) {
+	public void mouseReleased(MouseEvent event) {
 		if(!mouseReleasedTooSoon) {
 			mouseDown = false;
 		}
 		mouseActuallyDown = false;
 	}
-	public boolean mouseInsideOf(int x, int y, int width, int height) {
-		x -= screen.getScrollX();
-		y -= screen.getScrollY();
-		return mouseX>=x&&mouseX<x+width&&mouseY>y&&mouseY<=y+height;
+	public boolean mouseInsideOf(int positionX, int positionY, int width, int height) {
+		positionX -= screen.getScrollX();
+		positionY -= screen.getScrollY();
+		return mousePositionX>=positionX&&mousePositionX<positionX+width&&mousePositionY>positionY&&mousePositionY<=positionY+height;
 	}
-	public boolean mouseInsideOf(int x, int y, int width, int height, boolean mindScroll) {
+	public boolean mouseInsideOf(int positionX, int positionY, int width, int height, boolean mindScroll) {
 		if(mindScroll) {
-			x -= screen.getScrollX();
-			y -= screen.getScrollY();
+			positionX -= screen.getScrollX();
+			positionY -= screen.getScrollY();
 		}
-		return mouseX>=x&&mouseX<x+width&&mouseY>y&&mouseY<=y+height;
+		return mousePositionX>=positionX&&mousePositionX<positionX+width&&mousePositionY>positionY&&mousePositionY<=positionY+height;
 	}
 	@Override
 	public boolean isFocusable() {
 		return true;
 	}
+	//Game Pause
 	public void pause(boolean paused) {
 		this.paused = paused;
 		if(paused) {
@@ -385,11 +392,11 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	}
 	//Focus event handling
 	@Override
-	public void focusGained(FocusEvent arg0) {
+	public void focusGained(FocusEvent gain) {
 		pause(false);
 	}
 	@Override
-	public void focusLost(FocusEvent arg0) {
+	public void focusLost(FocusEvent lost) {
 		pause(true);
 	}
 	
