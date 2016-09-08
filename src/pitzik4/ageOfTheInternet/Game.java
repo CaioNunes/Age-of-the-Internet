@@ -392,11 +392,11 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	}
 	//Focus event handling
 	@Override
-	public void focusGained(FocusEvent gain) {
+	public void focusGained(FocusEvent g) {
 		pause(false);
 	}
 	@Override
-	public void focusLost(FocusEvent lost) {
+	public void focusLost(FocusEvent arg0) {
 		pause(true);
 	}
 	
