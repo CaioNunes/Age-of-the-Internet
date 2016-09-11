@@ -9,40 +9,40 @@ import pitzik4.ageOfTheInternet.RenderableTickable;
 public class ExplosionParticle implements RenderableTickable {
 	private int lifetime = 0;
 	private double direction;
-	private double x=0;
-	private double y=0;
+	private double positionX = 0;
+	private double positionY = 0;
 	public boolean dead = false;
 	public static final int LIFE_SPAN = 20;
-	
+
 	public ExplosionParticle(double x, double y, double direction) {
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 		this.direction = direction;
 	}
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage out = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = out.createGraphics();
-		drawOn(g, (int) Math.round(x), (int) Math.round(y));
-		g.dispose();
-		return out;
+		BufferedImage bufferedImageOut = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
+		Graphics2D graphics = bufferedImageOut.createGraphics();
+		drawOn(graphics, (int) Math.round(positionX), (int) Math.round(positionY));
+		graphics.dispose();
+		return bufferedImageOut;
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		g.setPaint(new Color(0x60BFBF));
-		g.fillRect((int) Math.round(x-scrollx), (int) Math.round(y-scrolly), 2, 2);
+	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+		graphics.setPaint(new Color(0x60BFBF));
+		graphics.fillRect((int) Math.round(positionX - scrollx), (int) Math.round(positionY - scrolly), 2, 2);
 	}
 
 	@Override
 	public int getX() {
-		return (int) Math.round(x);
+		return (int) Math.round(positionX);
 	}
 
 	@Override
 	public int getY() {
-		return (int) Math.round(y);
+		return (int) Math.round(positionY);
 	}
 
 	@Override
@@ -57,18 +57,18 @@ public class ExplosionParticle implements RenderableTickable {
 
 	@Override
 	public void goTo(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 	}
 
 	@Override
 	public void tick() {
 		lifetime++;
-		if(lifetime > LIFE_SPAN) {
+		if (lifetime > LIFE_SPAN) {
 			dead = true;
 		}
-		x += Math.cos(direction);
-		y += Math.sin(direction);
+		positionX += Math.cos(direction);
+		positionY += Math.sin(direction);
 	}
 
 }
