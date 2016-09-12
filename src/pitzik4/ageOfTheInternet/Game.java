@@ -31,19 +31,20 @@ import pitzik4.ageOfTheInternet.graphics.Screen;
 import pitzik4.ageOfTheInternet.tiles.CorporationTile;
 import pitzik4.ageOfTheInternet.tiles.HackerTile;
 
-public class Game extends Applet implements Runnable, WindowListener, KeyListener, MouseListener, MouseMotionListener, FocusListener {
+public class Game extends Applet
+		implements Runnable, WindowListener, KeyListener, MouseListener, MouseMotionListener, FocusListener {
 
 	private static final long serialVersionUID = 7763462792733778046L;
-	
+
 	public Screen screen;
-	private BufferedImage img;
+	private BufferedImage image;
 	public long tickAmount = 0;
 	public short ticks = 0;
 	public int frames = 0;
 	public boolean stopping = false;
 	public List<Tickable> tickables = new ArrayList<Tickable>();
 	public Set<Integer> keysDown = new HashSet<Integer>();
-	public volatile int mousePositionX=0, mousePositionY=0;
+	public volatile int mousePositionX = 0, mousePositionY = 0;
 	public volatile boolean mouseDown = false;
 	private volatile boolean mouseActuallyDown = false;
 	private volatile boolean mouseReleasedTooSoon = false;
@@ -51,7 +52,7 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	public int level = 0;
 	public Stage currentLevel;
 	public Stage[] levels = new Stage[12];
-	public PauseScreen pausescreen;
+	public PauseScreen pauseScreen;
 	public boolean paused = false;
 	public boolean wasPausing = false;
 	public boolean pausedByKeyboard = false;
@@ -60,7 +61,7 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 	public static final int HEIGHT = 480;
 	public static final String NAME = "Age of the Internet";
 	public static final double TICKS_PER_MILLI = 20.0 / 1000.0;
-	
+
 	@Override
 	public void init() {
 		game = this;
@@ -69,104 +70,107 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 		addKeyListener(this);
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		screen = new Screen(this);
 		addTickable(screen);
-		for(int i=0; i<levels.length; i++) {
+		for (int i = 0; i < levels.length; i++) {
 			levels[i] = remakeLevel(i);
 		}
 	}
-	
-	//return player level.
-	
+
+	// return player level.
+
 	public Stage remakeLevel(int index) {
-		if(index == 0) {
+		if (index == 0) {
 			return new StartingCutscene(this);
-			/*try {
-				return new Level(7, this);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}*/
-		} else if(index == 1) {
+			/*
+			 * try { return new Level(7, this); } catch (IOException e) {
+			 * e.printStackTrace(); }
+			 */
+		} else if (index == 1) {
 			return new TitleScreen(this);
-		} else if(index == 2) {
+		} else if (index == 2) {
 			try {
 				return new Level(1, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(index == 3) {
+		} else if (index == 3) {
 			try {
 				return new Level(2, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(index == 4) {
+		} else if (index == 4) {
 			return new MoneyCutscene(this);
-		} else if(index == 5) {
+		} else if (index == 5) {
 			try {
 				return new Level(3, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(index == 6) {
+		} else if (index == 6) {
 			try {
 				return new Level(4, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(index == 7) {
+		} else if (index == 7) {
 			try {
 				return new Level(5, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(index == 8) {
+		} else if (index == 8) {
 			return new HackerCutscene(this);
-		} else if(index == 9) {
+		} else if (index == 9) {
 			try {
 				return new Level(6, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(index == 10) {
+		} else if (index == 10) {
 			try {
 				return new Level(7, this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else if(index == 11) {
+		} else if (index == 11) {
 			return new EndingCutscene(this);
 		}
 		return null;
 	}
+
 	@Override
 	public void start() {
-		Background backGround = new Background(0, 0, WIDTH/Screen.POOR_RES, HEIGHT/Screen.POOR_RES);
+		Background backGround = new Background(0, 0, WIDTH / Screen.POOR_RES, HEIGHT / Screen.POOR_RES);
 		screen.addRenderable(backGround);
 		addTickable(backGround);
 		beginGame();
 		new Thread(this).start();
-	}	
+	}
+
 	@Override
 	public void stop() {
-		
+
 	}
-	
+
 	@Override
 	public void paint(Graphics graphics) {
-		graphics.drawImage(img, 0, 0, getWidth(), getHeight(), 0, 0, img.getWidth()-1, img.getHeight()-1, null);
+		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1, null);
 		frames++;
 	}
+
 	@Override
 	public void update(Graphics graphics) {
 		paint(graphics);
 	}
+
 	public void updateScreen() {
-		img = screen.draw();
+		image = screen.draw();
 		repaint();
 	}
-	
+
 	@Override
 	public void run() {
 		long time;
@@ -174,64 +178,73 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 		long lastTime = System.currentTimeMillis();
 		long slowness;
 		long lastSecond = lastTime;
-		while(!stopping) {
+		while (!stopping) {
 			time = System.currentTimeMillis();
-			slowness = time-lastTime;
+			slowness = time - lastTime;
 			catchup += slowness * TICKS_PER_MILLI;
 			lastTime = time;
-			while(catchup >= 1.0) {
+			while (catchup >= 1.0) {
 				tick();
 				catchup--;
 			}
 			updateScreen();
-			if(time >= lastSecond+1000) {
+			if (time >= lastSecond + 1000) {
 				System.out.format("%d FPS, %d ticks%n", frames, ticks);
 				frames = ticks = 0;
 				lastSecond += 1000;
+			} else{
+				//nothing
 			}
-			if(slowness != 0) {
+			if (slowness != 0) {
 				try {
 					Thread.sleep((int) Math.round(100.0 / (double) slowness));
-				} catch (InterruptedException e) {}
+				} catch (InterruptedException e) {
+				}
+			} else{
+				//nothing
 			}
 		}
 	}
+
 	public void tick() {
-		if(!paused) {
+		if (!paused) {
 			ticks++;
 			tickAmount++;
-			for(Tickable tickables : tickables) {
+			for (Tickable tickables : tickables) {
 				tickables.tick();
 			}
-			if(currentLevel.isClosing()) {
+			if (currentLevel.isClosing()) {
 				nextLevel();
-			} else if(currentLevel.isResetting()) {
+			} else if (currentLevel.isResetting()) {
 				resetLevel();
 			}
 		}
-		if((keysDown.contains(27) || keysDown.contains(80)) && !wasPausing) {
+		if ((keysDown.contains(27) || keysDown.contains(80)) && !wasPausing) {
 			pause(!paused);
 			pausedByKeyboard = paused;
 			wasPausing = true;
 		}
-		if(!(keysDown.contains(27) || keysDown.contains(80))) {
+		if (!(keysDown.contains(27) || keysDown.contains(80))) {
 			wasPausing = false;
 		}
-		if(mouseReleasedTooSoon) {
+		if (mouseReleasedTooSoon) {
 			mouseReleasedTooSoon = false;
 			mouseDown = mouseActuallyDown;
 		}
 	}
+
 	public void addTickable(Tickable tickable) {
 		tickables.add(tickable);
 	}
+
 	public void removeTickable(Object tick) {
 		tickables.remove(tick);
 	}
+
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.init();
-		
+
 		JFrame frame = new JFrame(NAME);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
@@ -243,161 +256,186 @@ public class Game extends Applet implements Runnable, WindowListener, KeyListene
 		frame.setVisible(true);
 		game.start();
 	}
-	
-	//Where games start's
+
+	// Where games start's
 	public void beginGame() {
 		screen.closeAllMenus();
-		if(level >= levels.length) {
+		if (level >= levels.length) {
 			level = 1;
 		}
 		Stage lvl = levels[level];
 		screen.addRenderable(lvl);
 		addTickable(lvl);
 		currentLevel = lvl;
-		screen.scrollTo(0-(WIDTH/2-lvl.getWidth())/2, 0-(HEIGHT/2-lvl.getHeight())/2);
+		screen.scrollTo(0 - (WIDTH / 2 - lvl.getWidth()) / 2, 0 - (HEIGHT / 2 - lvl.getHeight()) / 2);
 		CorporationTile.resetStats();
 		HackerTile.resetStats();
 		level++;
 	}
+
 	public void nextLevel() {
 		screen.removeRenderable(currentLevel);
 		removeTickable(currentLevel);
-		levels[level-1] = remakeLevel(level-1);
+		levels[level - 1] = remakeLevel(level - 1);
 		beginGame();
 	}
+
 	public void resetLevel() {
 		screen.removeRenderable(currentLevel);
 		removeTickable(currentLevel);
-		levels[level-1] = remakeLevel(level-1);
+		levels[level - 1] = remakeLevel(level - 1);
 		level--;
 		beginGame();
 	}
-	
-	//Window event handling
+
+	// Window event handling
 	@Override
 	public void windowActivated(WindowEvent eventt) {
-		if(!pausedByKeyboard) {
+		if (!pausedByKeyboard) {
 			pause(false);
 		}
 	}
+
 	@Override
 	public void windowClosed(WindowEvent eventt) {
 		pause(true);
 	}
+
 	@Override
 	public void windowClosing(WindowEvent eventt) {
 		pause(true);
 	}
+
 	@Override
 	public void windowDeactivated(WindowEvent eventt) {
 		pause(true);
 	}
+
 	@Override
 	public void windowDeiconified(WindowEvent eventt) {
-		//pause(false);
+		// pause(false);
 	}
+
 	@Override
 	public void windowIconified(WindowEvent eventt) {
 		pause(true);
 	}
+
 	@Override
 	public void windowOpened(WindowEvent eventt) {
-		//pause(false);
+		// pause(false);
 	}
-	
-	//Keyboard event
+
+	// Keyboard event
 	@Override
 	public void keyPressed(KeyEvent eventt) {
 		keysDown.add(eventt.getKeyCode());
-		//System.out.println(evt.getKeyCode());
+		// System.out.println(evt.getKeyCode());
 	}
+
 	@Override
 	public void keyReleased(KeyEvent eventt) {
 		keysDown.remove(eventt.getKeyCode());
 	}
+
 	@Override
 	public void keyTyped(KeyEvent eventt) {
-		
+
 	}
-	//Mouse events
+
+	// Mouse events
 	@Override
 	public void mouseDragged(MouseEvent event) {
-		mousePositionX=event.getX()/Screen.POOR_RES;
-		mousePositionY=event.getY()/Screen.POOR_RES;
+		mousePositionX = event.getX() / Screen.POOR_RES;
+		mousePositionY = event.getY() / Screen.POOR_RES;
 	}
+
 	@Override
 	public void mouseMoved(MouseEvent eventt) {
-		mousePositionX=eventt.getX()/Screen.POOR_RES;
-		mousePositionY=eventt.getY()/Screen.POOR_RES;
+		mousePositionX = eventt.getX() / Screen.POOR_RES;
+		mousePositionY = eventt.getY() / Screen.POOR_RES;
 	}
+
 	@Override
 	public void mouseClicked(MouseEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void mouseEntered(MouseEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void mouseExited(MouseEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void mousePressed(MouseEvent event) {
 		mouseDown = true;
 		mouseActuallyDown = true;
 		mouseReleasedTooSoon = true;
-		rightButton = event.getButton()==MouseEvent.BUTTON3;
+		rightButton = event.getButton() == MouseEvent.BUTTON3;
 	}
+
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		if(!mouseReleasedTooSoon) {
+		if (!mouseReleasedTooSoon) {
 			mouseDown = false;
 		}
 		mouseActuallyDown = false;
 	}
+
 	public boolean mouseInsideOf(int positionX, int positionY, int width, int height) {
 		positionX -= screen.getScrollX();
 		positionY -= screen.getScrollY();
-		return mousePositionX>=positionX&&mousePositionX<positionX+width&&mousePositionY>positionY&&mousePositionY<=positionY+height;
+		return mousePositionX >= positionX && mousePositionX < positionX + width && mousePositionY > positionY
+				&& mousePositionY <= positionY + height;
 	}
+
 	public boolean mouseInsideOf(int positionX, int positionY, int width, int height, boolean mindScroll) {
-		if(mindScroll) {
+		if (mindScroll) {
 			positionX -= screen.getScrollX();
 			positionY -= screen.getScrollY();
 		}
-		return mousePositionX>=positionX&&mousePositionX<positionX+width&&mousePositionY>positionY&&mousePositionY<=positionY+height;
+		return mousePositionX >= positionX && mousePositionX < positionX + width && mousePositionY > positionY
+				&& mousePositionY <= positionY + height;
 	}
+
 	@Override
 	public boolean isFocusable() {
 		return true;
 	}
-	//Game Pause
+
+	// Game Pause
 	public void pause(boolean paused) {
 		this.paused = paused;
-		if(paused) {
-			if(pausescreen == null) {
-				pausescreen = new PauseScreen(4, 4, 312, 232);
-				screen.addRenderable(pausescreen);
+		if (paused) {
+			if (pauseScreen == null) {
+				pauseScreen = new PauseScreen(4, 4, 312, 232);
+				screen.addRenderable(pauseScreen);
 			}
 		} else {
-			if(pausescreen != null) {
-				screen.removeRenderable(pausescreen);
-				pausescreen = null;
+			if (pauseScreen != null) {
+				screen.removeRenderable(pauseScreen);
+				pauseScreen = null;
 			}
 		}
 	}
-	//Focus event handling
+
+	// Focus event handling
 	@Override
 	public void focusGained(FocusEvent g) {
 		pause(false);
 	}
+
 	@Override
 	public void focusLost(FocusEvent arg0) {
 		pause(true);
 	}
-	
+
 }
