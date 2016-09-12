@@ -157,7 +157,8 @@ public class Game extends Applet
 
 	@Override
 	public void paint(Graphics graphics) {
-		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1, null);
+		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1,
+				null);
 		frames++;
 	}
 
@@ -192,16 +193,16 @@ public class Game extends Applet
 				System.out.format("%d FPS, %d ticks%n", frames, ticks);
 				frames = ticks = 0;
 				lastSecond += 1000;
-			} else{
-				//nothing
+			} else {
+				// nothing
 			}
 			if (slowness != 0) {
 				try {
 					Thread.sleep((int) Math.round(100.0 / (double) slowness));
 				} catch (InterruptedException e) {
 				}
-			} else{
-				//nothing
+			} else {
+				// nothing
 			}
 		}
 	}
