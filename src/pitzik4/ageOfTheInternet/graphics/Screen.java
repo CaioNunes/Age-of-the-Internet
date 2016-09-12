@@ -20,127 +20,136 @@ public class Screen implements Tickable {
 	private Game owner;
 	private int width;
 	private int height;
-	private int scrollx=0, scrolly=0;
+	private int scrollx = 0, scrolly = 0;
 	private volatile List<Renderable> renderables = new ArrayList<Renderable>();
-	private byte rumbleX=0, rumbleY=0;
+	private byte rumbleX = 0, rumbleY = 0;
 	private byte rumbleForce = 0;
 	private Random rumbleRand = new Random(System.currentTimeMillis());
 	private int fade = 0;
-	private int xvelocity = 0;
-	private int yvelocity = 0;
+	private int xVelocity = 0;
+	private int yVelocity = 0;
 	public static final int POOR_RES = 2;
 	public static final BufferedImage spritesheet = spritesheet("grid");
 	public static final BufferedImage font = spritesheet("font");
 
 	public Screen(Game game) {
 		this.owner = game;
-		width = owner.getWidth()/POOR_RES+1;
-		height = owner.getHeight()/POOR_RES+1;
+		width = owner.getWidth() / POOR_RES + 1;
+		height = owner.getHeight() / POOR_RES + 1;
 	}
-	
+
 	public static BufferedImage spritesheet(String name) {
-		BufferedImage out = null;
+		BufferedImage bufferedImageOut = null;
 		try {
-			out = ImageIO.read(Game.class.getResourceAsStream("/" + name + ".gif"));
-		} catch (IOException e) {
-			e.printStackTrace();
+			bufferedImageOut = ImageIO.read(Game.class.getResourceAsStream("/" + name + ".gif"));
+		} catch (IOException exception) {
+			exception.printStackTrace();
 		}
-		return out;
+		return bufferedImageOut;
 	}
-	
+
 	public synchronized BufferedImage draw() {
-		BufferedImage out = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = out.createGraphics();
-		g.setPaint(Color.MAGENTA);
-		g.fillRect(0, 0, width-1, height-1);
-		for(Renderable r : renderables) {
-			r.drawOn(g, scrollx, scrolly);
+		BufferedImage bufferedImageOut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = bufferedImageOut.createGraphics();
+		graphics.setPaint(Color.MAGENTA);
+		graphics.fillRect(0, 0, width - 1, height - 1);
+		for (Renderable renderable : renderables) {
+			renderable.drawOn(graphics, scrollx, scrolly);
 		}
-		//g.setPaint(Color.WHITE);
-		//g.drawString("Test", 10, 10);
-		g.setPaint(new Color(fade<<24, true));
-		g.fillRect(0, 0, width-1, height-1);
-		g.dispose();
-		BufferedImage out2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		g = out2.createGraphics();
-		g.setPaint(Color.BLACK);
-		g.fillRect(0, 0, width-1, height-1);
-		g.drawImage(out, rumbleX, rumbleY, null);
-		g.dispose();
-		return out2;
+		// g.setPaint(Color.WHITE);
+		// g.drawString("Test", 10, 10);
+		graphics.setPaint(new Color(fade << 24, true));
+		graphics.fillRect(0, 0, width - 1, height - 1);
+		graphics.dispose();
+		BufferedImage bufferedImageOut2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		graphics = bufferedImageOut2.createGraphics();
+		graphics.setPaint(Color.BLACK);
+		graphics.fillRect(0, 0, width - 1, height - 1);
+		graphics.drawImage(bufferedImageOut, rumbleX, rumbleY, null);
+		graphics.dispose();
+		return bufferedImageOut2;
 	}
+
 	public synchronized void addRenderable(Renderable r) {
 		renderables.add(r);
 	}
+
 	public synchronized void addRenderable(int index, Renderable r) {
 		renderables.add(index, r);
 	}
+
 	public synchronized void removeRenderable(Renderable r) {
-		while(renderables.contains(r)) {
+		while (renderables.contains(r)) {
 			renderables.remove(r);
 		}
 	}
+
 	public synchronized void removeRenderable(int index) {
 		renderables.remove(index);
 	}
+
 	public synchronized void sendToFront(Renderable r) {
 		renderables.remove(r);
 		renderables.add(r);
 	}
+
 	public synchronized void sendToBack(Renderable r) {
 		renderables.remove(r);
 		renderables.add(0, r);
 	}
+
 	public synchronized void sendTo(int index, Renderable r) {
 		renderables.remove(r);
 		renderables.add(index, r);
 	}
 
+	// to fix magic numbers
 	@Override
 	public void tick() {
-		if(rumbleForce > 0) {
-			rumbleX = (byte) (rumbleRand.nextInt(rumbleForce)-(rumbleForce/2));
-			rumbleY = (byte) (rumbleRand.nextInt(rumbleForce)-(rumbleForce/2));
+		if (rumbleForce > 0) {
+			rumbleX = (byte) (rumbleRand.nextInt(rumbleForce) - (rumbleForce / 2));
+			rumbleY = (byte) (rumbleRand.nextInt(rumbleForce) - (rumbleForce / 2));
 		}
-		if(owner.keysDown.contains(37)) {
-			if(xvelocity > -6) {
-				xvelocity -= 1;
+		if (owner.keysDown.contains(37)) {
+			if (xVelocity > -6) {
+				xVelocity -= 1;
 			}
 		}
-		if(owner.keysDown.contains(39)) {
-			if(xvelocity < 6) {
-				xvelocity += 1;
+		if (owner.keysDown.contains(39)) {
+			if (xVelocity < 6) {
+				xVelocity += 1;
 			}
 		}
-		if(owner.keysDown.contains(38)) {
-			if(yvelocity > -6) {
-				yvelocity -= 1;
+		if (owner.keysDown.contains(38)) {
+			if (yVelocity > -6) {
+				yVelocity -= 1;
 			}
 		}
-		if(owner.keysDown.contains(40)) {
-			if(yvelocity < 6) {
-				yvelocity += 1;
+		if (owner.keysDown.contains(40)) {
+			if (yVelocity < 6) {
+				yVelocity += 1;
 			}
 		}
-		if(!(owner.keysDown.contains(37) || owner.keysDown.contains(39))) {
-			if(xvelocity < 0) {
-				xvelocity += 1;
-			} else if(xvelocity > 0) {
-				xvelocity -= 1;
+		if (!(owner.keysDown.contains(37) || owner.keysDown.contains(39))) {
+			if (xVelocity < 0) {
+				xVelocity += 1;
+			} else if (xVelocity > 0) {
+				xVelocity -= 1;
 			}
 		}
-		if(!(owner.keysDown.contains(38) || owner.keysDown.contains(40))) {
-			if(yvelocity < 0) {
-				yvelocity += 1;
-			} else if(yvelocity > 0) {
-				yvelocity -= 1;
+		if (!(owner.keysDown.contains(38) || owner.keysDown.contains(40))) {
+			if (yVelocity < 0) {
+				yVelocity += 1;
+			} else if (yVelocity > 0) {
+				yVelocity -= 1;
 			}
 		}
-		if(owner.currentLevel.isScrollable()) {
-			scrollx += xvelocity;
-			scrolly += yvelocity;
+		if (owner.currentLevel.isScrollable()) {
+			scrollx += xVelocity;
+			scrolly += yVelocity;
 		}
 	}
+
 	public void rumble(int i) {
 		rumbleForce = (byte) i;
 	}
@@ -152,29 +161,36 @@ public class Screen implements Tickable {
 	public void fadeTo(int fade) {
 		this.fade = fade;
 	}
+
 	public void scrollTo(int scrollx, int scrolly) {
 		this.scrollx = scrollx;
 		this.scrolly = scrolly;
 	}
+
 	public void scrollToX(int scrollx) {
 		this.scrollx = scrollx;
 	}
+
 	public void scrollToY(int scrolly) {
 		this.scrolly = scrolly;
 	}
+
 	public Point getScroll() {
 		return new Point(scrollx, scrolly);
 	}
+
 	public int getScrollX() {
 		return scrollx;
 	}
+
 	public int getScrollY() {
 		return scrolly;
 	}
+
 	public void closeAllMenus() {
-		for(Iterator<Renderable> it = renderables.iterator(); it.hasNext();) {
-			Renderable r = it.next();
-			if(r instanceof Menu) {
+		for (Iterator<Renderable> it = renderables.iterator(); it.hasNext();) {
+			Renderable render = it.next();
+			if (render instanceof Menu) {
 				it.remove();
 			}
 		}
