@@ -7,15 +7,15 @@ import pitzik4.ageOfTheInternet.RenderableTickable;
 
 public class MoneyParticle implements RenderableTickable {
 	private int lifetime = 0;
-	private int x=0;
-	private int y=0;
+	private int positionX = 0;
+	private int positionY = 0;
 	private Sprite sprite;
 	public boolean dead = false;
 	public static final int LIFE_SPAN = 20;
-	
+
 	public MoneyParticle(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 		sprite = new Sprite(82, x, y, false);
 	}
 
@@ -31,12 +31,12 @@ public class MoneyParticle implements RenderableTickable {
 
 	@Override
 	public int getX() {
-		return x;
+		return positionX;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return positionY;
 	}
 
 	@Override
@@ -50,19 +50,22 @@ public class MoneyParticle implements RenderableTickable {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
-		this.x = x;
-		this.y = y;
-		sprite.goTo(x, y);
+	public void goTo(int newPositionX, int newPositionY) {
+		this.positionX = newPositionX;
+		this.positionY = newPositionY;
+		sprite.goTo(newPositionX, newPositionY);
 	}
 
 	@Override
 	public void tick() {
 		lifetime++;
-		if(lifetime > LIFE_SPAN) {
+		if (lifetime > LIFE_SPAN) {
 			dead = true;
 		}
-		goTo(x, y-1);
+		else{
+			//nothing
+		}
+		goTo(positionX, positionY - 1);
 	}
 
 }
