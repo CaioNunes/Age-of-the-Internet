@@ -10,34 +10,38 @@ import pitzik4.ageOfTheInternet.graphics.Sprite;
 public class Menu implements Renderable, Tickable {
 	public XButton exitButton;
 	public Button[] buttons;
-	private RenderableString str;
-	private int x=0, y=0;
-	private int width=0, height=0;
-	private boolean exiting=false;
-	public boolean exited=false;
-	
+	private RenderableString renderableString;
+	private int positionX = 0, positionY = 0;
+	private int width = 0, height = 0;
+	private boolean exiting = false;
+	public boolean exited = false;
+
 	public Menu(Game owner, int x, int y, int width, String[] extraButtons, String title) {
-		this.x = x;
-		this.y = y;
-		str = new RenderableString(title, x, y);
-		this.height = extraButtons.length*(Sprite.SPRITE_HEIGHT+2)-2+XButton.BU_SI+str.height;
-		if(height <= 0)
+		this.positionX = x;
+		this.positionY = y;
+		renderableString = new RenderableString(title, x, y);
+		this.height = extraButtons.length * (Sprite.SPRITE_HEIGHT + 2) - 2 + XButton.BU_SI + renderableString.height;
+		if (height <= 0) {
 			height = 1;
-		this.width = str.width<width?width:str.width;
-		exitButton = new XButton(owner, x+width-XButton.BU_SI, y+str.height);
+		} else {
+			//nothing
+		}
+		this.width = renderableString.width < width ? width : renderableString.width;
+		exitButton = new XButton(owner, x + width - XButton.BU_SI, y + renderableString.height);
 		buttons = new Button[extraButtons.length];
-		for(int i=0; i<extraButtons.length; i++) {
-			buttons[i] = new Button(owner, x, y+(i*(Sprite.SPRITE_HEIGHT+2))+XButton.BU_SI+str.height, width, extraButtons[i]);
+		for (int i = 0; i < extraButtons.length; i++) {
+			buttons[i] = new Button(owner, x, y + (i * (Sprite.SPRITE_HEIGHT + 2)) + XButton.BU_SI + renderableString.height, width,
+					extraButtons[i]);
 		}
 	}
 
 	@Override
 	public void tick() {
-		for(Button b : buttons) {
-			b.tick();
+		for (Button button : buttons) {
+			button.tick();
 		}
 		exitButton.tick();
-		if(exiting && !exitButton.isClicked) {
+		if (exiting && !exitButton.isClicked) {
 			exited = true;
 		}
 		exiting = exitButton.isClicked;
@@ -47,30 +51,30 @@ public class Menu implements Renderable, Tickable {
 	public BufferedImage draw() {
 		BufferedImage out = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = out.createGraphics();
-		drawOn(g, x, y);
+		drawOn(g, positionX, positionY);
 		g.dispose();
 		return out;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		if(!exited) {
-			for(Button b : buttons) {
+		if (!exited) {
+			for (Button b : buttons) {
 				b.drawOn(g, scrollx, scrolly);
 			}
 			exitButton.drawOn(g, scrollx, scrolly);
-			str.drawOn(g, scrollx, scrolly);
+			renderableString.drawOn(g, scrollx, scrolly);
 		}
 	}
 
 	@Override
 	public int getX() {
-		return x;
+		return positionX;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return positionY;
 	}
 
 	@Override
@@ -85,15 +89,15 @@ public class Menu implements Renderable, Tickable {
 
 	@Override
 	public void goTo(int x, int y) {
-		int dx = x-this.x;
-		int dy = y-this.y;
-		this.x = x;
-		this.y = y;
-		for(Button b : buttons) {
-			b.goTo(b.getX()+dx, b.getY()+dy);
+		int dx = x - this.positionX;
+		int dy = y - this.positionY;
+		this.positionX = x;
+		this.positionY = y;
+		for (Button b : buttons) {
+			b.goTo(b.getX() + dx, b.getY() + dy);
 		}
-		exitButton.goTo(exitButton.getX()+dx, exitButton.getY()+dy);
-		str.goTo(x, y);
+		exitButton.goTo(exitButton.getX() + dx, exitButton.getY() + dy);
+		renderableString.goTo(x, y);
 	}
 
 }
