@@ -59,11 +59,11 @@ public class LoseScreen implements RenderableTickable {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
-		int dx = x - this.positionX;
-		int dy = y - this.positionY;
-		this.positionX = x;
-		this.positionY = y;
+	public void goTo(int newPositionX, int newPositionY) {
+		int dx = newPositionX - this.positionX;
+		int dy = newPositionY - this.positionY;
+		this.positionX = newPositionX;
+		this.positionY = newPositionY;
 		youLose.goTo(youLose.getX() + dx, youLose.getY() + dy);
 		loseReason.goTo(loseReason.getX() + dx, loseReason.getY() + dy);
 		retry.goTo(retry.getX() + dx, retry.getY() + dy);
