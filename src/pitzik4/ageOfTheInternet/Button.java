@@ -11,46 +11,46 @@ public class Button implements Renderable, Tickable {
 	private Game owner;
 	private Sprite[] sprites;
 	private RenderableString renderableString;
-	private int positionX=0, positionY=0;
+	private int positionX = 0, positionY = 0;
 	private int width;
 	public boolean isClicked = false;
 	public boolean isScrolled = false;
 	public boolean nowClicked = false;
 	public static final int BUTTON_SPRITE = 50;
-	
+
 	public Button(Game owner, int positionX, int positionY, int width, String textRenderable) {
 		this.owner = owner;
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.width = width;
-		sprites = new Sprite[width/Sprite.SPRITE_WIDTH];
-		for(int i=0; i<width/Sprite.SPRITE_WIDTH; i++) {
-			if(i==0) {
+		sprites = new Sprite[width / Sprite.SPRITE_WIDTH];
+		for (int i = 0; i < width / Sprite.SPRITE_WIDTH; i++) {
+			if (i == 0) {
 				sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
-			} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-				sprites[i] = new Sprite(BUTTON_SPRITE+2, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+			} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+				sprites[i] = new Sprite(BUTTON_SPRITE + 2, positionX + i * Sprite.SPRITE_WIDTH, positionY, false);
 			} else {
-				sprites[i] = new Sprite(BUTTON_SPRITE+1, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+				sprites[i] = new Sprite(BUTTON_SPRITE + 1, positionX + i * Sprite.SPRITE_WIDTH, positionY, false);
 			}
 		}
 		renderableString = new RenderableString(textRenderable, 0, 0);
-		int strWidth = renderableString.width;
-		renderableString.goTo(positionX+(width-strWidth)/2, positionY+2);
+		int stringWidth = renderableString.width;
+		renderableString.goTo(positionX + (width - stringWidth) / 2, positionY + 2);
 	}
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage out = new BufferedImage(width, Sprite.SPRITE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphics = out.createGraphics();
+		BufferedImage bufferedImageOut = new BufferedImage(width, Sprite.SPRITE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = bufferedImageOut.createGraphics();
 		drawOn(graphics, positionX, positionY);
 		graphics.dispose();
-		return out;
+		return bufferedImageOut;
 	}
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		for(Sprite s : sprites) {
-			s.drawOn(graphics, scrollx, scrolly);
+		for (Sprite sprite : sprites) {
+			sprite.drawOn(graphics, scrollx, scrolly);
 		}
 		renderableString.drawOn(graphics, scrollx, scrolly);
 	}
@@ -77,27 +77,27 @@ public class Button implements Renderable, Tickable {
 
 	@Override
 	public void goTo(int positionX, int positionY) {
-		int dx = positionX-this.positionX;
-		int dy = positionY-this.positionY;
+		int dx = positionX - this.positionX;
+		int dy = positionY - this.positionY;
 		this.positionX = positionX;
 		this.positionY = positionY;
-		for(Sprite sprite : sprites) {
-			sprite.goTo(sprite.getX()+dx, sprite.getY()+dy);
+		for (Sprite sprite : sprites) {
+			sprite.goTo(sprite.getX() + dx, sprite.getY() + dy);
 		}
-		renderableString.goTo(renderableString.getX()+dx, renderableString.getY()+dy);
+		renderableString.goTo(renderableString.getX() + dx, renderableString.getY() + dy);
 	}
 
 	@Override
-	public void  tick() {
-		if(owner.mouseInsideOf(positionX, positionY, width, Sprite.SPRITE_HEIGHT)) {
+	public void tick() {
+		if (owner.mouseInsideOf(positionX, positionY, width, Sprite.SPRITE_HEIGHT)) {
 			beScrolled(true);
 			boolean wasClicked = isClicked;
-			if(owner.mouseDown) {
+			if (owner.mouseDown) {
 				beClicked(true);
 			} else {
 				beClicked(false);
 			}
-			if(wasClicked && !isClicked) {
+			if (wasClicked && !isClicked) {
 				nowClicked = true;
 			} else {
 				nowClicked = false;
@@ -107,53 +107,63 @@ public class Button implements Renderable, Tickable {
 			beScrolled(false);
 		}
 	}
+
 	public void beScrolled(boolean newScrolled) {
-		if(isScrolled != newScrolled) {
+		if (isScrolled != newScrolled) {
 			isScrolled = newScrolled;
-			if(isScrolled) {
-				for(int i=0; i<sprites.length; i++) {
-					if(i==0) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+3, positionX, positionY, false);
-					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+5, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+			if (isScrolled) {
+				for (int i = 0; i < sprites.length; i++) {
+					if (i == 0) {
+						sprites[i] = new Sprite(BUTTON_SPRITE + 3, positionX, positionY, false);
+					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+						sprites[i] = new Sprite(BUTTON_SPRITE + 5, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+4, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE + 4, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					}
 				}
 			} else {
-				for(int i=0; i<sprites.length; i++) {
-					if(i==0) {
+				for (int i = 0; i < sprites.length; i++) {
+					if (i == 0) {
 						sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
-					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+2, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+						sprites[i] = new Sprite(BUTTON_SPRITE + 2, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+1, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE + 1, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					}
 				}
 			}
 		}
 	}
+
 	public void beClicked(boolean newClicked) {
-		if(isClicked != newClicked) {
+		if (isClicked != newClicked) {
 			isClicked = newClicked;
-			if(isClicked) {
-				for(int i=0; i<sprites.length; i++) {
-					if(i==0) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+6, positionX, positionY, false);
-					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+8, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+			if (isClicked) {
+				for (int i = 0; i < sprites.length; i++) {
+					if (i == 0) {
+						sprites[i] = new Sprite(BUTTON_SPRITE + 6, positionX, positionY, false);
+					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+						sprites[i] = new Sprite(BUTTON_SPRITE + 8, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+7, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE + 7, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					}
 				}
 			} else {
-				for(int i=0; i<sprites.length; i++) {
-					if(i==0) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+3, positionX, positionY, false);
-					} else if(i==width/Sprite.SPRITE_WIDTH-1) {
-						sprites[i] = new Sprite(BUTTON_SPRITE+5, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+				for (int i = 0; i < sprites.length; i++) {
+					if (i == 0) {
+						sprites[i] = new Sprite(BUTTON_SPRITE + 3, positionX, positionY, false);
+					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+						sprites[i] = new Sprite(BUTTON_SPRITE + 5, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					} else {
-						sprites[i] = new Sprite(BUTTON_SPRITE+4, positionX+i*Sprite.SPRITE_WIDTH, positionY, false);
+						sprites[i] = new Sprite(BUTTON_SPRITE + 4, positionX + i * Sprite.SPRITE_WIDTH, positionY,
+								false);
 					}
 				}
 			}
