@@ -63,52 +63,53 @@ public class Hacker implements RenderableTickable {
 		if (going) {
 			int nextPositionX = path[progress].x;
 			int nextpositionY = path[progress].y;
-			
-				if (nextPositionX > positionX) {
+
+			if (nextPositionX > positionX) {
 				goTo(positionX + STEP_SIZE, positionY);
-					if (nextPositionX < positionX) {
+				if (nextPositionX < positionX) {
 					goTo(nextPositionX, positionY);
-					}else{
-					//nothing to do
-					}
-				} else if (nextPositionX < positionX) {
-					goTo(positionX - STEP_SIZE, positionY);
-					if (nextPositionX > positionX) {
-						goTo(nextPositionX, positionY);
-					}else{
-					//nothing to do
-					}
+				} else {
+					// nothing to do
 				}
-				
+			} else if (nextPositionX < positionX) {
+				goTo(positionX - STEP_SIZE, positionY);
+				if (nextPositionX > positionX) {
+					goTo(nextPositionX, positionY);
+				} else {
+					// nothing to do
+				}
+			}
+
+			if (nextpositionY > positionY) {
+				goTo(positionX, positionY + STEP_SIZE);
+				if (nextpositionY < positionY) {
+					goTo(positionX, nextpositionY);
+				} else {
+					// nothing to do
+				}
+			} else if (nextpositionY < positionY) {
+				goTo(positionX, positionY - STEP_SIZE);
 				if (nextpositionY > positionY) {
-					goTo(positionX, positionY + STEP_SIZE);
-					if (nextpositionY < positionY) {
 					goTo(positionX, nextpositionY);
-					}else{
-						//nothing to do
-					}
-				} else if (nextpositionY < positionY) {
-					goTo(positionX, positionY - STEP_SIZE);
-					if (nextpositionY > positionY) {
-					goTo(positionX, nextpositionY);
-					}else{
-						//nothing to do
-					}
+				} else {
+					// nothing to do
 				}
-				
-				if (nextPositionX == positionX && nextpositionY == positionY) {
-					progress++;
-					if (progress >= path.length) {
-						going = false;
-					}else{
-					//nothing to do
-					}
-				}else {
-					//nothing to do
+			}
+
+			if (nextPositionX == positionX && nextpositionY == positionY) {
+				progress++;
+				if (progress >= path.length) {
+					going = false;
+				} else {
+					// nothing to do
 				}
+			} else {
+				// nothing to do
+			}
 		}
 	}
-// Gamer plyaing or not
+
+	// Gamer plyaing or not
 	public void go() {
 		going = true;
 	}
