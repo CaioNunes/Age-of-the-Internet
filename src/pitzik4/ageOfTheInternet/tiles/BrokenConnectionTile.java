@@ -24,12 +24,15 @@ public class BrokenConnectionTile extends Tile {
 		if (neighbools[0]) {
 			position += 1;
 		}
-		if (neighbools[1])
+		if (neighbools[1]) {
 			position += 2;
-		if (neighbools[2])
+		}
+		if (neighbools[2]) {
 			position += 4;
-		if (neighbools[3])
+		}
+		if (neighbools[3]) {
 			position += 8;
+		}
 		sprite = new Sprite(POSITIONAL_SPRITES[position] + 191, x, y, false);
 		((Sprite) sprite).mergeSprite(new Sprite(207 - (neededComputers % 10)));
 		this.neededComputers = neededComputers;
@@ -51,7 +54,7 @@ public class BrokenConnectionTile extends Tile {
 			sprite = new Sprite(POSITIONAL_SPRITES[position] + 191, x, y, false);
 			((Sprite) sprite).mergeSprite(new Sprite(207 - (Math.abs(neededComputers - ownedComputers) % 10)));
 		} else {
-			//nothing
+			// nothing
 		}
 		if (ownedComputers >= neededComputers) {
 			sprite = new Sprite(POSITIONAL_SPRITES[position], x, y, false);
