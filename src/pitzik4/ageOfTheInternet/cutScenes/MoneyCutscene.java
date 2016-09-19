@@ -37,9 +37,9 @@ public class MoneyCutscene implements Stage {
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		scrollx = 0;
-		scrolly = 0;
+	public void drawOn(Graphics2D g, int scrollX, int scrollY) {
+		scrollX = 0;
+		scrollY = 0;
 		g.drawImage(StartingCutscene.bg, 0, 0, null);
 		drThompson.drawOn(g, 0, 0);
 		screen.drawOn(g, 0, 0);
@@ -50,12 +50,12 @@ public class MoneyCutscene implements Stage {
 	}
 
 	@Override
-	public int getX() {
+	public int getPositionX() {
 		return 0;
 	}
 
 	@Override
-	public int getY() {
+	public int getPositionY() {
 		return 0;
 	}
 
@@ -70,7 +70,7 @@ public class MoneyCutscene implements Stage {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
+	public void goTo(int walkPositionX, int walkPositionY) {
 
 	}
 
@@ -161,7 +161,7 @@ public class MoneyCutscene implements Stage {
 	public boolean isResetting() {
 		return false;
 	}
-
+	 // MAGIC NUMBRS
 	@Override
 	public int getWidth() {
 		return 320;
