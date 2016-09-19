@@ -30,32 +30,32 @@ public class ChurchCutscene implements Stage {
 	@Override
 	public BufferedImage draw() {
 		BufferedImage out = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
-		Graphics2D g = out.createGraphics();
-		drawOn(g, 0, 0);
-		g.dispose();
+		Graphics2D graphics = out.createGraphics();
+		drawOn(graphics, 0, 0);
+		graphics.dispose();
 		return null;
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		scrollx = 0;
 		scrolly = 0;
-		g.drawImage(StartingCutscene.bg, 0, 0, null);
-		drThompson.drawOn(g, 0, 0);
-		screen.drawOn(g, 0, 0);
-		digitizer.drawOn(g, 0, 0);
+		graphics.drawImage(StartingCutscene.bg, 0, 0, null);
+		drThompson.drawOn(graphics, 0, 0);
+		screen.drawOn(graphics, 0, 0);
+		digitizer.drawOn(graphics, 0, 0);
 		if(dialogue != null) {
-			dialogue.drawOn(g, 0, 0);
+			dialogue.drawOn(graphics, 0, 0);
 		}
 	}
 
 	@Override
-	public int getX() {
+	public int getPositionX() {
 		return 0;
 	}
 
 	@Override
-	public int getY() {
+	public int getPositionY() {
 		return 0;
 	}
 
@@ -70,7 +70,7 @@ public class ChurchCutscene implements Stage {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
+	public void goTo(int walkPositionX, int walkPositionY) {
 
 	}
 
@@ -161,7 +161,7 @@ public class ChurchCutscene implements Stage {
 	public boolean isResetting() {
 		return false;
 	}
-
+	 // MAGIC NUMBRS
 	@Override
 	public int getWidth() {
 		return 320;
