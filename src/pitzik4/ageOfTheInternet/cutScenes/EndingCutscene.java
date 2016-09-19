@@ -26,7 +26,7 @@ public class EndingCutscene implements Stage {
 	private Animation dedigitizer = createDedigitizer();
 	private Animation tobyWalk = new Animation(tobyWalkFrames, 4, 286, 208, true);
 	private Animation drThompsonWalk = new Animation(drThompsonWalkFrames, 4, -16, 212, true);
-	private Renderable toby = new Sprite(176, tobyWalk.getX(), tobyWalk.getY(), false);
+	private Renderable toby = new Sprite(176, tobyWalk.getPositionX(), tobyWalk.getPositionY(), false);
 	private Renderable drThompson = drThompsonWalk;
 	private Renderable drGreen = new Sprite(128, 76, 212, bigSpriteSheet, 16, 16);
 	private Renderable insideDedigitizer = new Sprite(24, 270, 196, bigSpriteSheet, 32, 32);
@@ -47,6 +47,9 @@ public class EndingCutscene implements Stage {
 	public static final Renderable tobyHead = new Sprite(34, 0, 0, Screen.spritesheet, 32, 32);
 	public static final BufferedImage bigSpriteSheet = Screen.spritesheet("startSceneSprites");
 	public static final Renderable drGreenHead = new Sprite(25, 270, 196, bigSpriteSheet, 32, 32);
+	
+	private final int SCREEN_HEIGHT = 240;
+	private final int  SCREEN_WIDTH = 320;
 	
 	private static Animation createDedigitizer() {
 		Sprite[] sprites = new Sprite[dedigitizerFrames.length];
@@ -81,43 +84,43 @@ public class EndingCutscene implements Stage {
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage out = new BufferedImage(320, 240, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = out.createGraphics();
-		drawOn(g, 0, 0);
-		g.dispose();
-		return out;
+		BufferedImage outImage = new BufferedImage(320, 240, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = outImage.createGraphics();
+		drawOn(graphics, 0, 0);
+		graphics.dispose();
+		return outImage;
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		scrollx = 0;
 		scrolly = 0;
-		g.drawImage(bg, 0, 0, null);
-		insideDedigitizer.drawOn(g, 0, 0);
-		toby.drawOn(g, 0, 0);
-		drThompson.drawOn(g, 0, 0);
+		graphics.drawImage(bg, 0, 0, null);
+		insideDedigitizer.drawOn(graphics, 0, 0);
+		toby.drawOn(graphics, 0, 0);
+		drThompson.drawOn(graphics, 0, 0);
 		if(dialogue != null) {
-			dialogue.drawOn(g, 0, 0);
+			dialogue.drawOn(graphics, 0, 0);
 		}
-		screen.drawOn(g, 0, 0);
-		screen2.drawOn(g, 0, 0);
-		drGreen.drawOn(g, 0, 0);
-		dedigitizer.drawOn(g, 0, 0);
+		screen.drawOn(graphics, 0, 0);
+		screen2.drawOn(graphics, 0, 0);
+		drGreen.drawOn(graphics, 0, 0);
+		dedigitizer.drawOn(graphics, 0, 0);
 		if(tobyBeforeDe) {
-			toby.drawOn(g, 0, 0);
+			toby.drawOn(graphics, 0, 0);
 		}
 		for(ConfettiParticle cp : confetti) {
-			cp.drawOn(g, scrollx, scrolly);
+			cp.drawOn(graphics, scrollx, scrolly);
 		}
 	}
 
 	@Override
-	public int getX() {
+	public int getPositionX() {
 		return 0;
 	}
 
 	@Override
-	public int getY() {
+	public int getPositionY() {
 		return 0;
 	}
 
@@ -132,7 +135,7 @@ public class EndingCutscene implements Stage {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
+	public void goTo(int positionX, int positionY) {
 
 	}
 
@@ -149,7 +152,7 @@ public class EndingCutscene implements Stage {
 			dialogue.tick();
 		}
 		for(ConfettiParticle cp : confetti) {
-			if(cp.getY() < 227) {
+			if(cp.getPositionY() < 227) {
 				cp.tick();
 			}
 		}
@@ -163,9 +166,9 @@ public class EndingCutscene implements Stage {
 			done = true;
 		}
 		if(lifeTime > 20 && lifeTime < 50) {
-			drThompson.goTo(drThompson.getX()+2, drThompson.getY());
+			drThompson.goTo(drThompson.getPositionX()+2, drThompson.getPositionY());
 		} else if(lifeTime == 50) {
-			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
+			drThompson = new Sprite(96, drThompson.getPositionX(), drThompson.getPositionY(), false);
 			drGreen = new Sprite(129, 76, 212, bigSpriteSheet, 16, 16);
 		} else if(lifeTime == 60) {
 			dialogue = new InfoBox(4, 4, 312, 64, drGreenHead, "Who are you?");
@@ -225,12 +228,12 @@ public class EndingCutscene implements Stage {
 			toby = tobyWalk;
 			tobyBeforeDe = true;
 		} else if(lifeTime > 110 && lifeTime < 200) {
-			toby.goTo(toby.getX()-2, toby.getY());
+			toby.goTo(toby.getPositionX()-2, toby.getPositionY());
 			if(lifeTime == 117) {
-				toby.goTo(toby.getX(), toby.getY()+4);
+				toby.goTo(toby.getPositionX(), toby.getPositionY()+4);
 			}
 		} else if(lifeTime == 200) {
-			toby = new Sprite(176, toby.getX(), toby.getY(), false);
+			toby = new Sprite(176, toby.getPositionX(), toby.getPositionY(), false);
 		} else if(lifeTime == 202) {
 			dialogue = new InfoBox(4, 4, 312, 64, drGreenHead, "I suppose you're Toby?");
 			dialogue.go();
@@ -244,13 +247,13 @@ public class EndingCutscene implements Stage {
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 208) {
-			drThompson = new Sprite(130, drThompson.getX(), drThompson.getY(), bigSpriteSheet, 16, 16);
-			drGreen = new Sprite(130, drGreen.getX(), drGreen.getY(), bigSpriteSheet, 16, 16);
+			drThompson = new Sprite(130, drThompson.getPositionX(), drThompson.getPositionY(), bigSpriteSheet, 16, 16);
+			drGreen = new Sprite(130, drGreen.getPositionX(), drGreen.getPositionY(), bigSpriteSheet, 16, 16);
 			for(int i = 0; i < 15; i++) {
-				confetti.add(new ConfettiParticle(drThompson.getX() + rnd.nextInt(Sprite.SPRITE_WIDTH), drThompson.getY() + rnd.nextInt(Sprite.SPRITE_HEIGHT)));
+				confetti.add(new ConfettiParticle(drThompson.getPositionX() + rnd.nextInt(Sprite.SPRITE_WIDTH), drThompson.getPositionY() + rnd.nextInt(Sprite.SPRITE_HEIGHT)));
 			}
 			for(int i = 0; i < 15; i++) {
-				confetti.add(new ConfettiParticle(drGreen.getX() + rnd.nextInt(Sprite.SPRITE_WIDTH), drGreen.getY() + rnd.nextInt(Sprite.SPRITE_HEIGHT)));
+				confetti.add(new ConfettiParticle(drGreen.getPositionX() + rnd.nextInt(Sprite.SPRITE_WIDTH), drGreen.getPositionY() + rnd.nextInt(Sprite.SPRITE_HEIGHT)));
 			}
 		} else if(lifeTime == 210) {
 			drThompson.goTo(-16, 0);
@@ -296,19 +299,23 @@ public class EndingCutscene implements Stage {
 		return closing;
 	}
 
+	
 	@Override
 	public int getWidth() {
-		return 320;
+		
+		
+		return SCREEN_WIDTH;
 	}
 
 	@Override
 	public int getHeight() {
-		return 240;
+		
+		return SCREEN_HEIGHT;
 	}
 
 	@Override
 	public Dimension getSize() {
-		return new Dimension(320, 240);
+		return new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 	@Override
 	public boolean isScrollable() {
