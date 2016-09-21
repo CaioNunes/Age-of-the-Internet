@@ -30,6 +30,7 @@ import pitzik4.ageOfTheInternet.graphics.Background;
 import pitzik4.ageOfTheInternet.graphics.Screen;
 import pitzik4.ageOfTheInternet.tiles.CorporationTile;
 import pitzik4.ageOfTheInternet.tiles.HackerTile;
+import sun.rmi.runtime.Log;
 
 public class Game extends Applet
 		implements Runnable, WindowListener, KeyListener, MouseListener, MouseMotionListener, FocusListener {
@@ -77,67 +78,58 @@ public class Game extends Applet
 			levels[i] = remakeLevel(i);
 		}
 	}
-
+	
+	
 	// return player level.
 
 	public Stage remakeLevel(int index) {
-		if (index == 0) {
-			return new StartingCutscene(this);
-			/*
-			 * try { return new Level(7, this); } catch (IOException e) {
-			 * e.printStackTrace(); }
-			 */
-		} else if (index == 1) {
-			return new TitleScreen(this);
-		} else if (index == 2) {
-			try {
-				return new Level(1, this);
-			} catch (IOException e) {
-				e.printStackTrace();
+		
+		try{
+			switch(index){
+				case 0:
+					return new StartingCutscene(this);
+				
+				case 1:
+					return new TitleScreen(this);
+				
+				case 2:
+					return new Level(1, this);
+				
+				case 3:
+					return new Level(2, this);				
+				
+				case 4:
+					return new MoneyCutscene(this);					
+				
+				case 5:
+					return new Level(3, this);					
+				
+				case 6:
+					return new Level(4, this);	
+					
+				case 7:
+					return new Level(5, this);
+				
+				case 8:
+					return new HackerCutscene(this);					
+				
+				case 9:
+					return new Level(6, this);
+				
+				case 10:
+					return new Level(7, this);			
+				
+				case 11:
+					return new EndingCutscene(this);					
+				
+				default:
+					return null;
 			}
-		} else if (index == 3) {
-			try {
-				return new Level(2, this);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (index == 4) {
-			return new MoneyCutscene(this);
-		} else if (index == 5) {
-			try {
-				return new Level(3, this);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (index == 6) {
-			try {
-				return new Level(4, this);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (index == 7) {
-			try {
-				return new Level(5, this);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (index == 8) {
-			return new HackerCutscene(this);
-		} else if (index == 9) {
-			try {
-				return new Level(6, this);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (index == 10) {
-			try {
-				return new Level(7, this);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else if (index == 11) {
-			return new EndingCutscene(this);
+		}catch(IOException inputError){
+			System.out.println("Ocorreu um erro na execução do programa. Por favor, reinicie !");
+			inputError.printStackTrace();
 		}
+		
 		return null;
 	}
 
@@ -148,6 +140,7 @@ public class Game extends Applet
 		addTickable(backGround);
 		beginGame();
 		new Thread(this).start();
+
 	}
 
 	@Override
@@ -157,9 +150,13 @@ public class Game extends Applet
 
 	@Override
 	public void paint(Graphics graphics) {
-		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1,
-				null);
-		frames++;
+		
+		if(graphics != null){
+			graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1, null);
+			frames++;
+		}else{
+			System.out.println("Houve um problema ao carregar um dos arquivos do jogo. Por favor, reinicie !");
+		}
 	}
 
 	@Override
@@ -211,9 +208,10 @@ public class Game extends Applet
 		if (!paused) {
 			ticks++;
 			tickAmount++;
-			for (Tickable tickables : tickables) {
-				tickables.tick();
+			for (Tickable tickable : tickables) {
+				tickable.tick();
 			}
+			
 			if (currentLevel.isClosing()) {
 				nextLevel();
 			} else if (currentLevel.isResetting()) {
@@ -235,11 +233,19 @@ public class Game extends Applet
 	}
 
 	public void addTickable(Tickable tickable) {
-		tickables.add(tickable);
+		if(tickable != null){
+			tickables.add(tickable);			
+		}else{
+			//nothing to do.
+		}
 	}
 
 	public void removeTickable(Object tick) {
-		tickables.remove(tick);
+		if(tick != null){
+			tickables.remove(tick);			
+		}else{
+			//nothing to do.
+		}
 	}
 
 	public static void main(String[] args) {
