@@ -11,7 +11,8 @@ public class Button implements Renderable, Tickable {
 	private Game owner;
 	private Sprite[] sprites;
 	private RenderableString renderableString;
-	private int positionX = 0, positionY = 0;
+	private int positionX = 0;
+	private int positionY = 0;
 	private int width;
 	public boolean isClicked = false;
 	public boolean isScrolled = false;
@@ -19,10 +20,16 @@ public class Button implements Renderable, Tickable {
 	public static final int BUTTON_SPRITE = 50;
 
 	public Button(Game owner, int positionX, int positionY, int width, String textRenderable) {
-		this.owner = owner;
+		if(owner != null){
+			this.owner = owner;			
+		}else{
+			//nothing to do.
+		}
+		
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.width = width;
+		
 		sprites = new Sprite[width / Sprite.SPRITE_WIDTH];
 		for (int i = 0; i < width / Sprite.SPRITE_WIDTH; i++) {
 			if (i == 0) {
@@ -34,7 +41,9 @@ public class Button implements Renderable, Tickable {
 			}
 		}
 		renderableString = new RenderableString(textRenderable, 0, 0);
+		
 		int stringWidth = renderableString.width;
+		
 		renderableString.goTo(positionX + (width - stringWidth) / 2, positionY + 2);
 	}
 
@@ -44,14 +53,20 @@ public class Button implements Renderable, Tickable {
 		Graphics2D graphics = bufferedImageOut.createGraphics();
 		drawOn(graphics, positionX, positionY);
 		graphics.dispose();
+		
 		return bufferedImageOut;
 	}
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		for (Sprite sprite : sprites) {
-			sprite.drawOn(graphics, scrollx, scrolly);
-		}
+			if(graphics != null){
+				for (Sprite sprite : sprites) {
+					sprite.drawOn(graphics, scrollx, scrolly);				
+				}
+			}else{
+				//nothing to do.
+			}
+		
 		renderableString.drawOn(graphics, scrollx, scrolly);
 	}
 
@@ -81,9 +96,11 @@ public class Button implements Renderable, Tickable {
 		int dy = positionY - this.positionY;
 		this.positionX = positionX;
 		this.positionY = positionY;
+		
 		for (Sprite sprite : sprites) {
 			sprite.goTo(sprite.getX() + dx, sprite.getY() + dy);
 		}
+		
 		renderableString.goTo(renderableString.getX() + dx, renderableString.getY() + dy);
 	}
 
