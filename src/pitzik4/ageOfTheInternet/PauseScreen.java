@@ -3,19 +3,24 @@ package pitzik4.ageOfTheInternet;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import pitzik4.ageOfTheInternet.graphics.BlueFrame;
 import pitzik4.ageOfTheInternet.graphics.Renderable;
 import pitzik4.ageOfTheInternet.graphics.RenderableString;
 
 public class PauseScreen implements Renderable {
-	private int x=0, y=0;
-	private int width=0, height=0;
+	private int x=0;
+	private int y=0;
+	private int width=0;
+	private int height=0;
 	private RenderableString message;
 	private BlueFrame frame;
 	
 	public PauseScreen(int x, int y, int width, int height) {
 		this(x, y, width, height, Game.game);
 	}
+	
 	public PauseScreen(int x, int y, int width, int height, Game owner) {
 		this.x = x;
 		this.y = y;
@@ -33,18 +38,24 @@ public class PauseScreen implements Renderable {
 		Graphics2D g = tmp.createGraphics();
 		drawOn(g, 0, 0);
 		g.dispose();
+		
 		BufferedImage out = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g = out.createGraphics();
 		g.drawImage(tmp, -x, -y, null);
 		g.dispose();
+	
 		return out;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		scrollx = scrolly = 0;
-		frame.drawOn(g, scrollx, scrolly);
-		message.drawOn(g, scrollx, scrolly);
+		try{
+			scrollx = scrolly = 0;
+			frame.drawOn(g, scrollx, scrolly);
+			message.drawOn(g, scrollx, scrolly);
+		}catch(NullPointerException graphicsNull){
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@Override
@@ -73,6 +84,7 @@ public class PauseScreen implements Renderable {
 		int dy = y - this.y;
 		this.x = x;
 		this.y = y;
+		
 		frame.goTo(frame.getX()+dx, frame.getY()+dy);
 		message.goTo(message.getX()+dx, message.getY()+dy);
 	}

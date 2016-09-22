@@ -13,8 +13,10 @@ public class Menu implements Renderable, Tickable {
 	public XButton exitButton;
 	public Button[] buttons;
 	private RenderableString renderableString;
-	private int positionX = 0, positionY = 0;
-	private int width = 0, height = 0;
+	private int positionX = 0;
+	private int positionY = 0;
+	private int width = 0;
+	private int height = 0;
 	private boolean exiting = false;
 	public boolean exited = false;
 
