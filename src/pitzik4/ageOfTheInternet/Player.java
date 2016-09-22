@@ -4,12 +4,15 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import pitzik4.ageOfTheInternet.graphics.Sprite;
 import pitzik4.ageOfTheInternet.tiles.HackerTile;
 
 public class Player implements RenderableTickable {
 	private Sprite sprite;
-	private int x=0, y=0;
+	private int x=0;
+	private int y=0;
 	public boolean going=false;
 	private Point[] path;
 	private int progress = 0;
@@ -32,7 +35,11 @@ public class Player implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		sprite.drawOn(g, scrollx, scrolly);
+		try{
+			sprite.drawOn(g, scrollx, scrolly);
+		}catch(NullPointerException graphicsNull){
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@Override
@@ -67,6 +74,7 @@ public class Player implements RenderableTickable {
 		if(going) {
 			int nextX = path[progress].x;
 			int nextY = path[progress].y;
+		
 			if(nextX > x) {
 				goTo(x+stepSize(), y);
 				if(nextX < x) {
@@ -89,6 +97,7 @@ public class Player implements RenderableTickable {
 					goTo(x, nextY);
 				}
 			}
+			
 			if(nextX == x && nextY == y) {
 				progress++;
 				if(progress >= path.length) {
@@ -97,9 +106,11 @@ public class Player implements RenderableTickable {
 			}
 		}
 	}
+	
 	public void go() {
 		going = true;
 	}
+	
 	public void stop() {
 		going = false;
 	}
