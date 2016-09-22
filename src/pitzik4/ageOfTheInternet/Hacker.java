@@ -8,7 +8,8 @@ import pitzik4.ageOfTheInternet.graphics.Sprite;
 
 public class Hacker implements RenderableTickable {
 	private Sprite sprite;
-	private int positionX = 0, positionY = 0;
+	private int positionX = 0;
+	private int positionY = 0;
 	public boolean going = false;
 	private Point[] path;
 	private int progress = 0;
@@ -17,7 +18,11 @@ public class Hacker implements RenderableTickable {
 	public Hacker(int positionX, int positionY, Point[] path) {
 		this.positionX = positionX;
 		this.positionY = positionY;
-		this.path = path;
+		if(path != null){
+			this.path = path;			
+		}else{
+			//nothing to do.
+		}
 		sprite = new Sprite(81, positionX, positionY, false);
 	}
 
@@ -28,7 +33,11 @@ public class Hacker implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		sprite.drawOn(graphics, scrollx, scrolly);
+		if(graphics != null){
+			sprite.drawOn(graphics, scrollx, scrolly);
+		}else{
+			//nothing to do.
+		}
 	}
 
 	@Override
@@ -109,7 +118,7 @@ public class Hacker implements RenderableTickable {
 		}
 	}
 
-	// Gamer plyaing or not
+	// Gamer playing or not
 	public void go() {
 		going = true;
 	}
