@@ -3,6 +3,8 @@ package pitzik4.ageOfTheInternet;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import pitzik4.ageOfTheInternet.graphics.Renderable;
 import pitzik4.ageOfTheInternet.graphics.RenderableString;
 import pitzik4.ageOfTheInternet.graphics.Sprite;
@@ -16,34 +18,42 @@ public class Menu implements Renderable, Tickable {
 	private boolean exiting = false;
 	public boolean exited = false;
 
-	public Menu(Game owner, int x, int y, int width, String[] extraButtons, String title) {
-		this.positionX = x;
-		this.positionY = y;
-		renderableString = new RenderableString(title, x, y);
+	public Menu(Game owner, int positionX, int positionY, int width, String[] extraButtons, String title) {
+		this.positionX = positionX;
+		this.positionY = positionY;
+		
+		renderableString = new RenderableString(title, positionX, positionY);
 		this.height = extraButtons.length * (Sprite.SPRITE_HEIGHT + 2) - 2 + XButton.BU_SI + renderableString.height;
+		
 		if (height <= 0) {
 			height = 1;
 		} else {
 			//nothing
 		}
+		
 		this.width = renderableString.width < width ? width : renderableString.width;
-		exitButton = new XButton(owner, x + width - XButton.BU_SI, y + renderableString.height);
+		exitButton = new XButton(owner, positionX + width - XButton.BU_SI, positionY + renderableString.height);
 		buttons = new Button[extraButtons.length];
+		
 		for (int i = 0; i < extraButtons.length; i++) {
-			buttons[i] = new Button(owner, x, y + (i * (Sprite.SPRITE_HEIGHT + 2)) + XButton.BU_SI + renderableString.height, width,
+			buttons[i] = new Button(owner, positionX, positionY + (i * (Sprite.SPRITE_HEIGHT + 2)) + XButton.BU_SI + renderableString.height, width,
 					extraButtons[i]);
 		}
 	}
 
 	@Override
 	public void tick() {
+		
 		for (Button button : buttons) {
 			button.tick();
 		}
+		
 		exitButton.tick();
+		
 		if (exiting && !exitButton.isClicked) {
 			exited = true;
 		}
+		
 		exiting = exitButton.isClicked;
 	}
 
@@ -53,17 +63,22 @@ public class Menu implements Renderable, Tickable {
 		Graphics2D g = out.createGraphics();
 		drawOn(g, positionX, positionY);
 		g.dispose();
+		
 		return out;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		if (!exited) {
-			for (Button b : buttons) {
-				b.drawOn(g, scrollx, scrolly);
+		try{
+			if (!exited) {
+				for (Button b : buttons) {
+					b.drawOn(g, scrollx, scrolly);
+				}
+				exitButton.drawOn(g, scrollx, scrolly);
+				renderableString.drawOn(g, scrollx, scrolly);
 			}
-			exitButton.drawOn(g, scrollx, scrolly);
-			renderableString.drawOn(g, scrollx, scrolly);
+		}catch(NullPointerException graphicsNull){
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -91,11 +106,14 @@ public class Menu implements Renderable, Tickable {
 	public void goTo(int x, int y) {
 		int dx = x - this.positionX;
 		int dy = y - this.positionY;
+		
 		this.positionX = x;
 		this.positionY = y;
+		
 		for (Button b : buttons) {
 			b.goTo(b.getX() + dx, b.getY() + dy);
 		}
+		
 		exitButton.goTo(exitButton.getX() + dx, exitButton.getY() + dy);
 		renderableString.goTo(x, y);
 	}
