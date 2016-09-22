@@ -3,6 +3,8 @@ package pitzik4.ageOfTheInternet;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import pitzik4.ageOfTheInternet.graphics.BlueFrame;
 import pitzik4.ageOfTheInternet.graphics.RenderableString;
 
@@ -16,6 +18,7 @@ public class LoseScreen implements RenderableTickable {
 	public LoseScreen(Game owner, int x, int y, int width, int height, String reason) {
 		this.positionX = x;
 		this.positionY = y;
+		
 		blueFrame_bg = new BlueFrame(x, y, width, height);
 		youLose = new RenderableString("Level Unsuccessful", 0, 0);
 		youLose.goTo(x + ((width - youLose.width) / 2), y + (height / 3 - youLose.height / 2));
@@ -32,10 +35,14 @@ public class LoseScreen implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		blueFrame_bg.drawOn(graphics, scrollx, scrolly);
-		youLose.drawOn(graphics, scrollx, scrolly);
-		loseReason.drawOn(graphics, scrollx, scrolly);
-		retry.drawOn(graphics, scrollx, scrolly);
+		try{
+			blueFrame_bg.drawOn(graphics, scrollx, scrolly);
+			youLose.drawOn(graphics, scrollx, scrolly);
+			loseReason.drawOn(graphics, scrollx, scrolly);
+			retry.drawOn(graphics, scrollx, scrolly);
+		}catch(NullPointerException graphicsNull){
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@Override
