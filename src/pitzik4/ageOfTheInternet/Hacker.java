@@ -18,11 +18,7 @@ public class Hacker implements RenderableTickable {
 	public Hacker(int positionX, int positionY, Point[] path) {
 		this.positionX = positionX;
 		this.positionY = positionY;
-		if(path != null){
-			this.path = path;			
-		}else{
-			//nothing to do.
-		}
+		this.path = path;
 		sprite = new Sprite(81, positionX, positionY, false);
 	}
 
@@ -33,11 +29,10 @@ public class Hacker implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		if(graphics != null){
-			sprite.drawOn(graphics, scrollx, scrolly);
-		}else{
-			//nothing to do.
-		}
+		assert (graphics != null) : "The parameter graphics is null !";
+
+		sprite.drawOn(graphics, scrollx, scrolly);
+
 	}
 
 	@Override
