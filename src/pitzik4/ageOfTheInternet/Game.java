@@ -83,6 +83,7 @@ public class Game extends Applet
 	// return player level.
 
 	public Stage remakeLevel(int index) {
+		assert(index>=0 && index<=11) : "Error on index value !";
 		
 		try{
 			switch(index){
@@ -127,7 +128,6 @@ public class Game extends Applet
 			}
 		}catch(IOException inputError){
 			System.out.println("Ocorreu um erro na execução do programa. Por favor, reinicie !");
-			inputError.printStackTrace();
 		}
 		
 		return null;
@@ -139,6 +139,7 @@ public class Game extends Applet
 		screen.addRenderable(backGround);
 		addTickable(backGround);
 		beginGame();
+		
 		new Thread(this).start();
 
 	}
@@ -150,17 +151,16 @@ public class Game extends Applet
 
 	@Override
 	public void paint(Graphics graphics) {
+		assert(graphics!=null): "The paramater graphics is null";		
 		
-		if(graphics != null){
-			graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1, null);
-			frames++;
-		}else{
-			System.out.println("Houve um problema ao carregar um dos arquivos do jogo. Por favor, reinicie !");
-		}
+		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1, null);
+		frames++;
 	}
 
 	@Override
 	public void update(Graphics graphics) {
+		assert(graphics!=null): "The parameter graphics is null ";
+		
 		paint(graphics);
 	}
 
@@ -176,16 +176,20 @@ public class Game extends Applet
 		long lastTime = System.currentTimeMillis();
 		long slowness;
 		long lastSecond = lastTime;
+		
 		while (!stopping) {
 			time = System.currentTimeMillis();
 			slowness = time - lastTime;
 			catchup += slowness * TICKS_PER_MILLI;
 			lastTime = time;
+		
 			while (catchup >= 1.0) {
 				tick();
 				catchup--;
 			}
+			
 			updateScreen();
+			
 			if (time >= lastSecond + 1000) {
 				System.out.format("%d FPS, %d ticks%n", frames, ticks);
 				frames = ticks = 0;
@@ -193,10 +197,12 @@ public class Game extends Applet
 			} else {
 				// nothing
 			}
+			
 			if (slowness != 0) {
 				try {
 					Thread.sleep((int) Math.round(100.0 / (double) slowness));
 				} catch (InterruptedException e) {
+			
 				}
 			} else {
 				// nothing
@@ -208,6 +214,7 @@ public class Game extends Applet
 		if (!paused) {
 			ticks++;
 			tickAmount++;
+			
 			for (Tickable tickable : tickables) {
 				tickable.tick();
 			}
@@ -218,14 +225,17 @@ public class Game extends Applet
 				resetLevel();
 			}
 		}
+		
 		if ((keysDown.contains(27) || keysDown.contains(80)) && !wasPausing) {
 			pause(!paused);
 			pausedByKeyboard = paused;
 			wasPausing = true;
 		}
+		
 		if (!(keysDown.contains(27) || keysDown.contains(80))) {
 			wasPausing = false;
 		}
+		
 		if (mouseReleasedTooSoon) {
 			mouseReleasedTooSoon = false;
 			mouseDown = mouseActuallyDown;
@@ -233,6 +243,7 @@ public class Game extends Applet
 	}
 
 	public void addTickable(Tickable tickable) {
+		
 		if(tickable != null){
 			tickables.add(tickable);			
 		}else{
@@ -267,9 +278,11 @@ public class Game extends Applet
 	// Where games start's
 	public void beginGame() {
 		screen.closeAllMenus();
+		
 		if (level >= levels.length) {
 			level = 1;
 		}
+		
 		Stage lvl = levels[level];
 		screen.addRenderable(lvl);
 		addTickable(lvl);
@@ -320,7 +333,7 @@ public class Game extends Applet
 
 	@Override
 	public void windowDeiconified(WindowEvent eventt) {
-		// pause(false);
+		
 	}
 
 	@Override
@@ -330,14 +343,13 @@ public class Game extends Applet
 
 	@Override
 	public void windowOpened(WindowEvent eventt) {
-		// pause(false);
+		
 	}
 
 	// Keyboard event
 	@Override
 	public void keyPressed(KeyEvent eventt) {
 		keysDown.add(eventt.getKeyCode());
-		// System.out.println(evt.getKeyCode());
 	}
 
 	@Override
@@ -394,12 +406,14 @@ public class Game extends Applet
 		if (!mouseReleasedTooSoon) {
 			mouseDown = false;
 		}
+		
 		mouseActuallyDown = false;
 	}
 
 	public boolean mouseInsideOf(int positionX, int positionY, int width, int height) {
 		positionX -= screen.getScrollX();
 		positionY -= screen.getScrollY();
+		
 		return mousePositionX >= positionX && mousePositionX < positionX + width && mousePositionY > positionY
 				&& mousePositionY <= positionY + height;
 	}
@@ -409,6 +423,7 @@ public class Game extends Applet
 			positionX -= screen.getScrollX();
 			positionY -= screen.getScrollY();
 		}
+		
 		return mousePositionX >= positionX && mousePositionX < positionX + width && mousePositionY > positionY
 				&& mousePositionY <= positionY + height;
 	}
