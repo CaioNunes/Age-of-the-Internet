@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 public class TitleScreen implements Stage {
 	private Game owner;
@@ -28,11 +29,14 @@ public class TitleScreen implements Stage {
 	@Override
 	public void tick() {
 		gameStartButton.tick();
+		
 		if(gameStartButton.isClicked)
 			gameStartButtonClicked = true;
+		
 		if(gameStartButtonClicked && !gameStartButton.isClicked) {
 			gameStarting = true;
 		}
+		
 		if(gameStarting) {
 			if(owner.screen.getFade() < 255) {
 				if(owner.screen.getFade() > 245) {
@@ -44,6 +48,7 @@ public class TitleScreen implements Stage {
 				done = true;
 			}
 		}
+		
 		if(owner.screen.getFade() > 0 && !gameStarting) {
 			if(owner.screen.getFade() < 10) {
 				owner.screen.fadeTo(0);
@@ -59,15 +64,20 @@ public class TitleScreen implements Stage {
 		Graphics2D g = out.createGraphics();
 		drawOn(g, 0, 0);
 		g.dispose();
+		
 		return out;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		scrollx = 0;
-		scrolly = 0;
-		g.drawImage(title, 111-scrollx, 64-scrolly, null);
-		gameStartButton.drawOn(g, scrollx, scrolly);
+		try{
+			scrollx = 0;
+			scrolly = 0;
+			g.drawImage(title, 111-scrollx, 64-scrolly, null);
+			gameStartButton.drawOn(g, scrollx, scrolly);
+		}catch(NullPointerException graphicsNull){
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@Override

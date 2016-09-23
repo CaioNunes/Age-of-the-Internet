@@ -3,6 +3,8 @@ package pitzik4.ageOfTheInternet;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JOptionPane;
+
 import pitzik4.ageOfTheInternet.graphics.Renderable;
 import pitzik4.ageOfTheInternet.graphics.Screen;
 import pitzik4.ageOfTheInternet.graphics.Sprite;
@@ -10,7 +12,8 @@ import pitzik4.ageOfTheInternet.graphics.Sprite;
 public class XButton implements Renderable, Tickable {
 	private Game owner;
 	private Sprite sprite;
-	private int x=0, y=0;
+	private int x=0;
+	private int y=0;
 	public boolean isClicked = false;
 	public boolean isScrolled = false;
 	public static final int BUTTON_SPRITE = 260;
@@ -34,7 +37,11 @@ public class XButton implements Renderable, Tickable {
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		sprite.drawOn(g, scrollx, scrolly);
+		try{
+			sprite.drawOn(g, scrollx, scrolly);			
+		}catch(NullPointerException graphicsNull){
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	@Override
@@ -78,6 +85,7 @@ public class XButton implements Renderable, Tickable {
 			beScrolled(false);
 		}
 	}
+	
 	public void beScrolled(boolean newScrolled) {
 		if(isScrolled != newScrolled) {
 			isScrolled = newScrolled;
@@ -88,6 +96,7 @@ public class XButton implements Renderable, Tickable {
 			}
 		}
 	}
+	
 	public void beClicked(boolean newClicked) {
 		if(isClicked != newClicked) {
 			isClicked = newClicked;
