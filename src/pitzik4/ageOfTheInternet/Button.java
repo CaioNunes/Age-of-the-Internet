@@ -20,17 +20,12 @@ public class Button implements Renderable, Tickable {
 	public static final int BUTTON_SPRITE = 50;
 
 	public Button(Game owner, int positionX, int positionY, int width, String textRenderable) {
-		if(owner != null){
-			this.owner = owner;			
-		}else{
-			//nothing to do.
-		}
-		
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.width = width;
 		
 		sprites = new Sprite[width / Sprite.SPRITE_WIDTH];
+		
 		for (int i = 0; i < width / Sprite.SPRITE_WIDTH; i++) {
 			if (i == 0) {
 				sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
@@ -51,6 +46,7 @@ public class Button implements Renderable, Tickable {
 	public BufferedImage draw() {
 		BufferedImage bufferedImageOut = new BufferedImage(width, Sprite.SPRITE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D graphics = bufferedImageOut.createGraphics();
+		//Perguntar
 		drawOn(graphics, positionX, positionY);
 		graphics.dispose();
 		
@@ -59,13 +55,11 @@ public class Button implements Renderable, Tickable {
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-			if(graphics != null){
-				for (Sprite sprite : sprites) {
-					sprite.drawOn(graphics, scrollx, scrolly);				
-				}
-			}else{
-				//nothing to do.
-			}
+		assert(graphics != null) : "The parameter graphics is null !";
+		
+		for (Sprite sprite : sprites) {
+			sprite.drawOn(graphics, scrollx, scrolly);				
+		}
 		
 		renderableString.drawOn(graphics, scrollx, scrolly);
 	}
@@ -94,6 +88,7 @@ public class Button implements Renderable, Tickable {
 	public void goTo(int positionX, int positionY) {
 		int dx = positionX - this.positionX;
 		int dy = positionY - this.positionY;
+		
 		this.positionX = positionX;
 		this.positionY = positionY;
 		
@@ -109,11 +104,13 @@ public class Button implements Renderable, Tickable {
 		if (owner.mouseInsideOf(positionX, positionY, width, Sprite.SPRITE_HEIGHT)) {
 			beScrolled(true);
 			boolean wasClicked = isClicked;
+
 			if (owner.mouseDown) {
 				beClicked(true);
 			} else {
 				beClicked(false);
 			}
+			
 			if (wasClicked && !isClicked) {
 				nowClicked = true;
 			} else {
@@ -128,6 +125,7 @@ public class Button implements Renderable, Tickable {
 	public void beScrolled(boolean newScrolled) {
 		if (isScrolled != newScrolled) {
 			isScrolled = newScrolled;
+			
 			if (isScrolled) {
 				for (int i = 0; i < sprites.length; i++) {
 					if (i == 0) {
@@ -159,6 +157,7 @@ public class Button implements Renderable, Tickable {
 	public void beClicked(boolean newClicked) {
 		if (isClicked != newClicked) {
 			isClicked = newClicked;
+			
 			if (isClicked) {
 				for (int i = 0; i < sprites.length; i++) {
 					if (i == 0) {
