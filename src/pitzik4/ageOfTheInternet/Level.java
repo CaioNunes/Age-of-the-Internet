@@ -61,23 +61,40 @@ public class Level implements Stage {
 
 	public Level(BufferedImage img, Game owner, int x, int y, int ram, int money) {
 		this(img, owner, ram, money);
+
+		assert(img != null) : "The parameter img is null !";
+		assert(owner != null) : "The parameter owner is null !";
+		assert(money < 0) : "The value of money is invalid !";
+		assert(ram < 0) : "The value of ram is invalid !";
+		
 		goTo(x, y);			
 	}
 
 	public Level(String name, Game owner, int x, int y, int ram, int money) throws IOException {
 		this(name, owner, ram, money);
+		
+		assert(owner != null) : "The parameter owner is null !";
+		assert(money < 0) : "The value of money is invalid !";
+		assert(ram < 0) : "The value of ram is invalid !";
+		
 		goTo(x, y);
 	}
 
 	public Level(int number, Game owner, int x, int y) throws IOException {
 		this(number, owner);
+		
+		assert(owner != null) : "The parameter owner is null !";
 		goTo(x, y);
 	}
 
 	public Level(BufferedImage img, Game owner, int ram, int money) {
-		if(owner != null){
-			this.owner = owner;
-		}
+
+		assert(img != null) : "The parameter img is null !";
+		assert(owner != null) : "The parameter owner is null !";
+		assert(money < 0) : "The value of money is invalid !";
+		assert(ram < 0) : "The value of ram is invalid !";
+		
+		this.owner = owner;
 		
 		setRAM(ram);
 		setMoney(money);
@@ -133,10 +150,17 @@ public class Level implements Stage {
 
 	public Level(String name, Game owner, int ram, int money) throws IOException {
 		this(ImageIO.read(Game.class.getResourceAsStream("/levels/" + name + ".gif")), owner, ram, money);
+	
+		assert(owner != null) : "The parameter owner is null !";
+		assert(money < 0) : "The value of money is invalid !";
+		assert(ram < 0) : "The value of ram is invalid !";
+		
 	}
 
 	public Level(int number, Game owner) throws IOException {
 		this("lvl" + number, owner, levelRAMs[number - 1], levelMoneys[number - 1]);
+	
+		assert(owner != null) : "The parameter owner is null !";
 	}
 
 	public Level(int number) throws IOException {
@@ -145,10 +169,19 @@ public class Level implements Stage {
 
 	public Level(String name, int ram, int money) throws IOException {
 		this(name, Game.game, ram, money);
+		
+		assert(money < 0) : "The value of money is invalid !";
+		assert(ram < 0) : "The value of ram is invalid !";
+		
 	}
 
 	public Level(BufferedImage img, int ram, int money) {
 		this(img, Game.game, ram, money);
+		
+		assert(img != null) : "The parameter img is null !";
+		assert(money < 0) : "The value of money is invalid !";
+		assert(ram < 0) : "The value of ram is invalid !";
+		
 	}
 
 	@Override
@@ -222,6 +255,7 @@ public class Level implements Stage {
 				it.remove();
 			}
 		}
+		
 		if (done || almostResetting) {
 			if (owner.screen.getFade() < 255) {
 				if (owner.screen.getFade() > 245) {
@@ -237,6 +271,7 @@ public class Level implements Stage {
 				}
 			}
 		}
+		
 		if (loseScreen != null) {
 			loseScreen.tick();
 			if (loseScreen.retry.nowClicked) {
@@ -247,40 +282,34 @@ public class Level implements Stage {
 
 	private boolean connected(Player begin) {
 		
-		if(begin != null){
+		assert(begin != null) : "The parameter begin is null !";
 		
-			List<Player> l = new ArrayList<Player>(Collections.singleton(begin));
-			List<Player> k = new ArrayList<Player>(l);
+		List<Player> l = new ArrayList<Player>(Collections.singleton(begin));
+		List<Player> k = new ArrayList<Player>(l);
 			
-			while (!k.isEmpty()) {
-				Player player = k.get(0);
-				k.remove(0);
-				Tile t = null;
-				
-				for (Map.Entry<Tile, Player> ent : players.entrySet()) {
-					if (ent.getValue() == player) {
-						t = ent.getKey();
-						break;
-					}
-				}
-				
-				Set<Tile> zz = allCanBeHackedBy(t);
-				
-				for (Tile z : zz) {
-					if (!l.contains(players.get(z))) {
-						l.add(players.get(z));
-						k.add(players.get(z));
-					}
+		while (!k.isEmpty()) {
+			Player player = k.get(0);
+			k.remove(0);
+			Tile t = null;
+			
+			for (Map.Entry<Tile, Player> ent : players.entrySet()) {
+				if (ent.getValue() == player) {
+					t = ent.getKey();
+					break;
 				}
 			}
-			
-			return l.size() >= players.size();
-		
-		}else{
-			JOptionPane.showMessageDialog(null, "Don't have a connected player ! Restart the game !", "Player not connected", JOptionPane.ERROR_MESSAGE);
-			return false;
+				
+			Set<Tile> zz = allCanBeHackedBy(t);
+				
+			for (Tile z : zz) {
+				if (!l.contains(players.get(z))) {
+					l.add(players.get(z));
+					k.add(players.get(z));
+				}
+			}
 		}
-		
+			
+		return l.size() >= players.size();		
 	}
 
 	@Override
@@ -288,59 +317,61 @@ public class Level implements Stage {
 		BufferedImage out = new BufferedImage(width * Sprite.SPRITE_WIDTH, height * Sprite.SPRITE_HEIGHT,
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = out.createGraphics();
+		
+		assert(g != null) : "The parameter g is null !";
+
 		drawOn(g, positionX, positionY);
 		g.dispose();
+		
 		return out;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
 	
-		if(g != null){
+		assert(g != null) : "The parameter g is null !";
 			
-			for (Tile[] tt : tiles) {
-				for (Tile t : tt) {
-					if (t != null) {
-						t.drawOn(g, scrollx, scrolly);
-					}
+		for (Tile[] tt : tiles) {
+			for (Tile t : tt) {
+				if (t != null) {
+					t.drawOn(g, scrollx, scrolly);
 				}
 			}
-			
-			for (Player p : players.values()) {
-				p.drawOn(g, scrollx, scrolly);
-			}
-			
-			for (Player p : oldPlayers.values()) {
-				p.drawOn(g, scrollx, scrolly);
-			}
-			
-			for (Player p : goingPlayers.keySet()) {
-				p.drawOn(g, scrollx, scrolly);
-			}
-			
-			for (Hacker h : hackers.values()) {
-				h.drawOn(g, scrollx, scrolly);
-			}
-			
-			for (Hacker h : goingHackers.keySet()) {
-				h.drawOn(g, scrollx, scrolly);
-			}
-			
-			for (ExplosionParticle ep : explosionParticles) {
-				ep.drawOn(g, scrollx, scrolly);
-			}
-			
-			for (MoneyParticle mp : moneyParticles) {
-				mp.drawOn(g, scrollx, scrolly);
-			}
-			ramRender.drawOn(g, 0, 0);
-			moneyRender.drawOn(g, 0, 0);
-			
-			if (loseScreen != null) {
-				loseScreen.drawOn(g, 0, 0);
-			}
-		}else{
-			JOptionPane.showMessageDialog(null, "Have a problem to load the Graphics2! Restar the game !", "Graphics2D error", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		for (Player p : players.values()) {
+			p.drawOn(g, scrollx, scrolly);
+		}
+		
+		for (Player p : oldPlayers.values()) {
+			p.drawOn(g, scrollx, scrolly);
+		}
+		
+		for (Player p : goingPlayers.keySet()) {
+			p.drawOn(g, scrollx, scrolly);
+		}
+		
+		for (Hacker h : hackers.values()) {
+			h.drawOn(g, scrollx, scrolly);
+		}
+		
+		for (Hacker h : goingHackers.keySet()) {
+			h.drawOn(g, scrollx, scrolly);
+		}
+		
+		for (ExplosionParticle ep : explosionParticles) {
+			ep.drawOn(g, scrollx, scrolly);
+		}
+		
+		for (MoneyParticle mp : moneyParticles) {
+			mp.drawOn(g, scrollx, scrolly);
+		}
+		
+		ramRender.drawOn(g, 0, 0);
+		moneyRender.drawOn(g, 0, 0);
+		
+		if (loseScreen != null) {
+			loseScreen.drawOn(g, 0, 0);
 		}
 	
 	}
@@ -408,6 +439,8 @@ public class Level implements Stage {
 	}
 
 	public boolean isOwned(Tile tile) {
+		assert(tile != null) : "The parameter tile is null !";
+		
 		if (tile instanceof HackerTile) {
 			if (((HackerTile) tile).isOwned() && !ownedComputers.contains(tile)) {
 				addOwnedComputer(tile);
@@ -423,72 +456,65 @@ public class Level implements Stage {
 	}
 
 	public Tile[] neighbors(Tile t) {
-		if(t != null){
-			int tilePositionX = t.getX() / Sprite.SPRITE_WIDTH;
-			int tilePositionY = t.getY() / Sprite.SPRITE_HEIGHT;
-			
-			Tile[] neighbors = new Tile[4];
-			
-			if (tilePositionY == 0) {
-				neighbors[0] = null;
-			} else {
-				neighbors[0] = tiles[tilePositionX][tilePositionY - 1];
-			}
-			
-			if (tilePositionY == height - 1) {
-				neighbors[2] = null;
-			} else {
-				neighbors[2] = tiles[tilePositionX][tilePositionY + 1];
-			}
-			
-			if (tilePositionX == 0) {
-				neighbors[3] = null;
-			} else {
-				neighbors[3] = tiles[tilePositionX - 1][tilePositionY];
-			}
-			
-			if (tilePositionX == width - 1) {
-				neighbors[1] = null;
-			} else {
-				neighbors[1] = tiles[tilePositionX + 1][tilePositionY];
-			}
-
-			return neighbors;
 		
-		}else{
-			//nothing to do.
+		assert(t != null): "The parameter t is null";
+			
+		int tilePositionX = t.getX() / Sprite.SPRITE_WIDTH;
+		int tilePositionY = t.getY() / Sprite.SPRITE_HEIGHT;
+		
+		Tile[] neighbors = new Tile[4];
+		
+		if (tilePositionY == 0) {
+			neighbors[0] = null;
+		} else {
+			neighbors[0] = tiles[tilePositionX][tilePositionY - 1];
 		}
 		
-		return null;
+		if (tilePositionY == height - 1) {
+			neighbors[2] = null;
+		} else {
+			neighbors[2] = tiles[tilePositionX][tilePositionY + 1];
+		}
+		
+		if (tilePositionX == 0) {
+			neighbors[3] = null;
+		} else {
+			neighbors[3] = tiles[tilePositionX - 1][tilePositionY];
+		}
+		
+		if (tilePositionX == width - 1) {
+			neighbors[1] = null;
+		} else {
+			neighbors[1] = tiles[tilePositionX + 1][tilePositionY];
+		}
+
+		return neighbors;
 	}
 
 	public Tile[] connectionNeighbors(Tile t, Tile couldBe) {
-		if(t!= null && couldBe != null){
-			Tile[] out = neighbors(t);
-			
-			for (int i = 0; i < out.length; i++) {
-				if (!(out[i] instanceof ConnectionTile) && !(out[i] == couldBe)) {
-					if (out[i] instanceof BrokenConnectionTile) {
-						if (((BrokenConnectionTile) out[i]).usable()) {
-							continue;
-						}
-					}
-					out[i] = null;
-				}
-			}
-			
-			return out;
-			
-		}else {
-			//nothing to do.
-		}
+		assert(t != null) : "The parameter t is null !";
+		assert(couldBe != null) : "The parameter couldBe is null !";
 		
-		return null;
+		Tile[] out = neighbors(t);
+			
+		for (int i = 0; i < out.length; i++) {
+			if (!(out[i] instanceof ConnectionTile) && !(out[i] == couldBe)) {
+				if (out[i] instanceof BrokenConnectionTile) {
+					if (((BrokenConnectionTile) out[i]).usable()) {
+						continue;
+					}
+				}
+				out[i] = null;
+			}
+		}
+			
+		return out;
 	}
 
 	private List<Tile> findConnectionStep(List<Tile> visited, Tile endPoint) {
 		
-		if(endPoint != null && visited != null){
+		assert(visited != null) : "The parameter visited is null";
+		assert(endPoint != null) : "The parameter endPoint is null";
 		
 			Tile[] nodes = connectionNeighbors(visited.get(visited.size() - 1), endPoint);
 	
@@ -529,15 +555,12 @@ public class Level implements Stage {
 				return visited;
 			}
 			
-		}else{
-			//nothing to do.
-		}
-		
-		return null;
+		return  null;
 	}
 
 	public Tile canBeHackedBy(Tile tile) {
-		if(tile != null){
+		assert(tile != null) : "The parameter tile is null !";
+		
 			for (Tile[] tt : tiles) {
 				for (Tile t : tt) {
 					if (!isHackerOwned(t))
@@ -546,15 +569,12 @@ public class Level implements Stage {
 						return t;
 				}
 			}
-		}else{
-			//nothing to do.
-		}
-		
+
 		return null;
 	}
 
 	public Tile canBeEviledBy(Tile tile) {
-		if(tile != null){
+		assert(tile != null) : "The parameter tile is null !";
 				
 			for (Tile[] tt : tiles) {
 				for (Tile t : tt) {
@@ -564,15 +584,13 @@ public class Level implements Stage {
 						return t;
 				}
 			}
-		}else{
-			//nothing to do.
-		}
-		
+			
 		return null;
 	}
 
 	public Set<Tile> allCanBeHackedBy(Tile tile) {
-		if(tile != null){
+		assert(tile != null) : "The parameter tile is null !";
+		
 			Set<Tile> out = new HashSet<Tile>();
 			
 			for (Tile[] tt : tiles) {
@@ -584,19 +602,14 @@ public class Level implements Stage {
 				}
 			}
 			
-			return out;
-	
-		}else{
-			//nothing to do.
-		}
-		
-		return null;
+		return out;
 	}
 
 	public Set<Tile> allCanBeEviledBy(Tile tile) {
 		Set<Tile> out = new HashSet<Tile>();
 		
-		if(tile != null){	
+		assert(tile != null) : "The parameter tile is null !";
+		
 			for (Tile[] tt : tiles) {
 				for (Tile t : tt) {
 					if (!isEvil(t))
@@ -607,18 +620,11 @@ public class Level implements Stage {
 			}
 			
 			return out;
-			
-		}else{
-			//nothing to do.
-		}
-		
-		return null;
 	}
 
 	public Set<Tile> whatCanBeEviledBy(Tile tile) {
+		assert(tile != null) : "The parameter tile is null !";
 		Set<Tile> out = new HashSet<Tile>();
-		
-		if(tile != null){
 		
 		for (Tile[] tt : tiles) {
 			for (Tile t : tt) {
@@ -629,12 +635,6 @@ public class Level implements Stage {
 		}
 		
 		return out;
-		
-		}else{
-			//nothing to do.
-		}
-		
-		return null;
 	}
 
 	public Set<Tile> whatCanBeEviled() {
@@ -650,129 +650,118 @@ public class Level implements Stage {
 	}
 
 	public void hack(Tile tile) {
-		if(tile != null){
+		assert(tile != null): "The parameter tile is null !";
+		
 			if (tile instanceof HackerTile) {
 				hackHacker((HackerTile) tile);
 			} else {
 				hack2(tile);
 			}
-		
-		}else{
-			//nothing to do.
-		}
 	}
 
 	public void hack2(Tile tile) {
-		if(tile != null){
-			if (isOwned(tile))
-				return;
+		assert(tile != null): "The parameter tile is null !";
 		
-			if (tile.hackCost() > ram)
-				return;
-			
-			Tile source = canBeHackedBy(tile);
-			List<Tile> tilePath = findConnectionStep(new ArrayList<Tile>(Collections.singleton(source)), tile);
-			Point[] path = new Point[tilePath.size()];
-			
-			for (int i = 0; i < tilePath.size(); i++) {
-				Tile t = tilePath.get(i);
-				path[i] = new Point(t.getX(), t.getY());
-			}
-			
-			Player player = new Player(source.getX(), source.getY(), path);
-			
-			addPlayer(tile, player);
-			player.go();
-			goingPlayers.put(player, tile);
-			setRAM(ram - tile.hackCost());
-			addOwnedComputer(tile);
+		if (isOwned(tile))
+			return;
+	
+		if (tile.hackCost() > ram)
+			return;
 		
-		}else{
-			//nothing to do.
+		Tile source = canBeHackedBy(tile);
+		List<Tile> tilePath = findConnectionStep(new ArrayList<Tile>(Collections.singleton(source)), tile);
+		Point[] path = new Point[tilePath.size()];
+		
+		for (int i = 0; i < tilePath.size(); i++) {
+			Tile t = tilePath.get(i);
+			path[i] = new Point(t.getX(), t.getY());
 		}
+		
+		Player player = new Player(source.getX(), source.getY(), path);
+		
+		addPlayer(tile, player);
+		player.go();
+		goingPlayers.put(player, tile);
+		setRAM(ram - tile.hackCost());
+		addOwnedComputer(tile);
+	
 	}
 
 	public void evil(Tile tile) {
-		if(tile != null){
-			if (isEvil(tile))
-				return;
-			
-			Tile source = canBeEviledBy(tile);
-			List<Tile> tilePath = findConnectionStep(new ArrayList<Tile>(Collections.singleton(source)), tile);
-			Point[] path = new Point[tilePath.size()];
-			
-			for (int i = 0; i < tilePath.size(); i++) {
-				Tile t = tilePath.get(i);
-				path[i] = new Point(t.getX(), t.getY());
-			}
-			Hacker player = new Hacker(source.getX(), source.getY(), path);
-			
-			addHacker(tile, player);
-			player.go();
-			goingHackers.put(player, tile);
-			tile.startEvil();
-		}else{
-			//nothing to do.
+		
+		assert(tile != null): "The parameter tile is null !";
+	
+		if (isEvil(tile))
+			return;
+		
+		Tile source = canBeEviledBy(tile);
+		List<Tile> tilePath = findConnectionStep(new ArrayList<Tile>(Collections.singleton(source)), tile);
+		Point[] path = new Point[tilePath.size()];
+		
+		for (int i = 0; i < tilePath.size(); i++) {
+			Tile t = tilePath.get(i);
+			path[i] = new Point(t.getX(), t.getY());
 		}
+		
+		Hacker player = new Hacker(source.getX(), source.getY(), path);
+		
+		addHacker(tile, player);
+		player.go();
+		goingHackers.put(player, tile);
+		tile.startEvil();
 	}
 
 	public void unhack(Tile tile) {
 
-		if(tile != null){
-			if (tile instanceof HackerTile) {
-				if (!((HackerTile) tile).initiatedUnhacking) {
-					tile.unHack();
-				}
-			} else {
+		assert(tile != null) : "The parameter tile is null !";
+		
+		if (tile instanceof HackerTile) {
+			if (!((HackerTile) tile).initiatedUnhacking) {
 				tile.unHack();
 			}
+		} else {
+			tile.unHack();
+		}
+		
+		Player player = players.get(tile);
+		
+		if (player != null) {
+			boolean was = isOwned(tile);
 			
-			Player player = players.get(tile);
-			
-			if (player != null) {
-				boolean was = isOwned(tile);
-				
-				for (int i = 0; i < 6; i++) {
-					explosionParticles.add(new ExplosionParticle(player.getX() + Sprite.SPRITE_WIDTH / 2,
-							player.getY() + Sprite.SPRITE_HEIGHT / 2, rnd.nextDouble() * Math.PI * 2));
-				}
-				
-				removePlayer(tile);
-				goingPlayers.remove(player);
-				
-				if (was) {
-					setRAM(ram + tile.hackCost());
-				}
+			for (int i = 0; i < 6; i++) {
+				explosionParticles.add(new ExplosionParticle(player.getX() + Sprite.SPRITE_WIDTH / 2,
+						player.getY() + Sprite.SPRITE_HEIGHT / 2, rnd.nextDouble() * Math.PI * 2));
 			}
 			
-			removeOwnedComputer(tile);
-			ensureConnected();
-		
-		}else{
-			//nothing to do.
+			removePlayer(tile);
+			goingPlayers.remove(player);
+			
+			if (was) {
+				setRAM(ram + tile.hackCost());
+			}
 		}
+		
+		removeOwnedComputer(tile);
+		ensureConnected();
 		
 	}
 
 	public void deevil(Tile tile) {
 		
-		if(tile != null){
-			Hacker player = hackers.get(tile);
-			
-			if (player != null) {
-				for (int i = 0; i < 6; i++) {
-					explosionParticles.add(new ExplosionParticle(player.getX() + Sprite.SPRITE_WIDTH / 2,
-							player.getY() + Sprite.SPRITE_HEIGHT / 2, rnd.nextDouble() * Math.PI * 2));
-				}
-				removeHacker(tile);
-				goingHackers.remove(player);
-			}
-			
-			tile.deEvil();
+		assert(tile != null): "The parameter tile is null !";
 		
-		}else{
-			//nothing to do.
+		Hacker player = hackers.get(tile);
+		
+		if (player != null) {
+			for (int i = 0; i < 6; i++) {
+				explosionParticles.add(new ExplosionParticle(player.getX() + Sprite.SPRITE_WIDTH / 2,
+						player.getY() + Sprite.SPRITE_HEIGHT / 2, rnd.nextDouble() * Math.PI * 2));
+			}
+			removeHacker(tile);
+			goingHackers.remove(player);
 		}
+		
+		tile.deEvil();
 	}
 
 	@Override
@@ -805,44 +794,41 @@ public class Level implements Stage {
 	}
 
 	public void addPlayer(Tile t, Player p) {
-		if(t != null && p != null){
-			if (players.containsKey(t)) {
-				oldPlayers.put(t, players.get(t));
-				players.remove(t);
-			}
-			players.put(t, p);
-			ensureConnected();
-		}else{
-			//nothing to do
+		
+		assert(t != null) : "The parameter t is null";
+		assert(p != null) : "The parameter p is null";
+		
+		if (players.containsKey(t)) {
+			oldPlayers.put(t, players.get(t));
+			players.remove(t);
 		}
+		
+		players.put(t, p);
+		ensureConnected();
 	}
 
 	public void addHacker(Tile t, Hacker p) {
-		if(t != null && p != null){
-			hackers.put(t, p);
-			ensureConnected();
-		}else{
-			//nothing to do.
-		}
+		assert(t != null) : "The parameter t is null !";
+		assert(p != null) : "The parameter p is null !";
+	
+		hackers.put(t, p);
+		ensureConnected();
 	}
 
 	public void removePlayer(Tile t) {
-		if(t != null){
-			players.remove(t);
-			oldPlayers.remove(t);
-			ensureConnected();
-		}else{
-			//nothing to do.
-		}
+		assert(t != null) : "The parameter t is null !";
+		
+		players.remove(t);
+		oldPlayers.remove(t);
+		ensureConnected();
 	}
 
 	public void removeHacker(Tile t) {
-		if(t != null){
-			hackers.remove(t);
-			ensureConnected();			
-		}else{
-			//nothing to do.
-		}
+		assert(t != null) : "The parameter t is null !";
+		
+		hackers.remove(t);
+		ensureConnected();			
+	
 	}
 
 	public void ensureConnected() {
@@ -854,41 +840,39 @@ public class Level implements Stage {
 	}
 
 	public void removePlayer(Player player) {
-		if(player!= null){
-			for (Iterator<Map.Entry<Tile, Player>> it = players.entrySet().iterator(); it.hasNext();) {
-				Map.Entry<Tile, Player> ent = it.next();
-				
-				if (ent.getValue() == player) {
-					it.remove();
-				}
-			}
+		assert(player != null) : "The parameter player is null !";
+		
+		for (Iterator<Map.Entry<Tile, Player>> it = players.entrySet().iterator(); it.hasNext();) {
+			Map.Entry<Tile, Player> ent = it.next();
 			
-			for (Iterator<Map.Entry<Tile, Player>> it = oldPlayers.entrySet().iterator(); it.hasNext();) {
-				Map.Entry<Tile, Player> ent = it.next();
-				
-				if (ent.getValue() == player) {
-					it.remove();
-				}
+			if (ent.getValue() == player) {
+				it.remove();
 			}
-		}else{
-			//nothing to do.
+		}
+		
+		for (Iterator<Map.Entry<Tile, Player>> it = oldPlayers.entrySet().iterator(); it.hasNext();) {
+			Map.Entry<Tile, Player> ent = it.next();
+			
+			if (ent.getValue() == player) {
+				it.remove();
+			}
 		}
 	}
 
 	public void removeHacker(Hacker player) {
-		if(player != null){
-			for (Iterator<Map.Entry<Tile, Hacker>> it = hackers.entrySet().iterator(); it.hasNext();) {
-				Map.Entry<Tile, Hacker> ent = it.next();
-				if (ent.getValue() == player) {
-					it.remove();
-				}
+		assert(player != null) : "The parameter player is null !";
+		
+		for (Iterator<Map.Entry<Tile, Hacker>> it = hackers.entrySet().iterator(); it.hasNext();) {
+			Map.Entry<Tile, Hacker> ent = it.next();
+			if (ent.getValue() == player) {
+				it.remove();
 			}
-		}else{
-			//nothing to do.
 		}
 	}
 
 	public void setMoney(int money) {
+		assert(money < 0) : "The parameter money is invalid !";
+		
 		this.money = money;
 		moneyRender = new RenderableString("Money: $" + money, 2, 16);
 	}
@@ -910,47 +894,41 @@ public class Level implements Stage {
 	}
 
 	public void hackHacker(HackerTile tile) {
-		if(tile != null){
-			if (isOwned(tile))
-				return;
-			
-			if (isHackerOwned(tile)) {
-				hack2(tile);
-				return;
-			}
-			
-			Tile source = canBeHackedBy(tile);
-			List<Tile> tilePath = findConnectionStep(new ArrayList<Tile>(Collections.singleton(source)), tile);
-			Point[] path = new Point[tilePath.size()];
-			
-			for (int i = 0; i < tilePath.size(); i++) {
-				Tile t = tilePath.get(i);
-				path[i] = new Point(t.getX(), t.getY());
-			}
-			
-			Player player = new Player(source.getX(), source.getY(), path);
-			
-			addPlayer(tile, player);
-			player.go();
-			goingPlayers.put(player, tile);
-		}else {
-			//nothing to do.
+		assert(tile != null) : "The parameter tile is null !";
+		if (isOwned(tile))
+			return;
+		
+		if (isHackerOwned(tile)) {
+			hack2(tile);
+			return;
 		}
+		
+		Tile source = canBeHackedBy(tile);
+		List<Tile> tilePath = findConnectionStep(new ArrayList<Tile>(Collections.singleton(source)), tile);
+		Point[] path = new Point[tilePath.size()];
+		
+		for (int i = 0; i < tilePath.size(); i++) {
+			Tile t = tilePath.get(i);
+			path[i] = new Point(t.getX(), t.getY());
+		}
+		
+		Player player = new Player(source.getX(), source.getY(), path);
+		
+		addPlayer(tile, player);
+		player.go();
+		goingPlayers.put(player, tile);
+
 	}
 
 	public boolean isHackerOwned(Tile t) {
+		assert(t != null) : "The parameter t is null !";
 		
-		if(t != null){
 			if (t instanceof HackerTile) {
 				return players.containsKey(t);
 			} else {
 				return isOwned(t);
 			}
-		}else{
-			//nothing to do.
-		}
-		
-		return false;
+
 	}
 
 	public boolean isEvil(int x, int y) {
@@ -968,7 +946,7 @@ public class Level implements Stage {
 
 	public void addOwnedComputer(Tile tile) {
 		
-		if(tile != null){
+		assert(tile != null) : "The parameter tile is null !";
 			ownedComputers.add(tile);
 	
 			for (Tile[] tt : tiles) {
@@ -978,14 +956,11 @@ public class Level implements Stage {
 					}
 				}
 			}
-		}else{
-			//nothing to do.
-		}
 	}
 
 	public void removeOwnedComputer(Tile tile) {
+		assert(tile != null) : "The parameter tile is null !";
 		
-		if(tile != null){
 			ownedComputers.remove(tile);
 			
 			for (Tile[] tt : tiles) {
@@ -995,18 +970,13 @@ public class Level implements Stage {
 					}
 				}
 			}
-		}else{
-			//nothing to do.
-		}
 	}
 
 	public void emitMoneyParticleFrom(Tile tile) {
 		
-		if(tile != null){
-			moneyParticles.add(new MoneyParticle(tile.getX(), tile.getY() - Sprite.SPRITE_HEIGHT));
-		}else{
-			//nothing to do.
-		}
+		assert(tile != null) : "The parameter tile is null !";
+		moneyParticles.add(new MoneyParticle(tile.getX(), tile.getY() - Sprite.SPRITE_HEIGHT));
+
 	}
 
 }
