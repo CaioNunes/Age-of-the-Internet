@@ -10,62 +10,63 @@ import pitzik4.ageOfTheInternet.graphics.Renderable;
 import pitzik4.ageOfTheInternet.graphics.RenderableString;
 
 public class PauseScreen implements Renderable {
-	private int x=0;
-	private int y=0;
-	private int width=0;
-	private int height=0;
+	private int positionX = 0;
+	private int positionY = 0;
+	private int width = 0;
+	private int height = 0;
 	private RenderableString message;
 	private BlueFrame frame;
-	
+
 	public PauseScreen(int x, int y, int width, int height) {
 		this(x, y, width, height, Game.game);
 	}
-	
+
 	public PauseScreen(int x, int y, int width, int height, Game owner) {
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 		this.width = width;
 		this.height = height;
 		this.frame = new BlueFrame(x, y, width, height);
 		this.message = new RenderableString("Game Paused", 0, 0);
-		this.message.centerBetweenX(x, x+width);
-		this.message.centerBetweenY(y, y+height);
+		this.message.centerBetweenX(x, x + width);
+		this.message.centerBetweenY(y, y + height);
 	}
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage tmp = new BufferedImage(width+x, height+y, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage tmp = new BufferedImage(width + positionX, height + positionY, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = tmp.createGraphics();
 		drawOn(g, 0, 0);
 		g.dispose();
-		
+
 		BufferedImage out = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g = out.createGraphics();
-		g.drawImage(tmp, -x, -y, null);
+		g.drawImage(tmp, -positionX, -positionY, null);
 		g.dispose();
-	
+
 		return out;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		try{
+		try {
 			scrollx = scrolly = 0;
 			frame.drawOn(g, scrollx, scrolly);
 			message.drawOn(g, scrollx, scrolly);
-		}catch(NullPointerException graphicsNull){
-			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		} catch (NullPointerException graphicsNull) {
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ",
+					"Error Graphics2D", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	@Override
 	public int getX() {
-		return x;
+		return positionX;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return positionY;
 	}
 
 	@Override
@@ -80,13 +81,13 @@ public class PauseScreen implements Renderable {
 
 	@Override
 	public void goTo(int x, int y) {
-		int dx = x - this.x;
-		int dy = y - this.y;
-		this.x = x;
-		this.y = y;
-		
-		frame.goTo(frame.getX()+dx, frame.getY()+dy);
-		message.goTo(message.getX()+dx, message.getY()+dy);
+		int dx = x - this.positionX;
+		int dy = y - this.positionY;
+		this.positionX = x;
+		this.positionY = y;
+
+		frame.goTo(frame.getX() + dx, frame.getY() + dy);
+		message.goTo(message.getX() + dx, message.getY() + dy);
 	}
 
 }

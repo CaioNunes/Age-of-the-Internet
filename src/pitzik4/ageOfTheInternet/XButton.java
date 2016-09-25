@@ -12,46 +12,47 @@ import pitzik4.ageOfTheInternet.graphics.Sprite;
 public class XButton implements Renderable, Tickable {
 	private Game owner;
 	private Sprite sprite;
-	private int x=0;
-	private int y=0;
+	private int positionX = 0;
+	private int positionY = 0;
 	public boolean isClicked = false;
 	public boolean isScrolled = false;
 	public static final int BUTTON_SPRITE = 260;
 	public static final int BU_SI = 8;
-	
+
 	public XButton(Game owner, int x, int y) {
 		this.owner = owner;
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 		sprite = new Sprite(BUTTON_SPRITE, x, y, Screen.spritesheet, BU_SI, BU_SI);
 	}
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage out = new BufferedImage(BU_SI, BU_SI, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g = out.createGraphics();
-		drawOn(g, x, y);
-		g.dispose();
-		return out;
+		BufferedImage bufferedImageOut = new BufferedImage(BU_SI, BU_SI, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = bufferedImageOut.createGraphics();
+		drawOn(graphics, positionX, positionY);
+		graphics.dispose();
+		return bufferedImageOut;
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		try{
-			sprite.drawOn(g, scrollx, scrolly);			
-		}catch(NullPointerException graphicsNull){
-			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+		try {
+			sprite.drawOn(graphics, scrollx, scrolly);
+		} catch (NullPointerException graphicsNull) {
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ",
+					"Error Graphics2D", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	@Override
 	public int getX() {
-		return x;
+		return positionX;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return positionY;
 	}
 
 	@Override
@@ -66,16 +67,16 @@ public class XButton implements Renderable, Tickable {
 
 	@Override
 	public void goTo(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 		sprite.goTo(x, y);
 	}
 
 	@Override
 	public void tick() {
-		if(owner.mouseInsideOf(x, y, BU_SI, BU_SI)) {
+		if (owner.mouseInsideOf(positionX, positionY, BU_SI, BU_SI)) {
 			beScrolled(true);
-			if(owner.mouseDown) {
+			if (owner.mouseDown) {
 				beClicked(true);
 			} else {
 				beClicked(false);
@@ -85,25 +86,25 @@ public class XButton implements Renderable, Tickable {
 			beScrolled(false);
 		}
 	}
-	
+
 	public void beScrolled(boolean newScrolled) {
-		if(isScrolled != newScrolled) {
+		if (isScrolled != newScrolled) {
 			isScrolled = newScrolled;
-			if(isScrolled) {
-				sprite = new Sprite(BUTTON_SPRITE+1, x, y, Screen.spritesheet, BU_SI, BU_SI);
+			if (isScrolled) {
+				sprite = new Sprite(BUTTON_SPRITE + 1, positionX, positionY, Screen.spritesheet, BU_SI, BU_SI);
 			} else {
-				sprite = new Sprite(BUTTON_SPRITE, x, y, Screen.spritesheet, BU_SI, BU_SI);
+				sprite = new Sprite(BUTTON_SPRITE, positionX, positionY, Screen.spritesheet, BU_SI, BU_SI);
 			}
 		}
 	}
-	
+
 	public void beClicked(boolean newClicked) {
-		if(isClicked != newClicked) {
+		if (isClicked != newClicked) {
 			isClicked = newClicked;
-			if(isClicked) {
-				sprite = new Sprite(BUTTON_SPRITE+2, x, y, Screen.spritesheet, BU_SI, BU_SI);
+			if (isClicked) {
+				sprite = new Sprite(BUTTON_SPRITE + 2, positionX, positionY, Screen.spritesheet, BU_SI, BU_SI);
 			} else {
-				sprite = new Sprite(BUTTON_SPRITE+1, x, y, Screen.spritesheet, BU_SI, BU_SI);
+				sprite = new Sprite(BUTTON_SPRITE + 1, positionX, positionY, Screen.spritesheet, BU_SI, BU_SI);
 			}
 		}
 	}

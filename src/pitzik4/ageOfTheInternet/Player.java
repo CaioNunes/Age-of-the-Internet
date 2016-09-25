@@ -11,19 +11,19 @@ import pitzik4.ageOfTheInternet.tiles.HackerTile;
 
 public class Player implements RenderableTickable {
 	private Sprite sprite;
-	private int x=0;
-	private int y=0;
-	public boolean going=false;
+	private int positionX = 0;
+	private int positionY = 0;
+	public boolean going = false;
 	private Point[] path;
 	private int progress = 0;
-	
+
 	public static final int stepSize() {
 		return 3 + HackerTile.hackersOwned;
 	}
-	
+
 	public Player(int x, int y, Point[] path) {
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 		this.path = path;
 		sprite = new Sprite(80, x, y, false);
 	}
@@ -35,21 +35,22 @@ public class Player implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		try{
+		try {
 			sprite.drawOn(g, scrollx, scrolly);
-		}catch(NullPointerException graphicsNull){
-			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		} catch (NullPointerException graphicsNull) {
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ",
+					"Error Graphics2D", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	@Override
 	public int getX() {
-		return x;
+		return positionX;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return positionY;
 	}
 
 	@Override
@@ -64,53 +65,53 @@ public class Player implements RenderableTickable {
 
 	@Override
 	public void goTo(int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.positionX = x;
+		this.positionY = y;
 		sprite.goTo(x, y);
 	}
 
 	@Override
 	public void tick() {
-		if(going) {
+		if (going) {
 			int nextX = path[progress].x;
 			int nextY = path[progress].y;
-		
-			if(nextX > x) {
-				goTo(x+stepSize(), y);
-				if(nextX < x) {
-					goTo(nextX, y);
+
+			if (nextX > positionX) {
+				goTo(positionX + stepSize(), positionY);
+				if (nextX < positionX) {
+					goTo(nextX, positionY);
 				}
-			} else if(nextX < x) {
-				goTo(x-stepSize(), y);
-				if(nextX > x) {
-					goTo(nextX, y);
-				}
-			}
-			if(nextY > y) {
-				goTo(x, y+stepSize());
-				if(nextY < y) {
-					goTo(x, nextY);
-				}
-			} else if(nextY < y) {
-				goTo(x, y-stepSize());
-				if(nextY > y) {
-					goTo(x, nextY);
+			} else if (nextX < positionX) {
+				goTo(positionX - stepSize(), positionY);
+				if (nextX > positionX) {
+					goTo(nextX, positionY);
 				}
 			}
-			
-			if(nextX == x && nextY == y) {
+			if (nextY > positionY) {
+				goTo(positionX, positionY + stepSize());
+				if (nextY < positionY) {
+					goTo(positionX, nextY);
+				}
+			} else if (nextY < positionY) {
+				goTo(positionX, positionY - stepSize());
+				if (nextY > positionY) {
+					goTo(positionX, nextY);
+				}
+			}
+
+			if (nextX == positionX && nextY == positionY) {
 				progress++;
-				if(progress >= path.length) {
+				if (progress >= path.length) {
 					going = false;
 				}
 			}
 		}
 	}
-	
+
 	public void go() {
 		going = true;
 	}
-	
+
 	public void stop() {
 		going = false;
 	}
