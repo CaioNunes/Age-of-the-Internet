@@ -50,12 +50,12 @@ public class ChurchCutscene implements Stage {
 	}
 
 	@Override
-	public int getPositionX() {
+	public int getX() {
 		return 0;
 	}
 
 	@Override
-	public int getPositionY() {
+	public int getY() {
 		return 0;
 	}
 

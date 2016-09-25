@@ -91,12 +91,12 @@ public class StartingCutscene implements Stage {
 	}
 
 	@Override
-	public int getPositionX() {
+	public int getX() {
 		return 0;
 	}
 
 	@Override
-	public int getPositionY() {
+	public int getY() {
 		return 0;
 	}
 
@@ -137,10 +137,10 @@ public class StartingCutscene implements Stage {
 			done = true;
 		}
 		if(lifeTime > 20 && lifeTime < 50) {
-			toby.goTo(toby.getPositionX()+2, toby.getPositionY());
+			toby.goTo(toby.getX()+2, toby.getY());
 		} else if(lifeTime == 50) {
-			toby = new Sprite(160, toby.getPositionX(), toby.getPositionY(), false);
-			drThompson = new Sprite(112, drThompson.getPositionX(), drThompson.getPositionY(), false);
+			toby = new Sprite(160, toby.getX(), toby.getY(), false);
+			drThompson = new Sprite(112, drThompson.getX(), drThompson.getY(), false);
 		} else if(lifeTime == 60) {
 			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "Ah! You must be Toby. I'm Dr Thompson.");
 			dialogue.go();
@@ -165,16 +165,16 @@ public class StartingCutscene implements Stage {
 		} else if(lifeTime == 70) {
 			toby = tobyWalk;
 		} else if(lifeTime > 70 && lifeTime < 110) {
-			toby.goTo(toby.getPositionX()+2, toby.getPositionY());
+			toby.goTo(toby.getX()+2, toby.getY());
 		} else if(lifeTime == 110) {
-			toby = new Sprite(160, toby.getPositionX(), toby.getPositionY(), false);
+			toby = new Sprite(160, toby.getX(), toby.getY(), false);
 			drThompson = new Sprite(96, 76, 212, false);
 		} else if(lifeTime == 120) {
 			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "That's the computer where you will be, uh, put in.");
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 122) {
-			toby = new Sprite(176, toby.getPositionX(), toby.getPositionY(), false);
+			toby = new Sprite(176, toby.getX(), toby.getY(), false);
 			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Wow! This whole computer is just for me?");
 			dialogue.go();
 			lifeTime++;
@@ -183,12 +183,12 @@ public class StartingCutscene implements Stage {
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 126) {
-			toby = new Sprite(160, toby.getPositionX(), toby.getPositionY(), false);
+			toby = new Sprite(160, toby.getX(), toby.getY(), false);
 			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Oh. It's still awesome, though.");
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 128) {
-			toby = new Sprite(176, toby.getPositionX(), toby.getPositionY(), false);
+			toby = new Sprite(176, toby.getX(), toby.getY(), false);
 			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "So, what do I do?");
 			dialogue.go();
 			lifeTime++;
@@ -197,32 +197,32 @@ public class StartingCutscene implements Stage {
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 132) {
-			toby = new Sprite(160, toby.getPositionX(), toby.getPositionY(), false);
+			toby = new Sprite(160, toby.getX(), toby.getY(), false);
 			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "That's all? Ok, I'll get in.");
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 134) {
 			toby = tobyWalk;
 		} else if(lifeTime > 134 && lifeTime < 210) {
-			toby.goTo(toby.getPositionX()+2, toby.getPositionY());
+			toby.goTo(toby.getX()+2, toby.getY());
 		} else if(lifeTime == 212) {
-			toby = new Sprite(160, toby.getPositionX(), toby.getPositionY(), false);
+			toby = new Sprite(160, toby.getX(), toby.getY(), false);
 			digitizer.go();
 		} else if(lifeTime == 219) {
 			toby = tobyWalk;
-			toby.goTo(toby.getPositionX()+2, toby.getPositionY());
+			toby.goTo(toby.getX()+2, toby.getY());
 		} else if(lifeTime > 219 && lifeTime < 226) {
-			toby.goTo(toby.getPositionX()+2, toby.getPositionY());
+			toby.goTo(toby.getX()+2, toby.getY());
 		}
 		if(lifeTime == 222) {
 			drThompson = drThompsonWalk;
 		} else if(lifeTime == 226) {
 			toby = new Sprite(13, 0, 0, false);
-			drThompson.goTo(drThompson.getPositionX()+2, drThompson.getPositionY());
+			drThompson.goTo(drThompson.getX()+2, drThompson.getY());
 		} else if(lifeTime > 222 && lifeTime < 250) {
-			drThompson.goTo(drThompson.getPositionX()+2, drThompson.getPositionY());
+			drThompson.goTo(drThompson.getX()+2, drThompson.getY());
 		} else if(lifeTime == 250) {
-			drThompson = new Sprite(96, drThompson.getPositionX(), drThompson.getPositionY(), false);
+			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
 		} else if(lifeTime == 260) {
 			screen.go();
 		} else if(lifeTime == 270) {
@@ -242,15 +242,15 @@ public class StartingCutscene implements Stage {
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 278) {
-			drThompson = new Sprite(112, drThompson.getPositionX(), drThompson.getPositionY(), false);
+			drThompson = new Sprite(112, drThompson.getX(), drThompson.getY(), false);
 		} else if(lifeTime == 284) {
-			drThompson = new Sprite(96, drThompson.getPositionX(), drThompson.getPositionY(), false);
+			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
 		} else if(lifeTime == 290) {
-			drThompson = new Sprite(112, drThompson.getPositionX(), drThompson.getPositionY(), false);
+			drThompson = new Sprite(112, drThompson.getX(), drThompson.getY(), false);
 		} else if(lifeTime == 296) {
-			drThompson = new Sprite(96, drThompson.getPositionX(), drThompson.getPositionY(), false);
+			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
 		} else if(lifeTime == 310) {
-			drThompson = new Sprite(102, drThompson.getPositionX(), drThompson.getPositionY(), false);
+			drThompson = new Sprite(102, drThompson.getX(), drThompson.getY(), false);
 			coffeeBreak.go();
 		} else if(lifeTime == 330) {
 			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "Oh, no!! The machine to bring you back is missing!");
