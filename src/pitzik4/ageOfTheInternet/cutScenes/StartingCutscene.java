@@ -121,6 +121,7 @@ public class StartingCutscene implements Stage {
 
 	@Override
 	public void tick() {
+		final int ANYBUTTON = 10;
 		Set<Integer> keysPressed = new HashSet<Integer>(owner.keysDown);
 		if(toby instanceof Tickable) {
 			((Tickable) toby).tick();
@@ -137,7 +138,7 @@ public class StartingCutscene implements Stage {
 		if(dialogue == null) {
 			lifeTime++;
 		}
-		if(owner.keysDown.contains(10)) {
+		if(owner.keysDown.contains(ANYBUTTON)) {
 			done = true;
 		}
 		if(lifeTime > 20 && lifeTime < 50) {
@@ -299,7 +300,8 @@ public class StartingCutscene implements Stage {
 		} else if(lifeTime > 350) {
 			done = true;
 		}
-		if(keysPressed.contains(32) && !lastKeysPressed.contains(32)) {
+		final int SPACEBARBUTTON = 32;
+		if(keysPressed.contains(SPACEBARBUTTON) && !lastKeysPressed.contains(SPACEBARBUTTON)) {
 			if(dialogue != null) {
 				if(dialogue.isGoing()) {
 					dialogue.finish();
