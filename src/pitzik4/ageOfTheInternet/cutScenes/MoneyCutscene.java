@@ -24,7 +24,11 @@ public class MoneyCutscene implements Stage {
 	private Set<Integer> lastKeysPressed = new HashSet<Integer>();
 	
 	public MoneyCutscene(Game owner) {
-		this.owner = owner;
+		if (owner != null) {
+			this.owner = owner;
+		} else {
+			// nothing to do.
+		};
 	}
 
 	@Override

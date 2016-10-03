@@ -58,7 +58,11 @@ public class StartingCutscene implements Stage {
 	}
 	
 	public StartingCutscene(Game owner) {
-		this.owner = owner;
+		if (owner != null) {
+			this.owner = owner;
+		} else {
+			// nothing to do.
+		}
 		tobyWalk.go();
 		drThompsonWalk.go();
 	}

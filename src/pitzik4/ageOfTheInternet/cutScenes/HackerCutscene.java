@@ -22,9 +22,13 @@ public class HackerCutscene implements Stage {
 	private boolean closing = false;
 	private Game owner;
 	private Set<Integer> lastKeysPressed = new HashSet<Integer>();
-	
+
 	public HackerCutscene(Game owner) {
-		this.owner = owner;
+		if (owner != null) {
+			this.owner = owner;
+		} else {
+			// nothing to do.
+		}
 	}
 
 	@Override
@@ -44,7 +48,7 @@ public class HackerCutscene implements Stage {
 		drThompson.drawOn(graphics, 0, 0);
 		screen.drawOn(graphics, 0, 0);
 		digitizer.drawOn(graphics, 0, 0);
-		if(dialogue != null) {
+		if (dialogue != null) {
 			dialogue.drawOn(graphics, 0, 0);
 		}
 	}
@@ -77,113 +81,123 @@ public class HackerCutscene implements Stage {
 	@Override
 	public void tick() {
 		Set<Integer> keysPressed = new HashSet<Integer>(owner.keysDown);
-		if(dialogue == null) {
+		if (dialogue == null) {
 			lifeTime++;
 		} else {
 			dialogue.tick();
-			if(keysPressed.contains(32) && !lastKeysPressed.contains(32)) {
-				if(dialogue.isGoing()) {
+			if (keysPressed.contains(32) && !lastKeysPressed.contains(32)) {
+				if (dialogue.isGoing()) {
 					dialogue.finish();
 				} else {
 					dialogue = null;
 				}
 			}
 		}
-		if(lifeTime == 10) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "Toby, I have some rather bad news.");
+		if (lifeTime == 10) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"Toby, I have some rather bad news.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 12) {
+		} else if (lifeTime == 12) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "That's bad enough news for me.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 14) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "It seems that you're not the only hacker around.");
+		} else if (lifeTime == 14) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"It seems that you're not the only hacker around.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 16) {
+		} else if (lifeTime == 16) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "Yeah! There's you!");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 18) {
+		} else if (lifeTime == 18) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "What are you talking about?");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 20) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "There's more than one meaning to the word \"hacker\".");
+		} else if (lifeTime == 20) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead,
+					"There's more than one meaning to the word \"hacker\".");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 22) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "Toby, would you be serious for just a moment?");
+		} else if (lifeTime == 22) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"Toby, would you be serious for just a moment?");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 24) {
+		} else if (lifeTime == 24) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "Fine, what is it?");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 26) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "There's a group of hackers out there called Some Stupid Hacker.");
+		} else if (lifeTime == 26) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"There's a group of hackers out there called Some Stupid Hacker.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 28) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "This is likely to lead to unwanted competition.");
+		} else if (lifeTime == 28) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"This is likely to lead to unwanted competition.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 30) {
+		} else if (lifeTime == 30) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "Hackers are mean!");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 32) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "Also, I'm guessing their computers are hard to hack.");
+		} else if (lifeTime == 32) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"Also, I'm guessing their computers are hard to hack.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 34) {
+		} else if (lifeTime == 34) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "Rats!");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 36) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "We've also created a program that will let you into secured networks.");
+		} else if (lifeTime == 36) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"We've also created a program that will let you into secured networks.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 38) {
+		} else if (lifeTime == 38) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "Really? Awesome!");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 40) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "It takes more than one computer to find the key, though.");
+		} else if (lifeTime == 40) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"It takes more than one computer to find the key, though.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 42) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "Some networks have harder-to-crack security than others.");
+		} else if (lifeTime == 42) {
+			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
+					"Some networks have harder-to-crack security than others.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 44) {
+		} else if (lifeTime == 44) {
 			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "Ok, great.");
 			dialogue.go();
 			lifeTime++;
-		} else if(lifeTime == 46) {
+		} else if (lifeTime == 46) {
 			done = true;
 		}
-		if(owner.keysDown.contains(10)) {
+		if (owner.keysDown.contains(10)) {
 			done = true;
 		}
 		lastKeysPressed = keysPressed;
-		if(done) {
-			if(owner.screen.getFade() < 255) {
-				if(owner.screen.getFade() > 245) {
+		if (done) {
+			if (owner.screen.getFade() < 255) {
+				if (owner.screen.getFade() > 245) {
 					owner.screen.fadeTo(255);
 				} else {
-					owner.screen.fadeTo(owner.screen.getFade()+10);
+					owner.screen.fadeTo(owner.screen.getFade() + 10);
 				}
 			} else {
 				closing = true;
 			}
 		}
-		if(owner.screen.getFade() > 0 && !done) {
-			if(owner.screen.getFade() < 10) {
+		if (owner.screen.getFade() > 0 && !done) {
+			if (owner.screen.getFade() < 10) {
 				owner.screen.fadeTo(0);
 			} else {
-				owner.screen.fadeTo(owner.screen.getFade()-10);
+				owner.screen.fadeTo(owner.screen.getFade() - 10);
 			}
 		}
 	}
@@ -197,7 +211,8 @@ public class HackerCutscene implements Stage {
 	public boolean isResetting() {
 		return false;
 	}
-	 // MAGIC NUMBRS
+
+	// MAGIC NUMBRS
 	@Override
 	public int getWidth() {
 		return 320;
