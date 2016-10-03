@@ -80,12 +80,14 @@ public class HackerCutscene implements Stage {
 
 	@Override
 	public void tick() {
+		final int SPACEBARBUTTON = 32;
+		final int ANYBUTTON = 10;
 		Set<Integer> keysPressed = new HashSet<Integer>(owner.keysDown);
 		if (dialogue == null) {
 			lifeTime++;
 		} else {
 			dialogue.tick();
-			if (keysPressed.contains(32) && !lastKeysPressed.contains(32)) {
+			if (keysPressed.contains(SPACEBARBUTTON ) && !lastKeysPressed.contains(SPACEBARBUTTON )) {
 				if (dialogue.isGoing()) {
 					dialogue.finish();
 				} else {
@@ -178,7 +180,7 @@ public class HackerCutscene implements Stage {
 		} else if (lifeTime == 46) {
 			done = true;
 		}
-		if (owner.keysDown.contains(10)) {
+		if (owner.keysDown.contains(ANYBUTTON)) {
 			done = true;
 		}
 		lastKeysPressed = keysPressed;
