@@ -18,59 +18,92 @@ public abstract class Tile implements Renderable, Tickable {
 		}
 		return getNewTile(id, x, y, ints, owner);
 	}
+	
 	public static int intFromTile(Tile t) {
+		
 		if(t instanceof ComputerTile) {
 			return 0x0000FF;
+		} else {
+			// Do nothing
 		}
+		
 		if(t instanceof HomeTile) {
 			return 0x00FFFF;
+		} else {
+			// Do nothing
 		}
+		
 		if(t instanceof ConnectionTile) {
 			return 0x00FF00;
+		} else {
+			// Do nothing
 		}
+		
 		if(t instanceof EndTile) {
 			return 0xFFFF00;
+		} else {
+			// Do nothing
 		}
+		
 		if(t instanceof CorporationTile) {
 			return 0xFF00FF;
+		} else {
+			// Do nothing
 		}
+		
 		if(t instanceof ChurchTile) {
 			return 0x808080;
+		} else {
+			// Do nothing
 		}
+		
 		if(t instanceof HackerTile) {
 			return 0x008000;
+		} else {
+			// Do nothing
 		}
+		
 		if(t instanceof BrokenConnectionTile) {
 			return 0x008040;
+		} else {
+			// Do nothing
 		}
 		return 0;
 	}
+	
 	public static Tile getNewTile(int id, int x, int y, int[] neighbors, Game owner) {
+		// using a Mask with id. The last byte is ignored.
 		id = id&0xFFFFFF;
-		if(id == 0x0000FF) {
-			return new ComputerTile(x, y, owner);
+		switch(id) {
+			case 0x0000FF:
+				return new ComputerTile(x, y, owner);
+				
+			case 0x00FFFF:	
+				return new HomeTile(x, y, owner);
+				
+			case 0x00FF00:	
+				return new ConnectionTile(x, y, neighbors);
+				
+			case 0xFFFF00:	
+				return new EndTile(x, y, owner);
+				
+			case 0xFF00FF:
+				return new CorporationTile(x, y, owner);
+				
+			case 0x808080:
+				return new ChurchTile(x, y, owner);
+				
+			case 0x008000:
+				return new HackerTile(x, y, owner);	
+				
+			default:
+				// Do nothing
 		}
-		if(id == 0x00FFFF) {
-			return new HomeTile(x, y, owner);
-		}
-		if(id == 0x00FF00) {
-			return new ConnectionTile(x, y, neighbors);
-		}
-		if(id == 0xFFFF00) {
-			return new EndTile(x, y, owner);
-		}
-		if(id == 0xFF00FF) {
-			return new CorporationTile(x, y, owner);
-		}
-		if(id == 0x808080) {
-			return new ChurchTile(x, y, owner);
-		}
-		if(id == 0x008000) {
-			return new HackerTile(x, y, owner);
-		}
+				
 		if((id & 0x00FFFF) == 0x008040) {
 			return new BrokenConnectionTile(x, y, neighbors, (byte) (id >> 16));
 		}
+				
 		return null;
 	}
 
@@ -84,6 +117,7 @@ public abstract class Tile implements Renderable, Tickable {
 		sprite.drawOn(g, scrollx, scrolly);
 		furtherDraw(g, scrollx, scrolly);
 	}
+	
 	public void furtherDraw(Graphics2D g, int scrollx, int scrolly) {
 		
 	}
@@ -114,27 +148,35 @@ public abstract class Tile implements Renderable, Tickable {
 		this.y = y;
 		sprite.goTo(x, y);
 	}
+	
 	public void beOwned() {
 		
 	}
+	
 	public void beEvil() {
 		
 	}
+	
 	public void startEvil() {
 		
 	}
+	
 	public void deEvil() {
 		
 	}
+	
 	public boolean isEvil() {
 		return false;
 	}
+	
 	public boolean canBeEvil() {
 		return false;
 	}
+	
 	public void unHack() {
 		
 	}
+	
 	public abstract int hackCost();
 
 }

@@ -26,6 +26,7 @@ public class MoneyParticle implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+		assert(g != null): "Parameter Graphics2D is null";
 		sprite.drawOn(g, scrollx, scrolly);
 	}
 

@@ -14,6 +14,7 @@ public class RenderableString implements Renderable {
 	public int width = 0, height = 0;
 
 	public RenderableString(String represents, int x, int y) {
+		assert(represents != null): "Parameter represents(String) is null";
 		this.represents = represents;
 		this.positionX = x;
 		this.positonY = y;
@@ -50,11 +51,13 @@ public class RenderableString implements Renderable {
 		Graphics2D graphics = bufferedImageOut.createGraphics();
 		drawOn(graphics, positionX, positonY);
 		graphics.dispose();
+		assert(bufferedImageOut != null): "Return bufferedImageOut is null";
 		return bufferedImageOut;
 	}
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+		assert(graphics != null): "Parameter graphics is null";
 		for (Sprite sprite : charSprites) {
 			sprite.drawOn(graphics, scrollx, scrolly);
 		}

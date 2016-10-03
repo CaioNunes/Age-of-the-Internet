@@ -33,12 +33,14 @@ public class Screen implements Tickable {
 	public static final BufferedImage font = spritesheet("font");
 
 	public Screen(Game game) {
+		assert(game != null): "Paramater Game is null";
 		this.owner = game;
 		width = owner.getWidth() / POOR_RES + 1;
 		height = owner.getHeight() / POOR_RES + 1;
 	}
 
 	public static BufferedImage spritesheet(String name) {
+		assert(name != null): "String name is null";
 		BufferedImage bufferedImageOut = null;
 		try {
 			bufferedImageOut = ImageIO.read(Game.class.getResourceAsStream("/" + name + ".gif"));
@@ -67,18 +69,22 @@ public class Screen implements Tickable {
 		graphics.fillRect(0, 0, width - 1, height - 1);
 		graphics.drawImage(bufferedImageOut, rumbleX, rumbleY, null);
 		graphics.dispose();
+		assert(bufferedImageOut2 != null): "Return bufferedImageOut2 is null";
 		return bufferedImageOut2;
 	}
 
 	public synchronized void addRenderable(Renderable r) {
+		assert(r != null): "Parameter Renderable is null";
 		renderables.add(r);
 	}
 
 	public synchronized void addRenderable(int index, Renderable r) {
+		assert(r != null): "Parameter Renderable is null";
 		renderables.add(index, r);
 	}
 
 	public synchronized void removeRenderable(Renderable r) {
+		assert(r != null): "Parameter Renderable is null";
 		while (renderables.contains(r)) {
 			renderables.remove(r);
 		}
@@ -89,16 +95,19 @@ public class Screen implements Tickable {
 	}
 
 	public synchronized void sendToFront(Renderable r) {
+		assert(r != null): "Parameter Renderable is null";
 		renderables.remove(r);
 		renderables.add(r);
 	}
 
 	public synchronized void sendToBack(Renderable r) {
+		assert(r != null): "Parameter Renderable is null";
 		renderables.remove(r);
 		renderables.add(0, r);
 	}
 
 	public synchronized void sendTo(int index, Renderable r) {
+		assert(r != null): "Parameter Renderable is null";
 		renderables.remove(r);
 		renderables.add(index, r);
 	}
@@ -189,6 +198,7 @@ public class Screen implements Tickable {
 
 	public void closeAllMenus() {
 		for (Iterator<Renderable> it = renderables.iterator(); it.hasNext();) {
+			assert(it != null): "Renderable Iterator is null";
 			Renderable render = it.next();
 			if (render instanceof Menu) {
 				it.remove();
