@@ -189,18 +189,20 @@ public class Game extends Applet
 			}
 			
 			updateScreen();
-			
-			if (time >= lastSecond + 1000) {
+			final int TIMECORRECTION = 1000;
+			if (time >= lastSecond + TIMECORRECTION) {
 				System.out.format("%d FPS, %d ticks%n", frames, ticks);
-				frames = ticks = 0;
-				lastSecond += 1000;
+				frames = 0;
+				ticks = 0;
+				lastSecond += TIMECORRECTION;
 			} else {
 				// nothing
 			}
 			
 			if (slowness != 0) {
 				try {
-					Thread.sleep((int) Math.round(100.0 / (double) slowness));
+					long MILISSECONDS = (int) Math.round(100.0 / (double) slowness);
+					Thread.sleep(MILISSECONDS);
 				} catch (InterruptedException e) {
 			
 				}
@@ -211,6 +213,9 @@ public class Game extends Applet
 	}
 
 	public void tick() {
+		final int ESC_BUTTON = 27;
+		final int P_BUTTON = 80;
+		
 		if (!paused) {
 			ticks++;
 			tickAmount++;
@@ -226,13 +231,13 @@ public class Game extends Applet
 			}
 		}
 		
-		if ((keysDown.contains(27) || keysDown.contains(80)) && !wasPausing) {
+		if ((keysDown.contains(ESC_BUTTON) || keysDown.contains(P_BUTTON)) && !wasPausing) {
 			pause(!paused);
 			pausedByKeyboard = paused;
 			wasPausing = true;
 		}
 		
-		if (!(keysDown.contains(27) || keysDown.contains(80))) {
+		if (!(keysDown.contains(ESC_BUTTON) || keysDown.contains(P_BUTTON))) {
 			wasPausing = false;
 		}
 		
