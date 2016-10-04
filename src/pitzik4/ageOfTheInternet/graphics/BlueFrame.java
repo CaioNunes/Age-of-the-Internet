@@ -55,6 +55,7 @@ public class BlueFrame implements Renderable {
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+		assert(g != null): "Graphics2D-g parameter is null";
 		assert(background != null): "Background var is null";
 		for (Sprite[] ss : background) {
 			assert(ss != null): "ss var is null";

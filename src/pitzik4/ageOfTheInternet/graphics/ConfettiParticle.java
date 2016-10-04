@@ -19,6 +19,7 @@ public class ConfettiParticle implements RenderableTickable {
 	public static final int INVERSE_GO_UP_PROB = 8;
 
 	public ConfettiParticle(Color color, int x, int y, boolean goingRight) {
+		assert(color != null): "Color-color parameter is null";
 		this.color = color;
 		this.positionX = x;
 		this.positionY = y;
@@ -40,7 +41,10 @@ public class ConfettiParticle implements RenderableTickable {
 	@Override
 	public BufferedImage draw() {
 		BufferedImage bufferedImageOut = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+		assert(bufferedImageOut != null): "BufferedImageOut is null";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
+		assert(graphics != null): "graphics var is null";
+		assert(color != null): "color is null";
 		graphics.setColor(color);
 		graphics.fillRect(0, 0, 1, 1);
 		graphics.dispose();
@@ -49,6 +53,8 @@ public class ConfettiParticle implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+		assert(graphics != null): "Graphics2D-graphics parameter is null";
+		assert(color != null): "color var is null";
 		graphics.setColor(color);
 		graphics.fillRect(positionX - scrollx, positionY - scrolly, 1, 1);
 	}

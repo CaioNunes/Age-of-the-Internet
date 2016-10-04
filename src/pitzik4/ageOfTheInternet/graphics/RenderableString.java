@@ -48,7 +48,9 @@ public class RenderableString implements Renderable {
 	public BufferedImage draw() {
 		// TODO Image drawing code
 		BufferedImage bufferedImageOut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		assert(bufferedImageOut != null): "BufferedImageOut is null";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
+		assert(graphics != null): "Graphics2D-graphics parameter is null";
 		drawOn(graphics, positionX, positonY);
 		graphics.dispose();
 		assert(bufferedImageOut != null): "Return bufferedImageOut is null";
@@ -58,6 +60,7 @@ public class RenderableString implements Renderable {
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		assert(graphics != null): "Parameter graphics is null";
+		assert(charSprites != null): "charSprites is null";
 		for (Sprite sprite : charSprites) {
 			sprite.drawOn(graphics, scrollx, scrolly);
 		}
