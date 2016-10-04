@@ -40,8 +40,12 @@ public class Background implements Renderable, Tickable {
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+		assert(graphics != null): "Graphics var is null";
+		assert(tiles != null): "Tiles var is null";
 		for (Sprite[] ss : tiles) {
+			assert(ss != null): "Sprite[] var is null";
 			for (Sprite s : ss) {
+				assert(s != null): "Sprite var is null";
 				s.drawOn(graphics, 0, 0);
 			}
 		}
@@ -73,8 +77,11 @@ public class Background implements Renderable, Tickable {
 		int dy = y - this.positionY;
 		this.positionX = x;
 		this.positionY = y;
+		assert(tiles != null): "Tiles var is null";
 		for (Sprite[] ss : tiles) {
+			assert(ss != null): "Sprite[] var is null";
 			for (Sprite s : ss) {
+				assert(s != null): "Sprite var is null";
 				s.goTo(s.getX() + dx, s.getY() + dy);
 			}
 		}
@@ -85,6 +92,7 @@ public class Background implements Renderable, Tickable {
 		moveCountdown--;
 		if (moveCountdown == 0) {
 			moveCountdown = MOVE_COUNTDOWN;
+			assert(tiles != null): "Tiles var is null";
 			for (int i = 0; i < tiles.length; i++) {
 				for (Sprite tiles : tiles[i]) {
 					if (i % 2 == 0) {

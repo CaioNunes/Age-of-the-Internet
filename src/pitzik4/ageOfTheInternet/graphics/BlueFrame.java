@@ -16,6 +16,7 @@ public class BlueFrame implements Renderable {
 		this.width = width;
 		this.height = height;
 		background = new Sprite[width / BG_SPRITE_SIZE][height / BG_SPRITE_SIZE];
+		assert(background != null): "background not instantiated";
 		for (int i = 0; i < width; i += BG_SPRITE_SIZE) {
 			for (int j = 0; j < height; j += BG_SPRITE_SIZE) {
 				int whichx;
@@ -43,16 +44,22 @@ public class BlueFrame implements Renderable {
 	@Override
 	public BufferedImage draw() {
 		BufferedImage bufferedImageOut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		assert(bufferedImageOut != null): "BufferedImageOut not instantiated";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
+		assert(graphics != null): "graphics not created";
 		drawOn(graphics, positionX, positionY);
 		graphics.dispose();
+		assert(bufferedImageOut != null): "Return BufferedImageOut is null";
 		return bufferedImageOut;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+		assert(background != null): "Background var is null";
 		for (Sprite[] ss : background) {
+			assert(ss != null): "ss var is null";
 			for (Sprite s : ss) {
+				assert(s != null): "s var is null";
 				s.drawOn(g, scrollx, scrolly);
 			}
 		}
@@ -84,8 +91,11 @@ public class BlueFrame implements Renderable {
 		int dy = y - this.positionY;
 		this.positionX = x;
 		this.positionY = y;
+		assert(background != null): "Background var is null";
 		for (Sprite[] ss : background) {
+			assert(ss != null): "ss var is null";
 			for (Sprite s : ss) {
+				assert(s != null): "s var is null";
 				s.goTo(s.getX() + dx, s.getY() + dy);
 			}
 		}
