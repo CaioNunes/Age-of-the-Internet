@@ -82,7 +82,7 @@ public class Game extends Applet
 	
 	// return player level.
 
-	public Stage remakeLevel(int index) {
+	private Stage remakeLevel(int index) {
 		assert(index>=0 && index<=11) : "Error on index value !";
 		
 		try{
@@ -150,7 +150,7 @@ public class Game extends Applet
 	}
 
 	@Override
-	public void paint(Graphics graphics) {
+	public void paint(final Graphics graphics) {
 		assert(graphics!=null): "The paramater graphics is null";		
 		
 		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1, null);
@@ -158,7 +158,7 @@ public class Game extends Applet
 	}
 
 	@Override
-	public void update(Graphics graphics) {
+	public void update(final Graphics graphics) {
 		assert(graphics!=null): "The parameter graphics is null ";
 		
 		paint(graphics);
@@ -247,7 +247,7 @@ public class Game extends Applet
 		}
 	}
 
-	public void addTickable(Tickable tickable) {
+	public void addTickable(final Tickable tickable) {
 		
 		if(tickable != null){
 			tickables.add(tickable);			
@@ -256,7 +256,7 @@ public class Game extends Applet
 		}
 	}
 
-	public void removeTickable(Object tick) {
+	public void removeTickable(final Object tick) {
 		if(tick != null){
 			tickables.remove(tick);			
 		}else{
@@ -315,91 +315,91 @@ public class Game extends Applet
 
 	// Window event handling
 	@Override
-	public void windowActivated(WindowEvent eventt) {
+	public void windowActivated(final WindowEvent eventt) {
 		if (!pausedByKeyboard) {
 			pause(false);
 		}
 	}
 
 	@Override
-	public void windowClosed(WindowEvent eventt) {
+	public void windowClosed(final WindowEvent eventt) {
 		pause(true);
 	}
 
 	@Override
-	public void windowClosing(WindowEvent eventt) {
+	public void windowClosing(final WindowEvent eventt) {
 		pause(true);
 	}
 
 	@Override
-	public void windowDeactivated(WindowEvent eventt) {
+	public void windowDeactivated(final WindowEvent eventt) {
 		pause(true);
 	}
 
 	@Override
-	public void windowDeiconified(WindowEvent eventt) {
+	public void windowDeiconified(final WindowEvent eventt) {
 		
 	}
 
 	@Override
-	public void windowIconified(WindowEvent eventt) {
+	public void windowIconified(final WindowEvent eventt) {
 		pause(true);
 	}
 
 	@Override
-	public void windowOpened(WindowEvent eventt) {
+	public void windowOpened(final WindowEvent eventt) {
 		
 	}
 
 	// Keyboard event
 	@Override
-	public void keyPressed(KeyEvent eventt) {
+	public void keyPressed(final KeyEvent eventt) {
 		keysDown.add(eventt.getKeyCode());
 	}
 
 	@Override
-	public void keyReleased(KeyEvent eventt) {
+	public void keyReleased(final KeyEvent eventt) {
 		keysDown.remove(eventt.getKeyCode());
 	}
 
 	@Override
-	public void keyTyped(KeyEvent eventt) {
+	public void keyTyped(final KeyEvent eventt) {
 
 	}
 
 	// Mouse events
 	@Override
-	public void mouseDragged(MouseEvent event) {
+	public void mouseDragged(final MouseEvent event) {
 		mousePositionX = event.getX() / Screen.POOR_RES;
 		mousePositionY = event.getY() / Screen.POOR_RES;
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent eventt) {
+	public void mouseMoved(final MouseEvent eventt) {
 		mousePositionX = eventt.getX() / Screen.POOR_RES;
 		mousePositionY = eventt.getY() / Screen.POOR_RES;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent event) {
+	public void mouseClicked(final MouseEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent event) {
+	public void mouseEntered(final MouseEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mouseExited(MouseEvent event) {
+	public void mouseExited(final MouseEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void mousePressed(MouseEvent event) {
+	public void mousePressed(final MouseEvent event) {
 		mouseDown = true;
 		mouseActuallyDown = true;
 		mouseReleasedTooSoon = true;
@@ -407,7 +407,7 @@ public class Game extends Applet
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent event) {
+	public void mouseReleased(final MouseEvent event) {
 		if (!mouseReleasedTooSoon) {
 			mouseDown = false;
 		}
@@ -415,7 +415,7 @@ public class Game extends Applet
 		mouseActuallyDown = false;
 	}
 
-	public boolean mouseInsideOf(int positionX, int positionY, int width, int height) {
+	public boolean mouseInsideOf(int positionX, int positionY, final int width, final int height) {
 		positionX -= screen.getScrollX();
 		positionY -= screen.getScrollY();
 		
@@ -423,7 +423,7 @@ public class Game extends Applet
 				&& mousePositionY <= positionY + height;
 	}
 
-	public boolean mouseInsideOf(int positionX, int positionY, int width, int height, boolean mindScroll) {
+	public boolean mouseInsideOf(int positionX, int positionY, final int width, final int height, final boolean mindScroll) {
 		if (mindScroll) {
 			positionX -= screen.getScrollX();
 			positionY -= screen.getScrollY();
@@ -439,7 +439,7 @@ public class Game extends Applet
 	}
 
 	// Game Pause
-	public void pause(boolean paused) {
+	private void pause(final boolean paused) {
 		this.paused = paused;
 		if (paused) {
 			if (pauseScreen == null) {
@@ -456,12 +456,12 @@ public class Game extends Applet
 
 	// Focus event handling
 	@Override
-	public void focusGained(FocusEvent g) {
+	public void focusGained(final FocusEvent g) {
 		pause(false);
 	}
 
 	@Override
-	public void focusLost(FocusEvent arg0) {
+	public void focusLost(final FocusEvent arg0) {
 		pause(true);
 	}
 

@@ -15,7 +15,7 @@ public class Hacker implements RenderableTickable {
 	private int progress = 0;
 	public static final int STEP_SIZE = 3;
 
-	public Hacker(int positionX, int positionY, Point[] path) {
+	public Hacker(final int positionX, final int positionY, final Point[] path) {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		this.path = path;
@@ -28,7 +28,7 @@ public class Hacker implements RenderableTickable {
 	}
 
 	@Override
-	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D graphics, final int scrollx, final int scrolly) {
 		assert (graphics != null) : "The parameter graphics is null !";
 
 		sprite.drawOn(graphics, scrollx, scrolly);
@@ -56,7 +56,7 @@ public class Hacker implements RenderableTickable {
 	}
 
 	@Override
-	public void goTo(int positionX, int positionY) {
+	public void goTo(final int positionX, final int positionY) {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		sprite.goTo(positionX, positionY);
@@ -65,8 +65,8 @@ public class Hacker implements RenderableTickable {
 	@Override
 	public void tick() {
 		if (going) {
-			int nextPositionX = path[progress].x;
-			int nextpositionY = path[progress].y;
+			final int nextPositionX = path[progress].x;
+			final int nextpositionY = path[progress].y;
 
 			if (nextPositionX > positionX) {
 				goTo(positionX + STEP_SIZE, positionY);

@@ -19,7 +19,7 @@ public class Button implements Renderable, Tickable {
 	public boolean nowClicked = false;
 	public static final int BUTTON_SPRITE = 50;
 
-	public Button(Game owner, int positionX, int positionY, int width, String textRenderable) {
+	public Button(final Game owner, final int positionX, final int positionY, final int width, final String textRenderable) {
 		this.owner = owner;
 		if (owner != null) {
 			this.owner = owner;
@@ -44,7 +44,7 @@ public class Button implements Renderable, Tickable {
 		}
 		renderableString = new RenderableString(textRenderable, 0, 0);
 
-		int stringWidth = renderableString.width;
+		final int stringWidth = renderableString.width;
 
 		renderableString.goTo(positionX + (width - stringWidth) / 2, positionY + 2);
 	}
@@ -61,7 +61,7 @@ public class Button implements Renderable, Tickable {
 	}
 
 	@Override
-	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+	public void drawOn(final Graphics2D graphics, final int scrollx, final int scrolly) {
 		assert (graphics != null) : "The parameter graphics is null !";
 
 		if (graphics != null) {
@@ -96,9 +96,9 @@ public class Button implements Renderable, Tickable {
 	}
 
 	@Override
-	public void goTo(int positionX, int positionY) {
-		int dx = positionX - this.positionX;
-		int dy = positionY - this.positionY;
+	public void goTo(final int positionX, final int positionY) {
+		final int dx = positionX - this.positionX;
+		final int dy = positionY - this.positionY;
 
 		this.positionX = positionX;
 		this.positionY = positionY;
@@ -133,7 +133,7 @@ public class Button implements Renderable, Tickable {
 		}
 	}
 
-	public void beScrolled(boolean newScrolled) {
+	public void beScrolled(final boolean newScrolled) {
 		if (isScrolled != newScrolled) {
 			isScrolled = newScrolled;
 
@@ -165,7 +165,7 @@ public class Button implements Renderable, Tickable {
 		}
 	}
 
-	public void beClicked(boolean newClicked) {
+	public void beClicked(final boolean newClicked) {
 		if (isClicked != newClicked) {
 			isClicked = newClicked;
 
