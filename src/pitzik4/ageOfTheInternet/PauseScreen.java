@@ -17,11 +17,11 @@ public class PauseScreen implements Renderable {
 	private RenderableString message;
 	private BlueFrame frame;
 
-	public PauseScreen(int x, int y, int width, int height) {
+	public PauseScreen(final int x, final int y, final int width, final int height) {
 		this(x, y, width, height, Game.game);
 	}
 
-	public PauseScreen(int x, int y, int width, int height, Game owner) {
+	public PauseScreen(final int x, final int y, final int width, final int height, Game owner) {
 		this.positionX = x;
 		this.positionY = y;
 		this.width = width;
@@ -80,9 +80,9 @@ public class PauseScreen implements Renderable {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
-		int dx = x - this.positionX;
-		int dy = y - this.positionY;
+	public void goTo(final int x, final int y) {
+		final int dx = x - this.positionX;
+		final int dy = y - this.positionY;
 		this.positionX = x;
 		this.positionY = y;
 

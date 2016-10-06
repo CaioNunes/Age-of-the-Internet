@@ -20,7 +20,7 @@ public class Menu implements Renderable, Tickable {
 	private boolean exiting = false;
 	public boolean exited = false;
 
-	public Menu(Game owner, int positionX, int positionY, int width, String[] extraButtons, String title) {
+	public Menu(Game owner, final int positionX, final int positionY, final int width, final String[] extraButtons, final String title) {
 		this.positionX = positionX;
 		this.positionY = positionY;
 		
@@ -70,7 +70,7 @@ public class Menu implements Renderable, Tickable {
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D g, final int scrollx, final int scrolly) {
 		try{
 			if (!exited) {
 				for (Button b : buttons) {
@@ -105,9 +105,9 @@ public class Menu implements Renderable, Tickable {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
-		int dx = x - this.positionX;
-		int dy = y - this.positionY;
+	public void goTo(final int x, final int y) {
+		final int dx = x - this.positionX;
+		final int dy = y - this.positionY;
 		
 		this.positionX = x;
 		this.positionY = y;

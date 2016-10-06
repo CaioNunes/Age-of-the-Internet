@@ -15,7 +15,7 @@ public class LoseScreen implements RenderableTickable {
 	private BlueFrame blueFrame_bg;
 	private int positionX = 0, positionY = 0;
 
-	public LoseScreen(Game owner, int x, int y, int width, int height, String reason) {
+	public LoseScreen(Game owner, final int x, final int y, final int width, final int height, final String reason) {
 		this.positionX = x;
 		this.positionY = y;
 		
@@ -34,7 +34,7 @@ public class LoseScreen implements RenderableTickable {
 	}
 
 	@Override
-	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D graphics, final int scrollx, final int scrolly) {
 		try{
 			blueFrame_bg.drawOn(graphics, scrollx, scrolly);
 			youLose.drawOn(graphics, scrollx, scrolly);
@@ -66,9 +66,9 @@ public class LoseScreen implements RenderableTickable {
 	}
 
 	@Override
-	public void goTo(int newPositionX, int newPositionY) {
-		int dx = newPositionX - this.positionX;
-		int dy = newPositionY - this.positionY;
+	public void goTo(final int newPositionX, final int newPositionY) {
+		final int dx = newPositionX - this.positionX;
+		final int dy = newPositionY - this.positionY;
 		this.positionX = newPositionX;
 		this.positionY = newPositionY;
 		youLose.goTo(youLose.getX() + dx, youLose.getY() + dy);
