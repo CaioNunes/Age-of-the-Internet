@@ -19,7 +19,7 @@ public class XButton implements Renderable, Tickable {
 	public static final int BUTTON_SPRITE = 260;
 	public static final int BU_SI = 8;
 
-	public XButton(Game owner, int x, int y) {
+	public XButton(Game owner, final int x, final int y) {
 		this.owner = owner;
 		this.positionX = x;
 		this.positionY = y;
@@ -36,7 +36,7 @@ public class XButton implements Renderable, Tickable {
 	}
 
 	@Override
-	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D graphics, final int scrollx, final int scrolly) {
 		try {
 			sprite.drawOn(graphics, scrollx, scrolly);
 		} catch (NullPointerException graphicsNull) {
@@ -66,7 +66,7 @@ public class XButton implements Renderable, Tickable {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
+	public void goTo(final int x, final int y) {
 		this.positionX = x;
 		this.positionY = y;
 		sprite.goTo(x, y);
@@ -87,7 +87,7 @@ public class XButton implements Renderable, Tickable {
 		}
 	}
 
-	public void beScrolled(boolean newScrolled) {
+	private void beScrolled(final boolean newScrolled) {
 		if (isScrolled != newScrolled) {
 			isScrolled = newScrolled;
 			if (isScrolled) {
@@ -98,7 +98,7 @@ public class XButton implements Renderable, Tickable {
 		}
 	}
 
-	public void beClicked(boolean newClicked) {
+	private void beClicked(final boolean newClicked) {
 		if (isClicked != newClicked) {
 			isClicked = newClicked;
 			if (isClicked) {

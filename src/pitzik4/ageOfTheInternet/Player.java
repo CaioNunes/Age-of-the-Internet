@@ -17,11 +17,11 @@ public class Player implements RenderableTickable {
 	private Point[] path;
 	private int progress = 0;
 
-	public static final int stepSize() {
+	private static final int stepSize() {
 		return 3 + HackerTile.hackersOwned;
 	}
 
-	public Player(int x, int y, Point[] path) {
+	public Player(final int x, final int y, final Point[] path) {
 		this.positionX = x;
 		this.positionY = y;
 		this.path = path;
@@ -34,7 +34,7 @@ public class Player implements RenderableTickable {
 	}
 
 	@Override
-	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
+	public void drawOn(Graphics2D g, final int scrollx, final int scrolly) {
 		try {
 			sprite.drawOn(g, scrollx, scrolly);
 		} catch (NullPointerException graphicsNull) {
@@ -64,7 +64,7 @@ public class Player implements RenderableTickable {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
+	public void goTo(final int x, final int y) {
 		this.positionX = x;
 		this.positionY = y;
 		sprite.goTo(x, y);

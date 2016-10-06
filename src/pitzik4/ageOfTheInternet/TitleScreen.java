@@ -102,7 +102,7 @@ public class TitleScreen implements Stage {
 	}
 
 	@Override
-	public void goTo(int x, int y) {
+	public void goTo(final int x, final int y) {
 
 	}
 
