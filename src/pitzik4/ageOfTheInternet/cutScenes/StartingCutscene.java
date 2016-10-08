@@ -42,19 +42,32 @@ public class StartingCutscene implements Stage {
 	public static final Renderable tobyHead = new Sprite(34, 0, 0, Screen.spritesheet, 32, 32);
 	public static final BufferedImage bigSpriteSheet = Screen.spritesheet("startSceneSprites");
 	
+	// Default Values
+	private static final int DEFAULT_WIDTH = 320;
+	private static final int DEFAULT_HEIGHT = 240;
+	
 	private static Animation createDigitizer() {
 		Sprite[] sprites = new Sprite[digitizerFrames.length];
+		//Creates the door
+		final int element_x_position = 286;
+		final int element_y_position = 196;
 		for(int i = 0; i<sprites.length; i++) {
-			sprites[i] = new Sprite(digitizerFrames[i], 286, 196, bigSpriteSheet, 16, 32);
+			final int sprite_sheet_x_position = 16;
+			final int sprite_sheet_y_position = 32;
+			sprites[i] = new Sprite(digitizerFrames[i], element_x_position, element_y_position, bigSpriteSheet, sprite_sheet_x_position, sprite_sheet_y_position);
 		}
-		return new Animation(sprites, 2, 286, 196, false);
+		return new Animation(sprites, 2, element_x_position, element_y_position, false);
 	}
 	private static Animation createScreen() {
 		Sprite[] sprites = new Sprite[screenFrames.length];
+		final int element_x_position = 220;
+		final int element_y_position = 180;
 		for(int i = 0; i<sprites.length; i++) {
-			sprites[i] = new Sprite(screenFrames[i], 220, 180, bigSpriteSheet, 36, 26);
+			final int sprite_sheet_x_position = 36;
+			final int sprite_sheet_y_position = 26;
+			sprites[i] = new Sprite(screenFrames[i], element_x_position, element_y_position, bigSpriteSheet, sprite_sheet_x_position, sprite_sheet_y_position);
 		}
-		return new Animation(sprites, 1, 220, 180, false);
+		return new Animation(sprites, 1, element_x_position, element_y_position, false);
 	}
 	
 	public StartingCutscene(Game owner) {
@@ -69,7 +82,7 @@ public class StartingCutscene implements Stage {
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage out = new BufferedImage(320, 240, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage out = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = out.createGraphics();
 		drawOn(g, 0, 0);
 		g.dispose();
@@ -121,7 +134,7 @@ public class StartingCutscene implements Stage {
 
 	@Override
 	public void tick() {
-		final int ANYBUTTON = 10;
+		final int enter_key = 10;
 		Set<Integer> keysPressed = new HashSet<Integer>(owner.keysDown);
 		if(toby instanceof Tickable) {
 			((Tickable) toby).tick();
@@ -138,170 +151,279 @@ public class StartingCutscene implements Stage {
 		if(dialogue == null) {
 			lifeTime++;
 		}
-		if(owner.keysDown.contains(ANYBUTTON)) {
+		if(owner.keysDown.contains(enter_key)) {
 			done = true;
 		}
+		final int box_diagonal_position = 4;
+		final int text_y_position = 4;
+		final int box_width = 312; // >=200
+		final int box_height = 64;
 		if(lifeTime > 20 && lifeTime < 50) {
-			toby.goTo(toby.getX()+2, toby.getY());
+			final int units_walked_by_tick = 2;
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			toby.goTo(toby_x_position + units_walked_by_tick, toby_y_position);
 		} else if(lifeTime == 50) {
-			toby = new Sprite(160, toby.getX(), toby.getY(), false);
-			drThompson = new Sprite(112, drThompson.getX(), drThompson.getY(), false);
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = drThompson.getY();
+			final int element_rendered_toby = 160;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = 212;
+			final int element_rendered_thompson = 112;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);			
 		} else if(lifeTime == 60) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "Ah! You must be Toby. I'm Dr Thompson.");
+			final String dialog_text = "Ah! You must be Toby. I'm Dr Thompson.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 62) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "I'll be conducting today's tests.");
+			final String dialog_text = "I'll be conducting today's tests.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 64) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Hi, Dr Thompson! So you're going to put me in a computer?");
+			final String dialog_text = "Hi, Dr Thompson! So you're going to put me in a computer?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 			instructions = null;
 		} else if(lifeTime == 66) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "I suppose -");
+			final String dialog_text = "I suppose -";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 68) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Wow! That's the biggest computer I've ever seen!");
+			final String dialog_text = "Wow! That's the biggest computer I've ever seen!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 70) {
 			toby = tobyWalk;
 		} else if(lifeTime > 70 && lifeTime < 110) {
-			toby.goTo(toby.getX()+2, toby.getY());
+			final int units_walked_by_tick = 2;
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			toby.goTo(toby_x_position + units_walked_by_tick, toby_y_position);
 		} else if(lifeTime == 110) {
-			toby = new Sprite(160, toby.getX(), toby.getY(), false);
-			drThompson = new Sprite(96, 76, 212, false);
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			final int element_rendered_toby = 160;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			
+			final int thompson_x_position = 76;
+			final int thompson_y_position = 212;
+			final int element_rendered_thompson = 96;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);
 		} else if(lifeTime == 120) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "That's the computer where you will be, uh, put in.");
+			final String dialog_text = "That's the computer where you will be, uh, put in.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 122) {
-			toby = new Sprite(176, toby.getX(), toby.getY(), false);
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Wow! This whole computer is just for me?");
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			final int element_rendered_toby = 176;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			
+			final String dialog_text = "Wow! This whole computer is just for me?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 124) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "No way! I mean, no, it's for the project.");
+			final String dialog_text = "No way! I mean, no, it's for the project.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 126) {
-			toby = new Sprite(160, toby.getX(), toby.getY(), false);
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Oh. It's still awesome, though.");
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			final int element_rendered_toby = 160;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			
+			final String dialog_text = "Oh. It's still awesome, though.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 128) {
-			toby = new Sprite(176, toby.getX(), toby.getY(), false);
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "So, what do I do?");
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			final int element_rendered_toby = 176;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			
+			final String dialog_text = "So, what do I do?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 130) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "Just get into that machine over there.");
+			final String dialog_text = "Just get into that machine over there.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 132) {
-			toby = new Sprite(160, toby.getX(), toby.getY(), false);
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "That's all? Ok, I'll get in.");
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			final int element_rendered_toby = 160;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			
+			final String dialog_text = "That's all? Ok, I'll get in.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 134) {
 			toby = tobyWalk;
 		} else if(lifeTime > 134 && lifeTime < 210) {
-			toby.goTo(toby.getX()+2, toby.getY());
+			final int units_walked_by_tick = 2;
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			toby.goTo(toby_x_position + units_walked_by_tick, toby_y_position);
 		} else if(lifeTime == 212) {
-			toby = new Sprite(160, toby.getX(), toby.getY(), false);
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			final int element_rendered_toby = 160;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			
 			digitizer.go();
 		} else if(lifeTime == 219) {
 			toby = tobyWalk;
-			toby.goTo(toby.getX()+2, toby.getY());
+			
+			final int units_walked_by_tick = 2;
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			toby.goTo(toby_x_position + units_walked_by_tick, toby_y_position);
 		} else if(lifeTime > 219 && lifeTime < 226) {
-			toby.goTo(toby.getX()+2, toby.getY());
+			final int units_walked_by_tick = 2;
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			toby.goTo(toby_x_position + units_walked_by_tick, toby_y_position);
 		}
 		if(lifeTime == 222) {
 			drThompson = drThompsonWalk;
 		} else if(lifeTime == 226) {
-			toby = new Sprite(13, 0, 0, false);
-			drThompson.goTo(drThompson.getX()+2, drThompson.getY());
+			final int toby_x_position = 0;
+			final int toby_y_position = 0;
+			final int element_rendered_toby = 13;
+			toby = new Sprite(element_rendered_toby, toby_x_position, toby_y_position, false);
+			
+			final int units_walked_by_tick = 2;
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			drThompson.goTo(thompson_x_position + units_walked_by_tick, thompson_y_position);
 		} else if(lifeTime > 222 && lifeTime < 250) {
-			drThompson.goTo(drThompson.getX()+2, drThompson.getY());
+			final int units_walked_by_tick = 2;
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			drThompson.goTo(thompson_x_position + units_walked_by_tick, thompson_y_position);
 		} else if(lifeTime == 250) {
-			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			final int element_rendered_thompson = 96;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);
 		} else if(lifeTime == 260) {
 			screen.go();
 		} else if(lifeTime == 270) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Wow! This is neat!");
+			final String dialog_text = "Wow! This is neat!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 272) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "It worked? Yes! It worked! I can't believe it!");
+			final String dialog_text = "It worked? Yes! It worked! I can't believe it!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 274) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "I can't wait to tell the others!");
+			final String dialog_text = "I can't wait to tell the others!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 276) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "Oh, but, of course... Better get you out of there.");
+			final String dialog_text = "Oh, but, of course... Better get you out of there.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 278) {
-			drThompson = new Sprite(112, drThompson.getX(), drThompson.getY(), false);
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			final int element_rendered_thompson = 112;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);
 		} else if(lifeTime == 284) {
-			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			final int element_rendered_thompson = 96;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);
 		} else if(lifeTime == 290) {
-			drThompson = new Sprite(112, drThompson.getX(), drThompson.getY(), false);
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			final int element_rendered_thompson = 112;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);
 		} else if(lifeTime == 296) {
-			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			final int element_rendered_thompson = 96;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);
 		} else if(lifeTime == 310) {
-			drThompson = new Sprite(102, drThompson.getX(), drThompson.getY(), false);
+			final int thompson_x_position = drThompson.getX();
+			final int thompson_y_position = drThompson.getY();
+			final int element_rendered_thompson = 102;
+			drThompson = new Sprite(element_rendered_thompson, thompson_x_position, thompson_y_position, false);
+
 			coffeeBreak.go();
 		} else if(lifeTime == 330) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "Oh, no!! The machine to bring you back is missing!");
+			final String dialog_text = "Oh, no!! The machine to bring you back is missing!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonOhNoHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 332) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "We can't get you out now!");
+			final String dialog_text = "We can't get you out now!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonOhNoHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 334) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "This is the coolest thing that's ever happened to me!!");
+			final String dialog_text = "This is the coolest thing that's ever happened to me!!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 336) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "You can't stay in there forever!");
+			final String dialog_text = "You can't stay in there forever!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonOhNoHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 338) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Yeah, I guess you're right... How can I get out?");
+			final String dialog_text = "Yeah, I guess you're right... How can I get out?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 340) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "You'll have to go to the Internet and hack computers!");
+			final String dialog_text = "You'll have to go to the Internet and hack computers!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonOhNoHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 342) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "Click a computer to open a menu on it, and click \"Hack\" to hack it.");
+			final String dialog_text = "Click a computer to open a menu on it, and click \"Hack\" to hack it.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonOhNoHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 344) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "Hack one of our research facilities and bring yourself back.");
+			final String dialog_text = "Hack one of our research facilities and bring yourself back.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonOhNoHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 346) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonOhNoHead, "Remember, it takes RAM to hack computers. Only hack what you need to.");
+			final String dialog_text = "Remember, it takes RAM to hack computers. Only hack what you need to.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonOhNoHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 348) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Got it!");
+			final String dialog_text = "Got it!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime > 350) {
 			done = true;
 		}
-		final int SPACEBARBUTTON = 32;
-		if(keysPressed.contains(SPACEBARBUTTON) && !lastKeysPressed.contains(SPACEBARBUTTON)) {
+		final int SPACEBAR_BUTTON = 32;
+		final boolean space_bar_pressed = keysPressed.contains(SPACEBAR_BUTTON) && !lastKeysPressed.contains(SPACEBAR_BUTTON);
+		if(space_bar_pressed) {
 			if(dialogue != null) {
 				if(dialogue.isGoing()) {
 					dialogue.finish();
@@ -312,11 +434,13 @@ public class StartingCutscene implements Stage {
 		}
 		lastKeysPressed = keysPressed;
 		if(done) {
-			if(owner.screen.getFade() < 255) {
-				if(owner.screen.getFade() > 245) {
-					owner.screen.fadeTo(255);
+			final int black_color = 255;
+			if(owner.screen.getFade() < black_color) {
+				if(owner.screen.getFade() > black_color-10) {
+					owner.screen.fadeTo(black_color);
 				} else {
-					owner.screen.fadeTo(owner.screen.getFade()+10);
+					final int color_value_faded_by_tick = 10;
+					owner.screen.fadeTo(owner.screen.getFade() + color_value_faded_by_tick);
 				}
 			} else {
 				closing = true;
@@ -328,20 +452,19 @@ public class StartingCutscene implements Stage {
 	public boolean isClosing() {
 		return closing;
 	}
- // MAGIC NUMBRS
 	@Override
 	public int getWidth() {
-		return 320;
+		return DEFAULT_WIDTH;
 	}
 
 	@Override
 	public int getHeight() {
-		return 240;
+		return DEFAULT_HEIGHT;
 	}
 
 	@Override
 	public Dimension getSize() {
-		return new Dimension(320, 240);
+		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 	@Override
 	public boolean isScrollable() {
