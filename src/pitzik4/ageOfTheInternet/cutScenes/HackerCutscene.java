@@ -98,44 +98,48 @@ public class HackerCutscene implements Stage {
 				}
 			}
 		}
+		final int box_diagonal_position = 4;
+		final int text_y_position = 4;
+		final int box_width = 312; // >=200
+		final int box_height = 64;
 		if (lifeTime == 10) {
 			final String dialog_text = "Toby, I have some rather bad news.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 12) {
 			final String dialog_text = "That's bad enough news for me.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 14) {
 			final String dialog_text = "It seems that you're not the only hacker around.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 16) {
 			final String dialog_text = "Yeah! There's you!";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 18) {
 			final String dialog_text = "What are you talking about?";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 20) {
 			final String dialog_text = "There's more than one meaning to the word \"hacker\".";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 22) {
 			final String dialog_text = "Toby, would you be serious for just a moment?";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 24) {
 			final String dialog_text = "Fine, what is it?";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 26) {
@@ -145,47 +149,47 @@ public class HackerCutscene implements Stage {
 			lifeTime++;
 		} else if (lifeTime == 28) {
 			final String dialog_text = "This is likely to lead to unwanted competition.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 30) {
 			final String dialog_text = "Hackers are mean!";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 32) {
 			final String dialog_text = "Also, I'm guessing their computers are hard to hack.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 34) {
 			final String dialog_text = "Rats!";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 36) {
 			final String dialog_text = "We've also created a program that will let you into secured networks.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 38) {
 			final String dialog_text = "Really? Awesome!";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 40) {
 			final String dialog_text = "It takes more than one computer to find the key, though.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 42) {
 			final String dialog_text ="Some networks have harder-to-crack security than others." ;
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 44) {
 			final String dialog_text = "Ok, great.";
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, dialog_text);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 46) {
