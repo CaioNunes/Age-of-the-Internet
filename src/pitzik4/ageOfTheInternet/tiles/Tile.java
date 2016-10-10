@@ -126,13 +126,10 @@ public abstract class Tile implements Renderable, Tickable {
 		return this.sprite;
 	}
 	
-	private void setSprite(Renderable sprite){
+	public void setSprite(Renderable sprite){
 		this.sprite = sprite;
 	}
 	
-	public void generateSprite(Renderable sprite){
-		setSprite(sprite);
-	}
 	
 	public int getX() {
 		return x;
