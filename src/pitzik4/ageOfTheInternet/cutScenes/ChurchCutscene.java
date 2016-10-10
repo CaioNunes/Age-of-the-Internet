@@ -22,6 +22,10 @@ public class ChurchCutscene implements Stage {
 	private boolean closing = false;
 	private Game owner;
 	private Set<Integer> lastKeysPressed = new HashSet<Integer>();
+	
+	// Default Values
+	private static final int DEFAULT_WIDTH = 320;
+	private static final int DEFAULT_HEIGHT = 240;
 
 	public ChurchCutscene(Game owner) {
 		if (owner != null) {
@@ -33,7 +37,7 @@ public class ChurchCutscene implements Stage {
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage out = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
+		BufferedImage out = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics = out.createGraphics();
 		drawOn(graphics, 0, 0);
 		graphics.dispose();
@@ -46,15 +50,18 @@ public class ChurchCutscene implements Stage {
 		scrolly = 0;
 		if(graphics != null){
 			graphics.drawImage(StartingCutscene.bg, 0, 0, null);
-		}else {
-			//nothing to do
+		} else {
+			// do nothing
 		}
 		drThompson.drawOn(graphics, 0, 0);
 		screen.drawOn(graphics, 0, 0);
 		digitizer.drawOn(graphics, 0, 0);
 		if (dialogue != null) {
 			dialogue.drawOn(graphics, 0, 0);
+		} else {
+			// do nothing
 		}
+			
 	}
 
 	@Override
@@ -89,7 +96,9 @@ public class ChurchCutscene implements Stage {
 			lifeTime++;
 		} else {
 			dialogue.tick();
-			if (keysPressed.contains(32) && !lastKeysPressed.contains(32)) {
+			final int space_key = 32;
+			final boolean space_key_pressed = keysPressed.contains(space_key) && !lastKeysPressed.contains(space_key);
+			if (space_key_pressed) {
 				if (dialogue.isGoing()) {
 					dialogue.finish();
 				} else {
@@ -97,69 +106,98 @@ public class ChurchCutscene implements Stage {
 				}
 			}
 		}
-		if (lifeTime == 10) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "What's new?");
+		final int box_diagonal_position = 4;
+		final int text_y_position = 4;
+		final int box_width = 312; // >=200
+		final int box_height = 64;
+		switch(lifeTime) {
+		case 10:
+			final String dialog_text_10 = "What's new?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_10);
+			dialogue.go();
+			lifeTime++;		
+			break;
+		case 12:
+			final String dialog_text_12 = "Well, I heard the Church of Pitzik4 has weak Internet security.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text_12);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 12) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead,
-					"Well, I heard the Church of Pitzik4 has weak Internet security.");
+			break;
+		case 14:
+			final String dialog_text_14 = "I don't believe in Pitzik4. I'll hack them.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_14);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 14) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead,
-					"I don't believe in Pitzik4. I'll hack them.");
+			break;
+		case 16:
+			final String dialog_text_16 = "That's not very nice.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text_16);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 16) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "That's not very nice.");
+			break;
+			
+		case 18:
+			final String dialog_text_18 = "Don't worry, I have an idea on what to do with them.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_18);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 18) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead,
-					"Don't worry, I have an idea on what to do with them.");
+			break;
+			
+		case 20:
+			final String dialog_text_20 = "I'll schedule a whole bunch of events so that corporations'";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_20);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 20) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead,
-					"I'll schedule a whole bunch of events so that corporations'");
+			break;
+			
+		case 22:
+			final String dialog_text_22 = "counter-hackers are occupied.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_22);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 22) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "counter-hackers are occupied.");
+			break;
+		case 24:
+			final String dialog_text_24 = "That's actually quite clever...";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text_24);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 24) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "That's actually quite clever...");
+			break;
+		case 26:
+			final String dialog_text_26 = "You sound surprised.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_26);
 			dialogue.go();
 			lifeTime++;
-		} else if (lifeTime == 26) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "You sound surprised.");
-			dialogue.go();
-			lifeTime++;
-		} else if (lifeTime == 28) {
+			break;
+		case 28:
 			done = true;
+			break;
 		}
-		if (owner.keysDown.contains(10)) {
+		
+		final int enter_key = 10;
+		if (owner.keysDown.contains(enter_key)) {
 			done = true;
 		}
 		lastKeysPressed = keysPressed;
 		if (done) {
-			if (owner.screen.getFade() < 255) {
-				if (owner.screen.getFade() > 245) {
-					owner.screen.fadeTo(255);
+			final int black_color = 255;
+			if (owner.screen.getFade() < black_color) {
+				if (owner.screen.getFade() > black_color - 10) {
+					owner.screen.fadeTo(black_color);
 				} else {
-					owner.screen.fadeTo(owner.screen.getFade() + 10);
+					final int color_value_faded_by_tick = 10;
+					owner.screen.fadeTo(owner.screen.getFade() + color_value_faded_by_tick);
 				}
 			} else {
 				closing = true;
 			}
 		}
-		if (owner.screen.getFade() > 0 && !done) {
-			if (owner.screen.getFade() < 10) {
-				owner.screen.fadeTo(0);
+		final int clear_color = 0;
+		if (owner.screen.getFade() > clear_color && !done) {
+			if (owner.screen.getFade() < clear_color + 10) {
+				owner.screen.fadeTo(clear_color);
 			} else {
-				owner.screen.fadeTo(owner.screen.getFade() - 10);
+				final int color_value_faded_by_tick = 10;
+				owner.screen.fadeTo(owner.screen.getFade() - color_value_faded_by_tick);
 			}
 		}
 	}
@@ -174,20 +212,20 @@ public class ChurchCutscene implements Stage {
 		return false;
 	}
 
-	// MAGIC NUMBRS
 	@Override
 	public int getWidth() {
-		return 320;
+		return DEFAULT_WIDTH;
 	}
 
 	@Override
 	public int getHeight() {
-		return 240;
+		return DEFAULT_HEIGHT;
 	}
 
 	@Override
 	public Dimension getSize() {
-		return new Dimension(320, 240);
+		final Dimension dimension = new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		return dimension;
 	}
 
 	@Override
