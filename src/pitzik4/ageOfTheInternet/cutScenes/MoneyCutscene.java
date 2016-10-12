@@ -22,6 +22,10 @@ public class MoneyCutscene implements Stage {
 	private boolean closing = false;
 	private Game owner;
 	private Set<Integer> lastKeysPressed = new HashSet<Integer>();
+
+	private static final int DEFAULT_WIDTH = 320;
+	private static final int DEFAULT_HEIGHT = 240;
+
 	
 	public MoneyCutscene(Game owner) {
 		if (owner != null) {
@@ -33,7 +37,7 @@ public class MoneyCutscene implements Stage {
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage out = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
+		BufferedImage out = new BufferedImage(DEFAULT_WIDTH, DEFAULT_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = out.createGraphics();
 		drawOn(g, 0, 0);
 		g.dispose();
@@ -80,14 +84,15 @@ public class MoneyCutscene implements Stage {
 
 	@Override
 	public void tick() {
-		final int SPACEBARBUTTON = 32;
-		final int ANYBUTTON = 10;
+		final int SPACEBAR_BUTTON = 32;
+		final int ENTER_BUTTON = 10;
 		Set<Integer> keysPressed = new HashSet<Integer>(owner.keysDown);
 		if(dialogue == null) {
 			lifeTime++;
 		} else {
 			dialogue.tick();
-			if(keysPressed.contains(SPACEBARBUTTON) && !lastKeysPressed.contains(SPACEBARBUTTON)) {
+			final boolean spacebar_pressed = keysPressed.contains(SPACEBAR_BUTTON) && !lastKeysPressed.contains(SPACEBAR_BUTTON);
+			if(spacebar_pressed) {
 				if(dialogue.isGoing()) {
 					dialogue.finish();
 				} else {
@@ -95,65 +100,82 @@ public class MoneyCutscene implements Stage {
 				}
 			}
 		}
+		final int box_diagonal_position = 4;
+		final int text_y_position = 4;
+		final int box_width = 312; // >=200
+		final int box_height = 64;
 		if(lifeTime == 10) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "Alright, the institution has decided to start funding you.");
+			final String dialog_text = "Alright, the institution has decided to start funding you." ;
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 12) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "Yay! I get money!");
+			final String dialog_text = "Yay! I get money!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 14) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "...Yes. Yes, you get money. Use it to upgrade the computer.");
+			final String dialog_text = "...Yes. Yes, you get money. Use it to upgrade the computer.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 16) {
-				dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "You can also steal money from corporations by hacking them.");
+			final String dialog_text = "You can also steal money from corporations by hacking them.";
+				dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 				dialogue.go();
 				lifeTime++;
 		} else if(lifeTime == 18) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "First hacking... Now stealing money! This just gets better and better!");
+			final String dialog_text = "First hacking... Now stealing money! This just gets better and better!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 20) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "*sigh* Look out, though, corporations will un-hack their computers.");
+			final String dialog_text = "*sigh* Look out, though, corporations will un-hack their computers.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 22) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "And if you get disconnected from any of your instances, very bad.");
+			final String dialog_text = "And if you get disconnected from any of your instances, very bad.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 24) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.tobyHead, "So, I lose if I get disconnected.");
+			final String dialog_text = "So, I lose if I get disconnected.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 26) {
-			dialogue = new InfoBox(4, 4, 312, 64, StartingCutscene.drThompsonHead, "What do you think this is, a game?");
+			final String dialog_text = "What do you think this is, a game?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if(lifeTime == 28) {
 			done = true;
 		}
-		if(owner.keysDown.contains(ANYBUTTON)) {
+		if(owner.keysDown.contains(ENTER_BUTTON)) {
 			done = true;
 		}
 		lastKeysPressed = keysPressed;
 		if(done) {
-			if(owner.screen.getFade() < 255) {
-				if(owner.screen.getFade() > 245) {
-					owner.screen.fadeTo(255);
+			final int black_color = 255;
+			if(owner.screen.getFade() < black_color) {
+				if(owner.screen.getFade() > black_color - 10) {
+					owner.screen.fadeTo(black_color);
 				} else {
-					owner.screen.fadeTo(owner.screen.getFade()+10);
+					final int color_value_faded_by_tick = 10;
+					owner.screen.fadeTo(owner.screen.getFade() + color_value_faded_by_tick);
 				}
 			} else {
 				closing = true;
 			}
 		}
-		if(owner.screen.getFade() > 0 && !done) {
-			if(owner.screen.getFade() < 10) {
-				owner.screen.fadeTo(0);
+		final int clear_color = 0;
+		if(owner.screen.getFade() > clear_color && !done) {
+			if(owner.screen.getFade() < clear_color + 10) {
+				owner.screen.fadeTo(clear_color);
 			} else {
-				owner.screen.fadeTo(owner.screen.getFade()-10);
+				final int color_value_faded_by_tick = 10;
+				owner.screen.fadeTo(owner.screen.getFade() - color_value_faded_by_tick);
 			}
 		}
 	}
@@ -170,17 +192,17 @@ public class MoneyCutscene implements Stage {
 	 // MAGIC NUMBRS
 	@Override
 	public int getWidth() {
-		return 320;
+		return DEFAULT_WIDTH;
 	}
 
 	@Override
 	public int getHeight() {
-		return 240;
+		return DEFAULT_HEIGHT;
 	}
 
 	@Override
 	public Dimension getSize() {
-		return new Dimension(320, 240);
+		return new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	}
 
 	@Override
