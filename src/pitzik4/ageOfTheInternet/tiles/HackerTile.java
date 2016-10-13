@@ -37,10 +37,10 @@ public class HackerTile extends Tile {
 		this(x, y, Game.game);
 	}
 	public HackerTile(int x, int y, Game owner) {
-		this.x = x;
-		this.y = y;
+		setX(x);
+		setY(y);
 		this.owner = owner;
-		sprite = new Sprite(44, x, y, false);
+		setSprite(new Sprite(44, getX(),getY(), false));
 	}
 	
 	public static void resetStats() {
@@ -51,11 +51,11 @@ public class HackerTile extends Tile {
 
 	@Override
 	public void tick() {
-		if(owner.mouseInsideOf(x, y, Sprite.SPRITE_WIDTH, Sprite.SPRITE_HEIGHT)) {
+		if(owner.mouseInsideOf(getX(), getY(), Sprite.SPRITE_WIDTH, Sprite.SPRITE_HEIGHT)) {
 			if(owner.mouseDown) {
 				if(rightClickMenu == null) {
 					if((((Level) owner.currentLevel).canBeHackedBy(this) != null && ((Level) owner.currentLevel).getRAM() >= hackCost()) || (yoursLeft <= 0)) {
-						rightClickMenu = new Menu(owner, x+Sprite.SPRITE_WIDTH, y, RI_CLI_MENU_WIDTH, riCliMenuOptions, riCliMenuTitle);
+						rightClickMenu = new Menu(owner, getX()+Sprite.SPRITE_WIDTH, getY(), RI_CLI_MENU_WIDTH, riCliMenuOptions, riCliMenuTitle);
 						owner.screen.addRenderable(rightClickMenu);
 					}
 				}
@@ -79,8 +79,8 @@ public class HackerTile extends Tile {
 		if(yoursLeft < TRIES_TO_HACK) {
 			if(rnd.nextInt(inverseUnhackProbability()) == 0 && !beingUnhacked && !hacking) {
 				beingUnhacked = true;
-				sprite = new Animation(UNHACK_FLASH_FRAMES, 3, x, y, true);
-				((Animation) sprite).go();
+				setSprite(new Animation(UNHACK_FLASH_FRAMES, 3, getX(), getY(), true));
+				((Animation) getSprite()).go();
 				riCliMenuOptions = new String[2];
 				riCliMenuOptions[0] = (yoursLeft <= 0) ? "Unhack" : "Hack";
 				riCliMenuOptions[1] = "Secure!!";
@@ -97,7 +97,7 @@ public class HackerTile extends Tile {
 						beingUnhacked = false;
 						String old = riCliMenuOptions[0];
 						riCliMenuOptions = new String[] {old};
-						sprite = new Sprite(isOwned() ? 43 : 44, x, y, false);
+						setSprite(new Sprite(isOwned() ? 43 : 44, getX(), getY(), false));
 						rightClickMenu.exited = true;
 					}
 				}
@@ -105,8 +105,8 @@ public class HackerTile extends Tile {
 		}
 		if(!isOwned() && rnd.nextInt(INVERSE_HACK_PROBABILITY) == 0 && !hacking && !beingUnhacked) {
 			hacking = true;
-			sprite = new Animation(HACK_FLASH_FRAMES, 3, x, y, true);
-			((Animation) sprite).go();
+			setSprite( new Animation(HACK_FLASH_FRAMES, 3,getX(), getY(), true));
+			((Animation) getSprite()).go();
 			riCliMenuOptions = new String[2];
 			riCliMenuOptions[0] = (yoursLeft <= 0) ? "Unhack" : "Hack";
 			riCliMenuOptions[1] = "Stop!!";
@@ -121,20 +121,20 @@ public class HackerTile extends Tile {
 					((Level) owner.currentLevel).evil(whatToHackList.get(rnd.nextInt(whatToHackList.size())));
 				}
 				hacking = false;
-				sprite = new Sprite(isOwned() ? 43 : 44, x, y, false);
+				setSprite(new Sprite(isOwned() ? 43 : 44, getX(), getY(), false));
 			}
 			if(rightClickMenu != null && rightClickMenu.buttons.length >= 2) {
 				if(rightClickMenu.buttons[1].nowClicked) {
 					hacking = false;
 					String old = riCliMenuOptions[0];
 					riCliMenuOptions = new String[] {old};
-					sprite = new Sprite(isOwned() ? 43 : 44, x, y, false);
+					setSprite(new Sprite(isOwned() ? 43 : 44, getX(), getY(), false));
 					rightClickMenu.exited = true;
 				}
 			}
 		}
-		if(sprite instanceof Animation) {
-			((Animation) sprite).tick();
+		if(getSprite() instanceof Animation) {
+			((Animation) getSprite()).tick();
 		}
 	}
 	@Override
@@ -156,13 +156,13 @@ public class HackerTile extends Tile {
 	@Override
 	public void beOwned() {
 		if(!beingUnhacked && !hacking) {
-			sprite = new Sprite(43, x, y, false);
+			setSprite(new Sprite(43,getX(), getY(), false));
 		}
 	}
 	public void unHack() {
 		if(yoursLeft < TRIES_TO_HACK) {
 			initiatedUnhacking = true;
-			sprite = new Sprite(44, x, y, false);
+			setSprite(new Sprite(44, getX(), getY(), false));
 			beingUnhacked = false;
 			riCliMenuOptions = new String[1];
 			riCliMenuOptions[0] = "Hack";
