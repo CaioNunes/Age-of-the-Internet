@@ -20,20 +20,20 @@ public class ChurchTile extends Tile {
 	}
 
 	public ChurchTile(int positionX, int positionY, Game owner) {
-		this.x = positionX;
-		this.y = positionY;
+		setX(positionX);
+		setY(positionY);
 		this.owner = owner;
-		sprite = new Sprite(42, positionX, positionY, false);
+		setSprite(new Sprite(42, positionX, positionY, false));
 	}
 
 	@Override
 	public void tick() {
-		if (owner.mouseInsideOf(x, y, Sprite.SPRITE_WIDTH, Sprite.SPRITE_HEIGHT)) {
+		if (owner.mouseInsideOf(getX(), getY(), Sprite.SPRITE_WIDTH, Sprite.SPRITE_HEIGHT)) {
 			if (owner.mouseDown) {
 				if (rightClickMenu == null) {
 					if ((((Level) owner.currentLevel).canBeHackedBy(this) != null
 							&& ((Level) owner.currentLevel).getRAM() >= hackCost()) || yours) {
-						rightClickMenu = new Menu(owner, x + Sprite.SPRITE_WIDTH, y, RI_CLI_MENU_WIDTH,
+						rightClickMenu = new Menu(owner, getX() + Sprite.SPRITE_WIDTH, getY(), RI_CLI_MENU_WIDTH,
 								rightClickMenuOptions, rightClickMenuTitle);
 						owner.screen.addRenderable(rightClickMenu);
 					}
@@ -77,13 +77,13 @@ public class ChurchTile extends Tile {
 
 	@Override
 	public void beOwned() {
-		sprite = new Sprite(41, x, y, false);
+		setSprite(new Sprite(41, getX(), getY(), false));
 	}
 
 	public void unHack() {
 		if (yours) {
 			yours = false;
-			sprite = new Sprite(42, x, y, false);
+			setSprite(new Sprite(42, getX(), getY(), false));
 			rightClickMenuOptions = new String[1];
 			rightClickMenuOptions[0] = "Hack";
 			((Level) owner.currentLevel).unhack(this);
