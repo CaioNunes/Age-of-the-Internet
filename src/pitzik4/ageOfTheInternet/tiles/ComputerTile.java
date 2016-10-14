@@ -21,20 +21,20 @@ public class ComputerTile extends Tile {
 	}
 
 	public ComputerTile(int positionX, int positionY, Game owner) {
-		this.x = positionX;
-		this.y = positionY;
+		setX(positionX);
+		setY(positionY);
 		this.owner = owner;
-		sprite = new Sprite(33, positionX, positionY, false);
+		setSprite(new Sprite(33, positionX, positionY, false));
 	}
 
 	@Override
 	public void tick() {
-		if (owner.mouseInsideOf(x, y, Sprite.SPRITE_WIDTH, Sprite.SPRITE_HEIGHT)) {
+		if (owner.mouseInsideOf(getX(), getY(), Sprite.SPRITE_WIDTH, Sprite.SPRITE_HEIGHT)) {
 			if (owner.mouseDown) {
 				if (rightClickMenu == null) {
 					if ((((Level) owner.currentLevel).canBeHackedBy(this) != null
 							&& ((Level) owner.currentLevel).getRAM() >= hackCost()) || yours) {
-						rightClickMenu = new Menu(owner, x + Sprite.SPRITE_WIDTH, y, RIGHT_CLICK_MENU_WIDTH,
+						rightClickMenu = new Menu(owner, getX() + Sprite.SPRITE_WIDTH, getY(), RIGHT_CLICK_MENU_WIDTH,
 								rightClickMenuOptions, rightClickMenuTitle);
 						owner.screen.addRenderable(rightClickMenu);
 					}
@@ -81,17 +81,17 @@ public class ComputerTile extends Tile {
 	@Override
 	public void deEvil() {
 		theirs = false;
-		sprite = new Sprite(33, x, y, false); // 33?
+		setSprite(new Sprite(33, getX(), getY(), false)); // 33?
 	}
 
 	@Override
 	public void beOwned() {
-		sprite = new Sprite(32, x, y, false); // 32?
+		setSprite(new Sprite(32, getX(), getY(), false)); // 32?
 	}
 
 	@Override
 	public void beEvil() {
-		sprite = new Sprite(22, x, y, false); // 22
+		setSprite(new Sprite(22, getX(), getY(), false)); // 22
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class ComputerTile extends Tile {
 	public void unHack() {
 		if (yours) {
 			yours = false;
-			sprite = new Sprite(33, x, y, false);
+			setSprite(new Sprite(33, getX(), getY(), false));
 			rightClickMenuOptions = new String[1];
 			rightClickMenuOptions[0] = "Hack";
 			((Level) owner.currentLevel).unhack(this);

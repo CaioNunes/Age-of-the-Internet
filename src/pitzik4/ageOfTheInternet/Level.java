@@ -30,8 +30,8 @@ import pitzik4.ageOfTheInternet.tiles.Tile;
 
 public class Level implements Stage {
 	public Tile[][] tiles;
-	public int width;
-	public int height;
+	public int width = 0;
+	public int height = 0;
 	public int positionX = 0;
 	public int positionY = 0;
 	public Game owner;

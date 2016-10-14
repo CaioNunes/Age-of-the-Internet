@@ -7,8 +7,8 @@ import pitzik4.ageOfTheInternet.graphics.Sprite;
 
 public class ConnectionTile extends Tile {
 	public static final Set<Integer> CONNECTABLE_TILES = connectableTiles();
-	public static final int[] POSITIONAL_SPRITES = {13, 2, 1, 3, 2, 2, 4, 17, 1, 6, 1, 18, 5, 19, 20, 21};
-	
+	public static final int[] POSITIONAL_SPRITES = { 13, 2, 1, 3, 2, 2, 4, 17, 1, 6, 1, 18, 5, 19, 20, 21 };
+
 	public static Set<Integer> connectableTiles() {
 		Set<Integer> out = new HashSet<Integer>();
 		out.add(0x0000FF);
@@ -22,33 +22,34 @@ public class ConnectionTile extends Tile {
 		out.add(1);
 		return out;
 	}
-	
+
 	public ConnectionTile(int x, int y, int[] neighbors) {
-		this.x = x;
-		this.y = y;
-		for(int i=0; i<neighbors.length; i++) {
+		setX(x);
+		setY(y);
+		for (int i = 0; i < neighbors.length; i++) {
 			neighbors[i] = neighbors[i] & 0xFFFFFF;
 		}
 		boolean[] neighbools = new boolean[4];
-		for(int i=0; i<4; i++) {
+		for (int i = 0; i < 4; i++) {
 			neighbools[i] = (CONNECTABLE_TILES.contains(neighbors[i])) || ((neighbors[i] & 0xFFFF) == 0x8040);
 		}
 		int position = 0;
-		if(neighbools[0])
+		if (neighbools[0])
 			position += 1;
-		if(neighbools[1])
+		if (neighbools[1])
 			position += 2;
-		if(neighbools[2])
+		if (neighbools[2])
 			position += 4;
-		if(neighbools[3])
+		if (neighbools[3])
 			position += 8;
-		sprite = new Sprite(POSITIONAL_SPRITES[position], x, y, false);
+		setSprite(new Sprite(POSITIONAL_SPRITES[position], getX(), getY(), false));
 	}
 
 	@Override
 	public void tick() {
-		
+
 	}
+
 	@Override
 	public int hackCost() {
 		return 0;

@@ -8,8 +8,8 @@ import pitzik4.ageOfTheInternet.Tickable;
 import pitzik4.ageOfTheInternet.graphics.Renderable;
 
 public abstract class Tile implements Renderable, Tickable {
-	public Renderable sprite;
-	public int x, y;
+	private Renderable sprite;
+	private int x, y;
 	
 	public static Tile getNewTile(int id, int x, int y, Tile[] neighbors, Game owner) {
 		int[] ints = new int[neighbors.length];
@@ -109,12 +109,12 @@ public abstract class Tile implements Renderable, Tickable {
 
 	@Override
 	public BufferedImage draw() {
-		return sprite.draw();
+		return getSprite().draw();
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		sprite.drawOn(g, scrollx, scrolly);
+		getSprite().drawOn(g, scrollx, scrolly);
 		furtherDraw(g, scrollx, scrolly);
 	}
 	
@@ -122,16 +122,31 @@ public abstract class Tile implements Renderable, Tickable {
 		
 	}
 
-	@Override
+	public Renderable getSprite(){
+		return this.sprite;
+	}
+	
+	public void setSprite(Renderable sprite){
+		this.sprite = sprite;
+	}
+	
+	
 	public int getX() {
 		return x;
 	}
 
-	@Override
 	public int getY() {
 		return y;
 	}
 
+	public void setX(int x){
+		this.x = x;
+	}
+
+	public void setY(int y){
+		this.y = y;
+	}
+	
 	@Override
 	public int getXOffset() {
 		return 0;
@@ -144,9 +159,14 @@ public abstract class Tile implements Renderable, Tickable {
 
 	@Override
 	public void goTo(int x, int y) {
-		this.x = x;
-		this.y = y;
-		sprite.goTo(x, y);
+		setX(x);
+		setY(y);
+		getSprite().goTo(x, y);
+	}
+	
+	public void setTilePositions(int x, int y){
+		setX(x);
+		setY(y);
 	}
 	
 	public void beOwned() {

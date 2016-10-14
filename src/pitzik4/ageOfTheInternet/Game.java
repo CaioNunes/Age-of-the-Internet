@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.swing.JFrame;
 
@@ -171,10 +174,10 @@ public class Game extends Applet
 
 	@Override
 	public void run() {
-		long time;
+		long time = 0;
 		double catchup = 0.0;
 		long lastTime = System.currentTimeMillis();
-		long slowness;
+		long slowness = 0;
 		long lastSecond = lastTime;
 		
 		while (!stopping) {
@@ -264,10 +267,12 @@ public class Game extends Applet
 		}
 	}
 
+	
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.init();
-
+		
+	
 		JFrame frame = new JFrame(NAME);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
@@ -278,6 +283,7 @@ public class Game extends Applet
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		game.start();
+
 	}
 
 	// Where games start's

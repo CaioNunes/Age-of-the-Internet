@@ -12,30 +12,39 @@ public class BrokenConnectionTile extends Tile {
 	private int position = 0;
 
 	public BrokenConnectionTile(int x, int y, int[] neighbors, byte neededComputers) {
-		this.x = x;
-		this.y = y;
+		setX(x);
+		setY(y);
+		
 		for (int i = 0; i < neighbors.length; i++) {
 			neighbors[i] = neighbors[i] & 0xFFFFFF;
 		}
+		
 		boolean[] neighbools = new boolean[4];
+		
 		for (int i = 0; i < 4; i++) {
 			neighbools[i] = (CONNECTABLE_TILES.contains(neighbors[i])) || ((neighbors[i] & 0xFFFF) == 0x8040);
 		}
+		
 		if (neighbools[0]) {
-			position += 1;
+			setPosition(getPosition() + 1);
 		}
+		
 		if (neighbools[1]) {
-			position += 2;
+			setPosition(getPosition() + 2);
 		}
+		
 		if (neighbools[2]) {
-			position += 4;
+			setPosition(getPosition() + 4);
 		}
+		
 		if (neighbools[3]) {
-			position += 8;
+			setPosition(getPosition() + 8);
 		}
-		sprite = new Sprite(POSITIONAL_SPRITES[position] + 191, x, y, false);
-		((Sprite) sprite).mergeSprite(new Sprite(207 - (neededComputers % 10)));
-		this.neededComputers = neededComputers;
+		
+		setSprite(new Sprite(POSITIONAL_SPRITES[getPosition()] + 191, x, y, false));
+		
+		((Sprite) getSprite()).mergeSprite(new Sprite(207 - (neededComputers % 10)));
+		setNeededComputers(neededComputers);
 	}
 
 	@Override
@@ -49,24 +58,49 @@ public class BrokenConnectionTile extends Tile {
 	}
 
 	public boolean notifyOwnedChange(int newOwned) {
-		if (newOwned != ownedComputers) {
-			ownedComputers = (byte) (newOwned % 256);
-			sprite = new Sprite(POSITIONAL_SPRITES[position] + 191, x, y, false);
-			((Sprite) sprite).mergeSprite(new Sprite(207 - (Math.abs(neededComputers - ownedComputers) % 10)));
+		if (newOwned != getOwnedComputers()) {
+			setOwnedComputers((byte) (newOwned % 256));
+			setSprite(new Sprite(POSITIONAL_SPRITES[getPosition()] + 191, getX(), getY(), false));
+			((Sprite) getSprite()).mergeSprite(new Sprite(207 - (Math.abs(getNeededComputers() - getOwnedComputers()) % 10)));
 		} else {
 			// nothing
 		}
-		if (ownedComputers >= neededComputers) {
-			sprite = new Sprite(POSITIONAL_SPRITES[position], x, y, false);
-			((Sprite) sprite).mergeSprite(new Sprite(207 - Math.abs(neededComputers - ownedComputers) % 10));
+		
+		if (getOwnedComputers() >= getNeededComputers()) {
+			setSprite(new Sprite(POSITIONAL_SPRITES[getPosition()],getX(), getY(), false));
+			((Sprite) getSprite()).mergeSprite(new Sprite(207 - Math.abs(getNeededComputers() - getOwnedComputers()) % 10));
 		} else {
 			// nothing
 		}
-		return ownedComputers >= neededComputers;
+		
+		return getOwnedComputers() >= getNeededComputers();
 	}
 
 	public boolean usable() {
-		return ownedComputers >= neededComputers;
+		return getOwnedComputers() >= getNeededComputers();
+	}
+	
+	public byte getNeededComputers(){
+		return this.neededComputers;
 	}
 
+	public void setNeededComputers(byte neededComputer){
+		this.neededComputers = neededComputer;
+	}
+	
+	public byte getOwnedComputers(){
+		return this.ownedComputers;
+	}
+
+	public void setOwnedComputers(byte ownedComputer){
+		this.ownedComputers = ownedComputer;
+	}
+	
+	public int getPosition(){
+		return this.position;
+	}
+
+	public void setPosition(int position){
+		this.position = position;
+	}
 }

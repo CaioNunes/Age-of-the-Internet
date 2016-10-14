@@ -17,8 +17,6 @@ public class Menu implements Renderable, Tickable {
 	private int positionY = 0;
 	private int width = 0;
 	private int height = 0;
-	private boolean exiting = false;
-	public boolean exited = false;
 
 	public Menu(Game owner, final int positionX, final int positionY, final int width, final String[] extraButtons, final String title) {
 		this.positionX = positionX;
@@ -42,6 +40,10 @@ public class Menu implements Renderable, Tickable {
 					extraButtons[i]);
 		}
 	}
+	
+	
+	private boolean exiting = false;
+	public boolean exited = false;
 
 	@Override
 	public void tick() {
