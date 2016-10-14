@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 import pitzik4.ageOfTheInternet.Tickable;
 
 public class Background implements Renderable, Tickable {
-	private int positionX = 0, positionY = 0;
+	private int positionX = 0;
+	private int positionY = 0;
 	private int width = 0;
 	private Sprite[][] tiles;
 	public static final byte MOVE_COUNTDOWN = 2;
@@ -14,22 +15,53 @@ public class Background implements Renderable, Tickable {
 	public static final int BG_SPRITE = 16;
 
 	public Background(int x, int y, int width, int height) {
-		this.positionX = x;
-		this.positionY = y;
-		this.width = width;
+		setPositionX(x);
+		setPositionY(y);
+		setWidth(width);
+		
 		if (width % Sprite.SPRITE_WIDTH != 0) {
 			throw new RuntimeException("Illegal width for Background: " + width);
 		}
+		
 		if (height % Sprite.SPRITE_HEIGHT != 0) {
 			throw new RuntimeException("Illegal height for Background: " + height);
 		}
-		tiles = new Sprite[height / Sprite.SPRITE_HEIGHT][width / Sprite.SPRITE_WIDTH + 1];
+		
+		setTiles(new Sprite[height / Sprite.SPRITE_HEIGHT][width / Sprite.SPRITE_WIDTH + 1]);
+		
 		for (int i = 0; i < width / Sprite.SPRITE_WIDTH + 1; i++) {
 			for (int j = 0; j < height / Sprite.SPRITE_HEIGHT; j++) {
-				tiles[j][i] = new Sprite(BG_SPRITE, x + (i - 1) * Sprite.SPRITE_WIDTH, y + j * Sprite.SPRITE_HEIGHT,
+				getTiles()[j][i] = new Sprite(BG_SPRITE, x + (i - 1) * Sprite.SPRITE_WIDTH, y + j * Sprite.SPRITE_HEIGHT,
 						false);
 			}
 		}
+	}
+
+	
+	public byte getMoveCountdown() {
+		return moveCountdown;
+	}
+
+
+	public void setMoveCountdown(byte moveCountdown) {
+		this.moveCountdown = moveCountdown;
+	}
+
+
+	public int getPositionX() {
+		return positionX;
+	}
+
+	public void setPositionX(int positionX) {
+		this.positionX = positionX;
+	}
+
+	public int getPositionY() {
+		return positionY;
+	}
+
+	public void setPositionY(int positionY) {
+		this.positionY = positionY;
 	}
 
 	@Override
@@ -41,8 +73,8 @@ public class Background implements Renderable, Tickable {
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		assert(graphics != null): "Graphics var is null";
-		assert(tiles != null): "Tiles var is null";
-		for (Sprite[] ss : tiles) {
+		assert(getTiles() != null): "Tiles var is null";
+		for (Sprite[] ss : getTiles()) {
 			assert(ss != null): "Sprite[] var is null";
 			for (Sprite s : ss) {
 				assert(s != null): "Sprite var is null";
@@ -73,12 +105,12 @@ public class Background implements Renderable, Tickable {
 
 	@Override
 	public void goTo(int x, int y) {
-		int dx = x - this.positionX;
-		int dy = y - this.positionY;
-		this.positionX = x;
-		this.positionY = y;
-		assert(tiles != null): "Tiles var is null";
-		for (Sprite[] ss : tiles) {
+		int dx = x - getPositionX();
+		int dy = y - getPositionY();
+		setPositionX(x);
+		setPositionY(y);
+		assert(getTiles() != null): "Tiles var is null";
+		for (Sprite[] ss : getTiles()) {
 			assert(ss != null): "Sprite[] var is null";
 			for (Sprite s : ss) {
 				assert(s != null): "Sprite var is null";
@@ -87,23 +119,46 @@ public class Background implements Renderable, Tickable {
 		}
 	}
 
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public Sprite[][] getTiles() {
+		return tiles;
+	}
+
+	public void setTiles(Sprite[][] tiles) {
+		this.tiles = tiles;
+	}
+
+
+	public static int getBgSprite() {
+		return BG_SPRITE;
+	}
+
 	@Override
 	public void tick() {
 		moveCountdown--;
-		if (moveCountdown == 0) {
-			moveCountdown = MOVE_COUNTDOWN;
-			assert(tiles != null): "Tiles var is null";
-			for (int i = 0; i < tiles.length; i++) {
-				for (Sprite tiles : tiles[i]) {
+		if (getMoveCountdown() == 0) {
+			setMoveCountdown(MOVE_COUNTDOWN);
+		
+			assert(getTiles() != null): "Tiles var is null";
+		
+			for (int i = 0; i < getTiles().length; i++) {
+				for (Sprite tiless : tiles[i]) {
 					if (i % 2 == 0) {
-						tiles.goTo(tiles.getX() + 1, tiles.getY());
-						if (tiles.getX() > positionX + width) {
-							tiles.goTo(positionX - Sprite.SPRITE_WIDTH + 1, tiles.getY());
+						tiless.goTo(tiless.getX() + 1, tiless.getY());
+						if (tiless.getX() > getPositionX() + getWidth()) {
+							tiless.goTo(getPositionX() - Sprite.SPRITE_WIDTH + 1, tiless.getY());
 						}
 					} else {
-						tiles.goTo(tiles.getX() - 1, tiles.getY());
-						if (tiles.getX() < positionX - Sprite.SPRITE_WIDTH) {
-							tiles.goTo(positionX + width - 1, tiles.getY());
+						tiless.goTo(tiless.getX() - 1, tiless.getY());
+						if (tiless.getX() < getPositionX() - Sprite.SPRITE_WIDTH) {
+							tiless.goTo(getPositionX() + getWidth() - 1, tiless.getY());
 						}
 					}
 				}
