@@ -111,7 +111,8 @@ public class ComputerTile extends Tile {
 
 	@Override
 	public int hackCost() {
-		return 5;
+		int cost = 5;
+		return cost;
 	}
 
 	@Override
