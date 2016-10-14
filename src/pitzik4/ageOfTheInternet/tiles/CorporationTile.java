@@ -166,7 +166,8 @@ public class CorporationTile extends Tile {
 
 	@Override
 	public int hackCost() {
-		return 10;
+		int cost = 10;
+		return cost;
 	}
 
 	@Override
