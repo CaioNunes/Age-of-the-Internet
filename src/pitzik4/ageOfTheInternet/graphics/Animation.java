@@ -133,5 +133,62 @@ public class Animation implements RenderableTickable {
 			}
 		}
 	}
+	
+	public Renderable[] getFrames() {
+		return frames;
+	}
+
+	public void setFrames(Renderable[] frames) {
+		this.frames = frames;
+	}
+
+	public int[] getDurations() {
+		return durations;
+	}
+
+	public void setDurations(int[] durations) {
+		this.durations = durations;
+	}
+
+	public int getCurrentFrame() {
+		return currentFrame;
+	}
+
+	public void setCurrentFrame(int currentFrame) {
+		this.currentFrame = currentFrame;
+	}
+
+	public int getCountDown() {
+		return countDown;
+	}
+
+	public void setCountDown(int countDown) {
+		this.countDown = countDown;
+	}
+
+	public boolean isLooping() {
+		return looping;
+	}
+
+	public void setLooping(boolean looping) {
+		this.looping = looping;
+	}
+
+	public boolean isGoing() {
+		return going;
+	}
+
+	public void setGoing(boolean going) {
+		this.going = going;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 
 }
