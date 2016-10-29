@@ -85,11 +85,11 @@ public class Game extends Applet
 	
 	// return player level.
 
-	private Stage remakeLevel(int index) {
-		assert(index>=0 && index<=11) : "Error on index value !";
+	private Stage remakeLevel(int levelNumber) {
+		assert(levelNumber>=0 && levelNumber<=11) : "Error on index value !";
 		
 		try{
-			switch(index){
+			switch(levelNumber){
 				case 0:
 					return new StartingCutscene(this);
 				

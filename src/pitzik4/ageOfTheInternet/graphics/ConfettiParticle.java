@@ -12,7 +12,8 @@ public class ConfettiParticle implements RenderableTickable {
 	private boolean goingRight = false;
 	private boolean goingUp = false;
 	private boolean moving = false;
-	private int positionX, positionY;
+	private int positionX;
+	private int positionY;
 	private static final Random randomNumber = new Random();
 	public static final Color[] colorfulColors = { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.MAGENTA, Color.CYAN };
 	public static final int INVERSE_DIR_SWITCH_PROB = 8;
@@ -20,22 +21,22 @@ public class ConfettiParticle implements RenderableTickable {
 
 	public ConfettiParticle(Color color, int x, int y, boolean goingRight) {
 		assert(color != null): "Color-color parameter is null";
-		this.color = color;
-		this.positionX = x;
-		this.positionY = y;
-		this.goingRight = goingRight;
+		setColor(color);
+		setPositionX(x);
+		setPositionY(y);
+		setGoingRight(goingRight);
 	}
 
 	public ConfettiParticle(Color color, int x, int y) {
-		this(color, x, y, randomNumber.nextBoolean());
+		this(color, x, y, getRandomnumber().nextBoolean());
 	}
 
 	public ConfettiParticle(int x, int y, boolean goingRight) {
-		this(colorfulColors[randomNumber.nextInt(colorfulColors.length - 1)], x, y, goingRight);
+		this(getColorfulcolors()[getRandomnumber().nextInt(getColorfulcolors().length - 1)], x, y, goingRight);
 	}
 
 	public ConfettiParticle(int x, int y) {
-		this(x, y, randomNumber.nextBoolean());
+		this(x, y, getRandomnumber().nextBoolean());
 	}
 
 	@Override
@@ -44,8 +45,8 @@ public class ConfettiParticle implements RenderableTickable {
 		assert(bufferedImageOut != null): "BufferedImageOut is null";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
 		assert(graphics != null): "graphics var is null";
-		assert(color != null): "color is null";
-		graphics.setColor(color);
+		assert(getColor() != null): "color is null";
+		graphics.setColor(getColor());
 		graphics.fillRect(0, 0, 1, 1);
 		graphics.dispose();
 		return bufferedImageOut;
@@ -54,9 +55,9 @@ public class ConfettiParticle implements RenderableTickable {
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		assert(graphics != null): "Graphics2D-graphics parameter is null";
-		assert(color != null): "color var is null";
-		graphics.setColor(color);
-		graphics.fillRect(positionX - scrollx, positionY - scrolly, 1, 1);
+		assert(getColor() != null): "color var is null";
+		graphics.setColor(getColor());
+		graphics.fillRect(getPositionX() - scrollx, getPositionY() - scrolly, 1, 1);
 	}
 
 	@Override
@@ -88,29 +89,93 @@ public class ConfettiParticle implements RenderableTickable {
 	@Override
 	public void tick() {
 		if (moving) {
-			if (goingRight) {
-				goTo(positionX + 1, positionY);
+			if (isGoingRight()) {
+				goTo(getPositionX() + 1, getPositionY());
 			} else {
-				goTo(positionX - 1, positionY);
+				goTo(getPositionX() - 1, getPositionY());
 			}
-			if (goingUp) {
-				goingUp = false;
-				goTo(positionX, positionY - 1);
+			if (isGoingUp()) {
+				setGoingUp(false);
+				goTo(getPositionX(), getPositionY() - 1);
 			} else {
-				goTo(positionX, positionY + 1);
+				goTo(getPositionX(), getPositionY() + 1);
 			}
-			if (randomNumber.nextInt(INVERSE_DIR_SWITCH_PROB) == 0) {
-				goingRight = !goingRight;
+			if (getRandomnumber().nextInt(getInverseDirSwitchProb()) == 0) {
+				setGoingRight(!isGoingRight());
 			} else {
 				// nothing
 			}
-			if (randomNumber.nextInt(INVERSE_GO_UP_PROB) == 0) {
-				goingUp = true;
+			if (getRandomnumber().nextInt(getInverseGoUpProb()) == 0) {
+				setGoingUp(true);
 			} else {
 				// nothing
 			}
 		}
-		moving = !moving;
+		setMoving(isMoving());
+	}
+	
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public boolean isGoingRight() {
+		return goingRight;
+	}
+
+	public void setGoingRight(boolean goingRight) {
+		this.goingRight = goingRight;
+	}
+
+	public boolean isGoingUp() {
+		return goingUp;
+	}
+
+	public void setGoingUp(boolean goingUp) {
+		this.goingUp = goingUp;
+	}
+
+	public boolean isMoving() {
+		return moving;
+	}
+
+	public void setMoving(boolean moving) {
+		this.moving = moving;
+	}
+
+	public int getPositionX() {
+		return positionX;
+	}
+
+	public void setPositionX(int positionX) {
+		this.positionX = positionX;
+	}
+
+	public int getPositionY() {
+		return positionY;
+	}
+
+	public void setPositionY(int positionY) {
+		this.positionY = positionY;
+	}
+
+	public static Random getRandomnumber() {
+		return randomNumber;
+	}
+
+	public static Color[] getColorfulcolors() {
+		return colorfulColors;
+	}
+
+	public static int getInverseDirSwitchProb() {
+		return INVERSE_DIR_SWITCH_PROB;
+	}
+
+	public static int getInverseGoUpProb() {
+		return INVERSE_GO_UP_PROB;
 	}
 
 }

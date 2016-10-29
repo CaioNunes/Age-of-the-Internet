@@ -54,7 +54,8 @@ public class BrokenConnectionTile extends Tile {
 
 	@Override
 	public int hackCost() {
-		return 0;
+		int cost =0;
+		return cost;
 	}
 
 	public boolean notifyOwnedChange(int newOwned) {

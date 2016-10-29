@@ -52,7 +52,8 @@ public class ConnectionTile extends Tile {
 
 	@Override
 	public int hackCost() {
-		return 0;
+		int cost = 0;
+		return cost;
 	}
 
 }
