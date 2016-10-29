@@ -54,26 +54,38 @@ public class EndingCutscene implements Stage {
 
 	private static Animation createDedigitizer() {
 		Sprite[] sprites = new Sprite[dedigitizerFrames.length];
+		final int element_x_position = 270;
+		final int element_y_position = 196;
 		for (int i = 0; i < sprites.length; i++) {
-			sprites[i] = new Sprite(dedigitizerFrames[i], 270, 196, bigSpriteSheet, 32, 32);
+			final int sprite_sheet_x_position = 32;
+			final int sprite_sheet_y_position = 32;
+			sprites[i] = new Sprite(dedigitizerFrames[i], element_x_position, element_y_position, bigSpriteSheet, sprite_sheet_x_position, sprite_sheet_y_position);
 		}
-		return new Animation(sprites, 2, 270, 196, false);
+		return new Animation(sprites, 2, element_x_position, element_y_position, false);
 	}
 
 	private static Animation createScreen() {
 		Sprite[] sprites = new Sprite[screenFrames.length];
+		final int element_x_position = 220;
+		final int element_y_position = 180;
 		for (int i = 0; i < sprites.length; i++) {
-			sprites[i] = new Sprite(screenFrames[i], 220, 180, bigSpriteSheet, 36, 26);
+			final int sprite_sheet_x_position = 36;
+			final int sprite_sheet_y_position = 26;
+			sprites[i] = new Sprite(screenFrames[i], element_x_position, element_y_position, bigSpriteSheet, sprite_sheet_x_position, sprite_sheet_y_position);
 		}
-		return new Animation(sprites, 1, 220, 180, false);
+		return new Animation(sprites, 1, element_x_position, element_y_position, false);
 	}
 
 	private static Animation createScreen2() {
 		Sprite[] sprites = new Sprite[screen2Frames.length];
+		final int element_x_position = 220;
+		final int element_y_position = 180;
 		for (int i = 0; i < sprites.length; i++) {
-			sprites[i] = new Sprite(screen2Frames[i], 220, 180, bigSpriteSheet, 36, 26);
+			final int sprite_sheet_x_position = 36;
+			final int sprite_sheet_y_position = 26;
+			sprites[i] = new Sprite(screen2Frames[i], element_x_position, element_y_position, bigSpriteSheet, sprite_sheet_x_position, sprite_sheet_y_position);
 		}
-		return new Animation(sprites, 1, 220, 180, false);
+		return new Animation(sprites, 1, element_x_position, element_y_position, false);
 	}
 
 	public EndingCutscene(Game owner) {
@@ -93,7 +105,7 @@ public class EndingCutscene implements Stage {
 
 	@Override
 	public BufferedImage draw() {
-		BufferedImage outImage = new BufferedImage(320, 240, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage outImage = new BufferedImage(SCREEN_WIDTH, SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D graphics = outImage.createGraphics();
 		drawOn(graphics, 0, 0);
 		graphics.dispose();
@@ -171,6 +183,10 @@ public class EndingCutscene implements Stage {
 		if (dialogue == null) {
 			lifeTime++;
 		}
+		final int box_diagonal_position = 4;
+		final int text_y_position = 4;
+		final int box_width = 312; // >=200
+		final int box_height = 64;
 		if (owner.keysDown.contains(10)) {
 			done = true;
 		}
@@ -180,55 +196,71 @@ public class EndingCutscene implements Stage {
 			drThompson = new Sprite(96, drThompson.getX(), drThompson.getY(), false);
 			drGreen = new Sprite(129, 76, 212, bigSpriteSheet, 16, 16);
 		} else if (lifeTime == 60) {
-			dialogue = new InfoBox(4, 4, 312, 64, drGreenHead, "Who are you?");
+			final String dialog_text = "Who are you?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drGreenHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 62) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "I am Dr Thompson. And who are you?");
+			final String dialog_text = "I am Dr Thompson. And who are you?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 64) {
-			dialogue = new InfoBox(4, 4, 312, 64, drGreenHead, "Dr Green. What are you doing here?");
+			final String dialog_text = "Dr Green. What are you doing here?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drGreenHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 66) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "I'm here to collect Toby. Is he here yet?");
+			final String dialog_text = "I'm here to collect Toby. Is he here yet?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 68) {
-			dialogue = new InfoBox(4, 4, 312, 64, drGreenHead, "I don't know who that is. Sorry.");
+			final String dialog_text = "I don't know who that is. Sorry.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drGreenHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 70) {
 			screen.go();
-			drGreen = new Sprite(128, 76, 212, bigSpriteSheet, 16, 16);
+			
+			final int drGreen_x_position = 76;
+			final int drGreen_y_position = 212;
+			final int element_rendered_drGreen = 128;
+			drGreen = new Sprite(element_rendered_drGreen, drGreen_x_position, drGreen_y_position,bigSpriteSheet, 16, 16);
+			//drGreen = new Sprite(128, 76, 212, bigSpriteSheet, 16, 16);
 		} else if (lifeTime == 80) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "I am Toby! I have taken control of this facility! I -");
+			final String dialog_text = "I am Toby! I have taken control of this facility! I -";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 82) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "Toby! What are you doing?");
+			final String dialog_text = "Toby! What are you doing?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 84) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Oh! Dr Thompson! Uh... Heheh...");
+			final String dialog_text = "Oh! Dr Thompson! Uh... Heheh...";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 86) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead,
-					"I told you to activate the Dedigitizer as soon as you arrived!");
+			final String dialog_text = "I told you to activate the Dedigitizer as soon as you arrived!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 88) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Do I have to?");
+			final String dialog_text = "Do I have to?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 90) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "Of course you do, Toby.");
+			final String dialog_text = "Of course you do, Toby.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 92) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "Fine.");
+			final String dialog_text = "Fine.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 94) {
@@ -238,22 +270,33 @@ public class EndingCutscene implements Stage {
 			toby = tobyWalk;
 			tobyBeforeDe = true;
 		} else if (lifeTime > 110 && lifeTime < 200) {
-			toby.goTo(toby.getX() - 2, toby.getY());
+			final int units_walked_by_tick = -2; // "-" = Going left
+			final int toby_x_position = toby.getX();
+			final int toby_y_position = toby.getY();
+			toby.goTo(toby_x_position + units_walked_by_tick, toby_y_position);
+			
 			if (lifeTime == 117) {
-				toby.goTo(toby.getX(), toby.getY() + 4);
+				final int units_walked_by_tick_117 = 4;
+				final int toby_x_position_tick_117 = toby.getX();
+				final int toby_y_position_tick_117 = toby.getY();
+				toby.goTo(toby_x_position_tick_117 + units_walked_by_tick_117, toby_y_position_tick_117);
+
 			}
 		} else if (lifeTime == 200) {
 			toby = new Sprite(176, toby.getX(), toby.getY(), false);
 		} else if (lifeTime == 202) {
-			dialogue = new InfoBox(4, 4, 312, 64, drGreenHead, "I suppose you're Toby?");
+			final String dialog_text = "I suppose you're Toby?";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drGreenHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 204) {
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "No! I am a wizard!");
+			final String dialog_text = "No! I am a wizard!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 206) {
-			dialogue = new InfoBox(4, 4, 312, 64, drThompsonHead, "Excellent. Let's be going, then.");
+			final String dialog_text = "Excellent. Let's be going, then.";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, drThompsonHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime == 208) {
@@ -270,13 +313,16 @@ public class EndingCutscene implements Stage {
 		} else if (lifeTime == 210) {
 			drThompson.goTo(-16, 0);
 			drGreen.goTo(-16, 0);
-			dialogue = new InfoBox(4, 4, 312, 64, tobyHead, "I win!!!!!!!");
+			final String dialog_text = "I win!!!!!!!";
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, tobyHead, dialog_text);
 			dialogue.go();
 			lifeTime++;
 		} else if (lifeTime > 212) {
 			done = true;
 		}
-		if (keysPressed.contains(32) && !lastKeysPressed.contains(32)) {
+		final int SPACEBAR_BUTTON = 32;
+		final boolean space_bar_pressed = keysPressed.contains(SPACEBAR_BUTTON) && !lastKeysPressed.contains(SPACEBAR_BUTTON);
+		if (space_bar_pressed) {
 			if (dialogue != null) {
 				if (dialogue.isGoing()) {
 					dialogue.finish();
@@ -287,21 +333,26 @@ public class EndingCutscene implements Stage {
 		}
 		lastKeysPressed = keysPressed;
 		if (done) {
-			if (owner.screen.getFade() < 255) {
-				if (owner.screen.getFade() > 245) {
-					owner.screen.fadeTo(255);
+			final int black_color = 255;
+			final boolean screenNotBlack = owner.screen.getFade() < black_color;
+			if (screenNotBlack) {
+				if (owner.screen.getFade() > black_color - 10) {
+					owner.screen.fadeTo(black_color);
 				} else {
-					owner.screen.fadeTo(owner.screen.getFade() + 10);
+					final int color_value_faded_by_tick = 10;
+					owner.screen.fadeTo(owner.screen.getFade() + color_value_faded_by_tick);
 				}
 			} else {
 				closing = true;
 			}
 		}
-		if (owner.screen.getFade() > 0 && !done) {
+		final int clear_color = 0;
+		if (owner.screen.getFade() > clear_color && !done) {
 			if (owner.screen.getFade() < 10) {
-				owner.screen.fadeTo(0);
+				owner.screen.fadeTo(clear_color);
 			} else {
-				owner.screen.fadeTo(owner.screen.getFade() - 10);
+				final int color_value_faded_by_tick = 10;
+				owner.screen.fadeTo(owner.screen.getFade() - color_value_faded_by_tick);
 			}
 		}
 	}
