@@ -45,8 +45,8 @@ public class ConfettiParticle implements RenderableTickable {
 		assert(bufferedImageOut != null): "BufferedImageOut is null";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
 		assert(graphics != null): "graphics var is null";
-		assert(getColor() != null): "color is null";
-		graphics.setColor(getColor());
+		assert(this.getColor() != null): "color is null";
+		graphics.setColor(this.getColor());
 		graphics.fillRect(0, 0, 1, 1);
 		graphics.dispose();
 		return bufferedImageOut;
@@ -55,9 +55,9 @@ public class ConfettiParticle implements RenderableTickable {
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		assert(graphics != null): "Graphics2D-graphics parameter is null";
-		assert(getColor() != null): "color var is null";
-		graphics.setColor(getColor());
-		graphics.fillRect(getPositionX() - scrollx, getPositionY() - scrolly, 1, 1);
+		assert(this.getColor() != null): "color var is null";
+		graphics.setColor(this.getColor());
+		graphics.fillRect(this.getPositionX() - scrollx, this.getPositionY() - scrolly, 1, 1);
 	}
 
 	@Override
@@ -89,16 +89,16 @@ public class ConfettiParticle implements RenderableTickable {
 	@Override
 	public void tick() {
 		if (moving) {
-			if (isGoingRight()) {
-				goTo(getPositionX() + 1, getPositionY());
+			if (this.isGoingRight()) {
+				goTo(this.getPositionX() + 1, this.getPositionY());
 			} else {
-				goTo(getPositionX() - 1, getPositionY());
+				goTo(this.getPositionX() - 1, this.getPositionY());
 			}
-			if (isGoingUp()) {
+			if (this.isGoingUp()) {
 				setGoingUp(false);
-				goTo(getPositionX(), getPositionY() - 1);
+				goTo(this.getPositionX(), this.getPositionY() - 1);
 			} else {
-				goTo(getPositionX(), getPositionY() + 1);
+				goTo(this.getPositionX(), this.getPositionY() + 1);
 			}
 			if (getRandomnumber().nextInt(getInverseDirSwitchProb()) == 0) {
 				setGoingRight(!isGoingRight());
