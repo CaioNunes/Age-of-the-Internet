@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 
 import pitzik4.ageOfTheInternet.Tickable;
 
+//Objective: This class is responsible for rendering the background.
+
 public class Background implements Renderable, Tickable {
 	private int positionX = 0;
 	private int positionY = 0;
