@@ -3,6 +3,8 @@ package pitzik4.ageOfTheInternet.graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+//Objective: This class is responsible for rendering the blue screen when the player die or the background not is utilized.
+
 public class BlueFrame implements Renderable {
 	private static final int[][] BG_SPRITES = { { 192, 193, 194 }, { 224, 225, 226 }, { 256, 257, 258 } };
 	private static final int BG_SPRITE_SIZE = 8;
