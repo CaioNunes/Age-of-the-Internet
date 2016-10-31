@@ -16,6 +16,8 @@ import pitzik4.ageOfTheInternet.Game;
 import pitzik4.ageOfTheInternet.Menu;
 import pitzik4.ageOfTheInternet.Tickable;
 
+//Objective: This class is responsible for unite all the necessary classes and render the game image.
+
 public class Screen implements Tickable {
 	private Game owner;
 	private int width;
