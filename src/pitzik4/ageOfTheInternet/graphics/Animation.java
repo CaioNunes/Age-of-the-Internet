@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 
 import pitzik4.ageOfTheInternet.RenderableTickable;
 
+//Objective: This class is responsible for rendering game animations.
+
 public class Animation implements RenderableTickable {
 	private Renderable[] frames;
 	private int[] durations;
