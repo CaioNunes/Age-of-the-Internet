@@ -19,12 +19,12 @@ public class Animation implements RenderableTickable {
 		assert(frames != null): "Parameter Renderable[]-Frames is null";
 		assert(durations != null): "Parameter Int[]-Durations is null";
 		
-		setFrames(frames);
-		setDurations(durations);
-		setCountDown(durations[getCurrentFrame()]);
-		setX(x);
-		setY(y);
-		setLooping(looping);
+		this.setFrames(frames);
+		this.setDurations(durations);
+		this.setCountDown(durations[getCurrentFrame()]);
+		this.setX(x);
+		this.setY(y);
+		this.setLooping(looping);
 	}
 
 	public Animation(Renderable[] frames, int duration, int x, int y, boolean looping) {
@@ -36,38 +36,38 @@ public class Animation implements RenderableTickable {
 			durs[i] = duration;
 		}
 		
-		setDurations(durs);
+		this.setDurations(durs);
 	}
 
 	public Animation(int[] frames, int[] durations, int x, int y, boolean looping) {
 		//Assert is not allowed in this line.
 		this(new Renderable[frames.length], durations, x, y, looping);
-		for (int i = 0; i < getFrames().length; i++) {
-			getFrames()[i] = new Sprite(frames[i], x, y, false);
+		for (int i = 0; i < this.getFrames().length; i++) {
+			this.getFrames()[i] = new Sprite(frames[i], x, y, false);
 		}
 	}
 
 	public Animation(int[] frames, int duration, int x, int y, boolean looping) {
 		//Assert is not allowed in this line.
 		this(new Renderable[frames.length], duration, x, y, looping);
-		for (int i = 0; i < getFrames().length; i++) {
-			getFrames()[i] = new Sprite(frames[i], x, y, false);
+		for (int i = 0; i < this.getFrames().length; i++) {
+			this.getFrames()[i] = new Sprite(frames[i], x, y, false);
 		}
 	}
 
 	@Override
 	public BufferedImage draw() {
-		assert(getFrames() != null): "Frames var is null";
-		assert(getFrames()[getCurrentFrame()] != null): "Frames[currentFrame] is null";
-		return getFrames()[getCurrentFrame()].draw();
+		assert(this.getFrames() != null): "Frames var is null";
+		assert(this.getFrames()[getCurrentFrame()] != null): "Frames[currentFrame] is null";
+		return this.getFrames()[this.getCurrentFrame()].draw();
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
 		assert(g != null): "Parameter Graphics2D-g is null";
-		assert(getFrames() != null): "Frames var is null";
-		assert(getFrames()[getCurrentFrame()] != null): "Frames[currentFrame] is null";
-		getFrames()[getCurrentFrame()].drawOn(g, scrollx, scrolly);
+		assert(this.getFrames() != null): "Frames var is null";
+		assert(this.getFrames()[this.getCurrentFrame()] != null): "Frames[currentFrame] is null";
+		this.getFrames()[this.getCurrentFrame()].drawOn(g, scrollx, scrolly);
 	}
 
 	@Override
@@ -82,16 +82,16 @@ public class Animation implements RenderableTickable {
 
 	@Override
 	public int getXOffset() {
-		assert(getFrames() != null): "Frames var is null";
-		assert(getFrames()[getCurrentFrame()] != null): "Frames[currentFrame] is null";
-		return getFrames()[getCurrentFrame()].getXOffset();
+		assert(this.getFrames() != null): "Frames var is null";
+		assert(this.getFrames()[this.getCurrentFrame()] != null): "Frames[currentFrame] is null";
+		return this.getFrames()[this.getCurrentFrame()].getXOffset();
 	}
 
 	@Override
 	public int getYOffset() {
-		assert(getFrames() != null): "Frames var is null";
-		assert(getFrames()[getCurrentFrame()] != null): "Frames[currentFrame] is null";
-		return getFrames()[getCurrentFrame()].getYOffset();
+		assert(this.getFrames() != null): "Frames var is null";
+		assert(this.getFrames()[this.getCurrentFrame()] != null): "Frames[currentFrame] is null";
+		return this.getFrames()[this.getCurrentFrame()].getYOffset();
 	}
 
 	@Override
@@ -100,39 +100,39 @@ public class Animation implements RenderableTickable {
 		int dy = y - getY();
 		setX(x);
 		setY(y);
-		assert(getFrames() != null): "Frames var is null";
-		for (Renderable r : getFrames()) {
+		assert(this.getFrames() != null): "Frames var is null";
+		for (Renderable r : this.getFrames()) {
 			assert(r != null): "r is null";
 			r.goTo(r.getX() + dx, r.getY() + dy);
 		}
 	}
 
 	public void go() {
-		setGoing(true);
+		this.setGoing(true);
 	}
 
 	public void stop() {
-		setGoing(false);
+		this.setGoing(false);
 	}
 
 	@Override
 	public void tick() {
-		if (isGoing()) {
-			setCountDown(getCountDown() - 1);
-			if (getCountDown()<= 0) {
-				setCurrentFrame(getCurrentFrame() + 1);
-				assert(getFrames() != null): "Frames var is null";
-				if (getCurrentFrame() >= getFrames().length) {
-					if (isLooping()) {
-						setCurrentFrame(0);
+		if (this.isGoing()) {
+			this.setCountDown(this.getCountDown() - 1);
+			if (this.getCountDown()<= 0) {
+				this.setCurrentFrame(this.getCurrentFrame() + 1);
+				assert(this.getFrames() != null): "Frames var is null";
+				if (this.getCurrentFrame() >= this.getFrames().length) {
+					if (this.isLooping()) {
+						this.setCurrentFrame(0);
 					} else {
-						setGoing(false);
-						setCurrentFrame(getCurrentFrame() - 1);
+						this.setGoing(false);
+						this.setCurrentFrame(this.getCurrentFrame() - 1);
 						return;
 					}
 				}
-				assert(getDurations() != null): "Durations is null";
-				setCountDown(getDurations()[getCurrentFrame()]);
+				assert(this.getDurations() != null): "Durations is null";
+				this.setCountDown(this.getDurations()[this.getCurrentFrame()]);
 			}
 		}
 	}
