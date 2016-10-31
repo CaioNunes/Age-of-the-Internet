@@ -3,6 +3,8 @@ package pitzik4.ageOfTheInternet.graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+//Objective: This class is responsible to provide support for rendering the sprites in game.
+
 public class Sprite implements Renderable {
 	private int positionX = 0;
 	private int positionY = 0;
