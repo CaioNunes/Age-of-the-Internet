@@ -19,7 +19,7 @@ public class Button implements Renderable, Tickable {
 	public boolean nowClicked = false;
 	public static final int BUTTON_SPRITE = 50;
 
-	public Button(final Game owner, final int positionX, final int positionY, final int width, final String textRenderable) {
+	public Button(final Game owner, final int positionX, final int positionY, final int width, final String textRenderable) throws Exception {
 		this.owner = owner;
 		if (owner != null) {
 			this.owner = owner;
@@ -32,6 +32,11 @@ public class Button implements Renderable, Tickable {
 		this.width = width;
 
 		sprites = new Sprite[width / Sprite.SPRITE_WIDTH];
+		if(sprites == null){
+			throw new Exception("Null sprite");
+		}else{
+			//NOTHINHG TO DO
+		}
 
 		for (int i = 0; i < width / Sprite.SPRITE_WIDTH; i++) {
 			if (i == 0) {
@@ -43,7 +48,11 @@ public class Button implements Renderable, Tickable {
 			}
 		}
 		renderableString = new RenderableString(textRenderable, 0, 0);
-
+		if(renderableString == null){
+			throw new Exception("Null renderableString");
+		}else{
+			//NOTHINHG TO DO
+		}
 		final int stringWidth = renderableString.width;
 
 		renderableString.goTo(positionX + (width - stringWidth) / 2, positionY + 2);
