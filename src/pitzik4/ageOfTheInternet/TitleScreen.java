@@ -23,7 +23,12 @@ public class TitleScreen implements Stage {
 			e.printStackTrace();
 		}
 		this.owner = owner;
-		gameStartButton = new Button(owner, 96, 160, 128, "Start Game");
+		try {
+			gameStartButton = new Button(owner, 96, 160, 128, "Start Game");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
