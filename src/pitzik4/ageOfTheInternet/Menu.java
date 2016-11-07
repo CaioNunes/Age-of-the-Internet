@@ -36,8 +36,13 @@ public class Menu implements Renderable, Tickable {
 		buttons = new Button[extraButtons.length];
 		
 		for (int i = 0; i < extraButtons.length; i++) {
-			buttons[i] = new Button(owner, positionX, positionY + (i * (Sprite.SPRITE_HEIGHT + 2)) + XButton.BU_SI + renderableString.height, width,
-					extraButtons[i]);
+			try {
+				buttons[i] = new Button(owner, positionX, positionY + (i * (Sprite.SPRITE_HEIGHT + 2)) + XButton.BU_SI + renderableString.height, width,
+						extraButtons[i]);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
