@@ -24,7 +24,12 @@ public class LoseScreen implements RenderableTickable {
 		youLose.goTo(x + ((width - youLose.width) / 2), y + (height / 3 - youLose.height / 2));
 		loseReason = new RenderableString(reason, 0, 0);
 		loseReason.goTo(x + ((width - loseReason.width) / 2), y + (height / 2 - loseReason.height / 2));
-		retry = new Button(owner, x + width / 4, y + (height / 3) * 2, width / 2, "Retry");
+		try {
+			retry = new Button(owner, x + width / 4, y + (height / 3) * 2, width / 2, "Retry");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
