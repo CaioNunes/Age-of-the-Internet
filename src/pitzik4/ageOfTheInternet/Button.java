@@ -21,23 +21,51 @@ public class Button implements Renderable, Tickable {
 
 	public Button(final Game owner, final int positionX, final int positionY, final int width, final String textRenderable) throws Exception {
 		this.owner = owner;
+		ownerCheckNULL(owner);		
+		this.positionX = positionX;
+		this.positionY = positionY;
+		this.width = width;
+		
+		sprites = new Sprite[width / Sprite.SPRITE_WIDTH];
+		spritesChecNULLk(sprites);
+		definfingSpriteLocation(sprites);
+		
+		renderableString = new RenderableString(textRenderable, 0, 0);
+		rendStringNULL(renderableString);
+		final int stringWidth = renderableString.width;
+		renderableString.goTo(positionX + (width - stringWidth) / 2, positionY + 2);
+		
+	}
+	
+	public void ownerCheckNULL(final Game owner){
 		if (owner != null) {
 			this.owner = owner;
 		} else {
 			// nothing to do.
 		}
-
-		this.positionX = positionX;
-		this.positionY = positionY;
-		this.width = width;
-
-		sprites = new Sprite[width / Sprite.SPRITE_WIDTH];
+		
+	}
+	public void spritesChecNULLk(Sprite[] sprites) throws Exception{
 		if(sprites == null){
 			throw new Exception("Null sprite");
 		}else{
 			//NOTHINHG TO DO
 		}
 
+	}
+	
+	public void rendStringNULL(RenderableString renderableString ) throws Exception{
+	
+	if(renderableString == null){
+		throw new Exception("Null renderableString");
+	}else{
+		//NOTHINHG TO DO
+	}
+	}
+	
+	
+	
+	public void definfingSpriteLocation(Sprite[] sprites){
 		for (int i = 0; i < width / Sprite.SPRITE_WIDTH; i++) {
 			if (i == 0) {
 				sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
@@ -47,15 +75,6 @@ public class Button implements Renderable, Tickable {
 				sprites[i] = new Sprite(BUTTON_SPRITE + 1, positionX + i * Sprite.SPRITE_WIDTH, positionY, false);
 			}
 		}
-		renderableString = new RenderableString(textRenderable, 0, 0);
-		if(renderableString == null){
-			throw new Exception("Null renderableString");
-		}else{
-			//NOTHINHG TO DO
-		}
-		final int stringWidth = renderableString.width;
-
-		renderableString.goTo(positionX + (width - stringWidth) / 2, positionY + 2);
 	}
 
 	@Override
