@@ -14,13 +14,13 @@ public class RenderableString implements Renderable {
 	public int width = 0, height = 0;
 
 	public RenderableString(String represents, int x, int y) {
-		assert(represents != null): "Parameter represents(String) is null";
+		assert (represents != null) : "Parameter represents(String) is null";
 		this.represents = represents;
 		this.positionX = x;
 		this.positonY = y;
 		char[] chars = represents.toCharArray();
-		int x1 = 0;  //to change	
-		int y1 = 0;	 //to change
+		int x1 = 0; // to change
+		int y1 = 0; // to change
 		for (char c : chars) {
 			if (c == '\n') {
 				y1 += Sprite.LETTER_HEIGHT + LETTER_SPACING_VERTICAL;
@@ -48,19 +48,19 @@ public class RenderableString implements Renderable {
 	public BufferedImage draw() {
 		// TODO Image drawing code
 		BufferedImage bufferedImageOut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		assert(bufferedImageOut != null): "BufferedImageOut is null";
+		assert (bufferedImageOut != null) : "BufferedImageOut is null";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
-		assert(graphics != null): "Graphics2D-graphics parameter is null";
+		assert (graphics != null) : "Graphics2D-graphics parameter is null";
 		drawOn(graphics, positionX, positonY);
 		graphics.dispose();
-		assert(bufferedImageOut != null): "Return bufferedImageOut is null";
+		assert (bufferedImageOut != null) : "Return bufferedImageOut is null";
 		return bufferedImageOut;
 	}
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		assert(graphics != null): "Parameter graphics is null";
-		assert(charSprites != null): "charSprites is null";
+		assert (graphics != null) : "Parameter graphics is null";
+		assert (charSprites != null) : "charSprites is null";
 		for (Sprite sprite : charSprites) {
 			sprite.drawOn(graphics, scrollx, scrolly);
 		}

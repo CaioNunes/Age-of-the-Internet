@@ -9,7 +9,7 @@ import pitzik4.ageOfTheInternet.graphics.Sprite;
 public class Hacker implements RenderableTickable {
 	private Sprite sprite;
 	private int positionX = 0;
-	private int positionY = 0;	
+	private int positionY = 0;
 
 	public Hacker(final int positionX, final int positionY, final Point[] path) {
 		this.positionX = positionX;
@@ -57,12 +57,12 @@ public class Hacker implements RenderableTickable {
 		this.positionY = positionY;
 		sprite.goTo(positionX, positionY);
 	}
-	
-	
+
 	public static final int STEP_SIZE = 3;
 	private int progress = 0;
 	public boolean going = false;
 	private Point[] path;
+
 	@Override
 	public void tick() {
 		if (going) {

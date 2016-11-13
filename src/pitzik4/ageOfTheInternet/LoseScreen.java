@@ -18,7 +18,7 @@ public class LoseScreen implements RenderableTickable {
 	public LoseScreen(Game owner, final int x, final int y, final int width, final int height, final String reason) {
 		this.positionX = x;
 		this.positionY = y;
-		
+
 		blueFrame_bg = new BlueFrame(x, y, width, height);
 		youLose = new RenderableString("Level Unsuccessful", 0, 0);
 		youLose.goTo(x + ((width - youLose.width) / 2), y + (height / 3 - youLose.height / 2));
@@ -40,13 +40,14 @@ public class LoseScreen implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D graphics, final int scrollx, final int scrolly) {
-		try{
+		try {
 			blueFrame_bg.drawOn(graphics, scrollx, scrolly);
 			youLose.drawOn(graphics, scrollx, scrolly);
 			loseReason.drawOn(graphics, scrollx, scrolly);
 			retry.drawOn(graphics, scrollx, scrolly);
-		}catch(NullPointerException graphicsNull){
-			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		} catch (NullPointerException graphicsNull) {
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ",
+					"Error Graphics2D", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

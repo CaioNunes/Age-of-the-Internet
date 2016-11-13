@@ -81,58 +81,57 @@ public class Game extends Applet
 			levels[i] = remakeLevel(i);
 		}
 	}
-	
-	
+
 	// return player level.
 
 	private Stage remakeLevel(int levelNumber) {
-		assert(levelNumber>=0 && levelNumber<=11) : "Error on index value !";
-		
-		try{
-			switch(levelNumber){
-				case 0:
-					return new StartingCutscene(this);
-				
-				case 1:
-					return new TitleScreen(this);
-				
-				case 2:
-					return new Level(1, this);
-				
-				case 3:
-					return new Level(2, this);				
-				
-				case 4:
-					return new MoneyCutscene(this);					
-				
-				case 5:
-					return new Level(3, this);					
-				
-				case 6:
-					return new Level(4, this);	
-					
-				case 7:
-					return new Level(5, this);
-				
-				case 8:
-					return new HackerCutscene(this);					
-				
-				case 9:
-					return new Level(6, this);
-				
-				case 10:
-					return new Level(7, this);			
-				
-				case 11:
-					return new EndingCutscene(this);					
-				
-				default:
-					return null;
+		assert (levelNumber >= 0 && levelNumber <= 11) : "Error on index value !";
+
+		try {
+			switch (levelNumber) {
+			case 0:
+				return new StartingCutscene(this);
+
+			case 1:
+				return new TitleScreen(this);
+
+			case 2:
+				return new Level(1, this);
+
+			case 3:
+				return new Level(2, this);
+
+			case 4:
+				return new MoneyCutscene(this);
+
+			case 5:
+				return new Level(3, this);
+
+			case 6:
+				return new Level(4, this);
+
+			case 7:
+				return new Level(5, this);
+
+			case 8:
+				return new HackerCutscene(this);
+
+			case 9:
+				return new Level(6, this);
+
+			case 10:
+				return new Level(7, this);
+
+			case 11:
+				return new EndingCutscene(this);
+
+			default:
+				return null;
 			}
-		}catch(IOException inputError){
+		} catch (IOException inputError) {
 			System.out.println("Ocorreu um erro na execução do programa. Por favor, reinicie !");
 		}
-		
+
 		return null;
 	}
 
@@ -142,7 +141,7 @@ public class Game extends Applet
 		screen.addRenderable(backGround);
 		addTickable(backGround);
 		beginGame();
-		
+
 		new Thread(this).start();
 
 	}
@@ -154,16 +153,17 @@ public class Game extends Applet
 
 	@Override
 	public void paint(final Graphics graphics) {
-		assert(graphics!=null): "The paramater graphics is null";		
-		
-		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1, null);
+		assert (graphics != null) : "The paramater graphics is null";
+
+		graphics.drawImage(image, 0, 0, getWidth(), getHeight(), 0, 0, image.getWidth() - 1, image.getHeight() - 1,
+				null);
 		frames++;
 	}
 
 	@Override
 	public void update(final Graphics graphics) {
-		assert(graphics!=null): "The parameter graphics is null ";
-		
+		assert (graphics != null) : "The parameter graphics is null ";
+
 		paint(graphics);
 	}
 
@@ -179,18 +179,18 @@ public class Game extends Applet
 		long lastTime = System.currentTimeMillis();
 		long slowness = 0;
 		long lastSecond = lastTime;
-		
+
 		while (!stopping) {
 			time = System.currentTimeMillis();
 			slowness = time - lastTime;
 			catchup += slowness * TICKS_PER_MILLI;
 			lastTime = time;
-		
+
 			while (catchup >= 1.0) {
 				tick();
 				catchup--;
 			}
-			
+
 			updateScreen();
 			final int TIMECORRECTION = 1000;
 			if (time >= lastSecond + TIMECORRECTION) {
@@ -201,13 +201,13 @@ public class Game extends Applet
 			} else {
 				// nothing
 			}
-			
+
 			if (slowness != 0) {
 				try {
 					long MILISSECONDS = (int) Math.round(100.0 / (double) slowness);
 					Thread.sleep(MILISSECONDS);
 				} catch (InterruptedException e) {
-			
+
 				}
 			} else {
 				// nothing
@@ -218,32 +218,32 @@ public class Game extends Applet
 	public void tick() {
 		final int ESC_BUTTON = 27;
 		final int P_BUTTON = 80;
-		
+
 		if (!paused) {
 			ticks++;
 			tickAmount++;
-			
+
 			for (Tickable tickable : tickables) {
 				tickable.tick();
 			}
-			
+
 			if (currentLevel.isClosing()) {
 				nextLevel();
 			} else if (currentLevel.isResetting()) {
 				resetLevel();
 			}
 		}
-		
+
 		if ((keysDown.contains(ESC_BUTTON) || keysDown.contains(P_BUTTON)) && !wasPausing) {
 			pause(!paused);
 			pausedByKeyboard = paused;
 			wasPausing = true;
 		}
-		
+
 		if (!(keysDown.contains(ESC_BUTTON) || keysDown.contains(P_BUTTON))) {
 			wasPausing = false;
 		}
-		
+
 		if (mouseReleasedTooSoon) {
 			mouseReleasedTooSoon = false;
 			mouseDown = mouseActuallyDown;
@@ -251,28 +251,26 @@ public class Game extends Applet
 	}
 
 	public void addTickable(final Tickable tickable) {
-		
-		if(tickable != null){
-			tickables.add(tickable);			
-		}else{
-			//nothing to do.
+
+		if (tickable != null) {
+			tickables.add(tickable);
+		} else {
+			// nothing to do.
 		}
 	}
 
 	public void removeTickable(final Object tick) {
-		if(tick != null){
-			tickables.remove(tick);			
-		}else{
-			//nothing to do.
+		if (tick != null) {
+			tickables.remove(tick);
+		} else {
+			// nothing to do.
 		}
 	}
 
-	
 	public static void main(String[] args) {
 		Game game = new Game();
 		game.init();
-		
-	
+
 		JFrame frame = new JFrame(NAME);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
@@ -289,11 +287,11 @@ public class Game extends Applet
 	// Where games start's
 	public void beginGame() {
 		screen.closeAllMenus();
-		
+
 		if (level >= levels.length) {
 			level = 1;
 		}
-		
+
 		Stage lvl = levels[level];
 		screen.addRenderable(lvl);
 		addTickable(lvl);
@@ -344,7 +342,7 @@ public class Game extends Applet
 
 	@Override
 	public void windowDeiconified(final WindowEvent eventt) {
-		
+
 	}
 
 	@Override
@@ -354,7 +352,7 @@ public class Game extends Applet
 
 	@Override
 	public void windowOpened(final WindowEvent eventt) {
-		
+
 	}
 
 	// Keyboard event
@@ -417,24 +415,25 @@ public class Game extends Applet
 		if (!mouseReleasedTooSoon) {
 			mouseDown = false;
 		}
-		
+
 		mouseActuallyDown = false;
 	}
 
 	public boolean mouseInsideOf(int positionX, int positionY, final int width, final int height) {
 		positionX -= screen.getScrollX();
 		positionY -= screen.getScrollY();
-		
+
 		return mousePositionX >= positionX && mousePositionX < positionX + width && mousePositionY > positionY
 				&& mousePositionY <= positionY + height;
 	}
 
-	public boolean mouseInsideOf(int positionX, int positionY, final int width, final int height, final boolean mindScroll) {
+	public boolean mouseInsideOf(int positionX, int positionY, final int width, final int height,
+			final boolean mindScroll) {
 		if (mindScroll) {
 			positionX -= screen.getScrollX();
 			positionY -= screen.getScrollY();
 		}
-		
+
 		return mousePositionX >= positionX && mousePositionX < positionX + width && mousePositionY > positionY
 				&& mousePositionY <= positionY + height;
 	}

@@ -18,26 +18,28 @@ public class Menu implements Renderable, Tickable {
 	private int width = 0;
 	private int height = 0;
 
-	public Menu(Game owner, final int positionX, final int positionY, final int width, final String[] extraButtons, final String title) {
+	public Menu(Game owner, final int positionX, final int positionY, final int width, final String[] extraButtons,
+			final String title) {
 		this.positionX = positionX;
 		this.positionY = positionY;
-		
+
 		renderableString = new RenderableString(title, positionX, positionY);
 		this.height = extraButtons.length * (Sprite.SPRITE_HEIGHT + 2) - 2 + XButton.BU_SI + renderableString.height;
-		
+
 		if (height <= 0) {
 			height = 1;
 		} else {
-			//nothing
+			// nothing
 		}
-		
+
 		this.width = renderableString.width < width ? width : renderableString.width;
 		exitButton = new XButton(owner, positionX + width - XButton.BU_SI, positionY + renderableString.height);
 		buttons = new Button[extraButtons.length];
-		
+
 		for (int i = 0; i < extraButtons.length; i++) {
 			try {
-				buttons[i] = new Button(owner, positionX, positionY + (i * (Sprite.SPRITE_HEIGHT + 2)) + XButton.BU_SI + renderableString.height, width,
+				buttons[i] = new Button(owner, positionX,
+						positionY + (i * (Sprite.SPRITE_HEIGHT + 2)) + XButton.BU_SI + renderableString.height, width,
 						extraButtons[i]);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -45,24 +47,23 @@ public class Menu implements Renderable, Tickable {
 			}
 		}
 	}
-	
-	
+
 	private boolean exiting = false;
 	public boolean exited = false;
 
 	@Override
 	public void tick() {
-		
+
 		for (Button button : buttons) {
 			button.tick();
 		}
-		
+
 		exitButton.tick();
-		
+
 		if (exiting && !exitButton.isClicked) {
 			exited = true;
 		}
-		
+
 		exiting = exitButton.isClicked;
 	}
 
@@ -72,13 +73,13 @@ public class Menu implements Renderable, Tickable {
 		Graphics2D g = out.createGraphics();
 		drawOn(g, positionX, positionY);
 		g.dispose();
-		
+
 		return out;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, final int scrollx, final int scrolly) {
-		try{
+		try {
 			if (!exited) {
 				for (Button b : buttons) {
 					b.drawOn(g, scrollx, scrolly);
@@ -86,8 +87,9 @@ public class Menu implements Renderable, Tickable {
 				exitButton.drawOn(g, scrollx, scrolly);
 				renderableString.drawOn(g, scrollx, scrolly);
 			}
-		}catch(NullPointerException graphicsNull){
-			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ", "Error Graphics2D", JOptionPane.ERROR_MESSAGE);
+		} catch (NullPointerException graphicsNull) {
+			JOptionPane.showMessageDialog(null, "Have an error to load graphics2D ! Restart the game ",
+					"Error Graphics2D", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -115,14 +117,14 @@ public class Menu implements Renderable, Tickable {
 	public void goTo(final int x, final int y) {
 		final int dx = x - this.positionX;
 		final int dy = y - this.positionY;
-		
+
 		this.positionX = x;
 		this.positionY = y;
-		
+
 		for (Button b : buttons) {
 			b.goTo(b.getX() + dx, b.getY() + dy);
 		}
-		
+
 		exitButton.goTo(exitButton.getX() + dx, exitButton.getY() + dy);
 		renderableString.goTo(x, y);
 	}

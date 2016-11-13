@@ -23,18 +23,18 @@ public class ExplosionParticle implements RenderableTickable {
 	@Override
 	public BufferedImage draw() {
 		BufferedImage bufferedImageOut = new BufferedImage(2, 2, BufferedImage.TYPE_INT_RGB);
-		assert(bufferedImageOut != null): "BufferedImageOut is null";
+		assert (bufferedImageOut != null) : "BufferedImageOut is null";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
-		assert(graphics != null): "graphics is null";
+		assert (graphics != null) : "graphics is null";
 		drawOn(graphics, (int) Math.round(positionX), (int) Math.round(positionY));
 		graphics.dispose();
-		assert(bufferedImageOut != null): "Return BufferedImageOut is null";
+		assert (bufferedImageOut != null) : "Return BufferedImageOut is null";
 		return bufferedImageOut;
 	}
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		assert(graphics != null): "Graphics2D-graphics parameter is null";
+		assert (graphics != null) : "Graphics2D-graphics parameter is null";
 		graphics.setPaint(new Color(0x60BFBF));
 		graphics.fillRect((int) Math.round(positionX - scrollx), (int) Math.round(positionY - scrolly), 2, 2);
 	}

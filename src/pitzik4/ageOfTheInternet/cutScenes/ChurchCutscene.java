@@ -25,7 +25,7 @@ public class ChurchCutscene implements Stage {
 	private boolean closing = false;
 	private Game owner;
 	private Set<Integer> lastKeysPressed = new HashSet<Integer>();
-	
+
 	// Default Values
 	private static final int DEFAULT_WIDTH = 320;
 	private static final int DEFAULT_HEIGHT = 240;
@@ -51,7 +51,7 @@ public class ChurchCutscene implements Stage {
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
 		scrollx = 0;
 		scrolly = 0;
-		if(graphics != null){
+		if (graphics != null) {
 			graphics.drawImage(StartingCutscene.bg, 0, 0, null);
 		} else {
 			// do nothing
@@ -64,7 +64,7 @@ public class ChurchCutscene implements Stage {
 		} else {
 			// do nothing
 		}
-			
+
 	}
 
 	@Override
@@ -113,61 +113,70 @@ public class ChurchCutscene implements Stage {
 		final int text_y_position = 4;
 		final int box_width = 312; // >=200
 		final int box_height = 64;
-		switch(lifeTime) {
+		switch (lifeTime) {
 		case 10:
 			final String dialog_text_10 = "What's new?";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_10);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.tobyHead, dialog_text_10);
 			dialogue.go();
-			lifeTime++;		
+			lifeTime++;
 			break;
 		case 12:
 			final String dialog_text_12 = "Well, I heard the Church of Pitzik4 has weak Internet security.";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text_12);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.drThompsonHead, dialog_text_12);
 			dialogue.go();
 			lifeTime++;
 			break;
 		case 14:
 			final String dialog_text_14 = "I don't believe in Pitzik4. I'll hack them.";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_14);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.tobyHead, dialog_text_14);
 			dialogue.go();
 			lifeTime++;
 			break;
 		case 16:
 			final String dialog_text_16 = "That's not very nice.";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text_16);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.drThompsonHead, dialog_text_16);
 			dialogue.go();
 			lifeTime++;
 			break;
-			
+
 		case 18:
 			final String dialog_text_18 = "Don't worry, I have an idea on what to do with them.";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_18);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.tobyHead, dialog_text_18);
 			dialogue.go();
 			lifeTime++;
 			break;
-			
+
 		case 20:
 			final String dialog_text_20 = "I'll schedule a whole bunch of events so that corporations'";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_20);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.tobyHead, dialog_text_20);
 			dialogue.go();
 			lifeTime++;
 			break;
-			
+
 		case 22:
 			final String dialog_text_22 = "counter-hackers are occupied.";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_22);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.tobyHead, dialog_text_22);
 			dialogue.go();
 			lifeTime++;
 			break;
 		case 24:
 			final String dialog_text_24 = "That's actually quite clever...";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.drThompsonHead, dialog_text_24);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.drThompsonHead, dialog_text_24);
 			dialogue.go();
 			lifeTime++;
 			break;
 		case 26:
 			final String dialog_text_26 = "You sound surprised.";
-			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height, StartingCutscene.tobyHead, dialog_text_26);
+			dialogue = new InfoBox(box_diagonal_position, text_y_position, box_width, box_height,
+					StartingCutscene.tobyHead, dialog_text_26);
 			dialogue.go();
 			lifeTime++;
 			break;
@@ -175,7 +184,7 @@ public class ChurchCutscene implements Stage {
 			done = true;
 			break;
 		}
-		
+
 		final int enter_key = 10;
 		if (owner.keysDown.contains(enter_key)) {
 			done = true;

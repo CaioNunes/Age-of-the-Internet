@@ -20,8 +20,8 @@ public class InfoBox implements Renderable, Tickable {
 	private boolean going = false;
 
 	public InfoBox(int x, int y, int width, int height, Renderable sideGraphic, String displayWhat) {
-		assert(sideGraphic != null): "Renderable-sideGraphic parameter is null";
-		assert(displayWhat != null): "displayWhat parameter is null";
+		assert (sideGraphic != null) : "Renderable-sideGraphic parameter is null";
+		assert (displayWhat != null) : "displayWhat parameter is null";
 		this.positionX = x;
 		this.positionY = y;
 		this.width = width;
@@ -29,7 +29,7 @@ public class InfoBox implements Renderable, Tickable {
 		this.sideGraphic = sideGraphic;
 		this.displayWhat = displayWhat;
 		background = new Sprite[width / BG_SPRITE_SIZE][height / BG_SPRITE_SIZE];
-		assert(background != null): "background var is null";
+		assert (background != null) : "background var is null";
 		for (int i = 0; i < width; i += BG_SPRITE_SIZE) {
 			for (int j = 0; j < height; j += BG_SPRITE_SIZE) {
 				int whichx;
@@ -66,28 +66,28 @@ public class InfoBox implements Renderable, Tickable {
 	@Override
 	public BufferedImage draw() {
 		BufferedImage bufferedImageOut = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		assert(bufferedImageOut != null): "BufferedImageOut is null";
+		assert (bufferedImageOut != null) : "BufferedImageOut is null";
 		Graphics2D graphics = bufferedImageOut.createGraphics();
-		assert(graphics != null): "Graphics2D-graphics is null";
+		assert (graphics != null) : "Graphics2D-graphics is null";
 		drawOn(graphics, 0, 0);
 		graphics.dispose();
-		assert(bufferedImageOut != null): "Return bufferedImageOut is null";
+		assert (bufferedImageOut != null) : "Return bufferedImageOut is null";
 		return bufferedImageOut;
 	}
 
 	@Override
 	public void drawOn(Graphics2D graphics, int scrollx, int scrolly) {
-		assert(graphics != null): "Graphics2D-graphics parameter is null";
+		assert (graphics != null) : "Graphics2D-graphics parameter is null";
 		scrollx = scrolly = 0;
-		assert(background != null): "background attribute is null";
+		assert (background != null) : "background attribute is null";
 		for (Sprite[] ss : background) {
-			assert(ss != null): "ss var is null";
+			assert (ss != null) : "ss var is null";
 			for (Sprite s : ss) {
-				assert(s != null): "s var is null";
+				assert (s != null) : "s var is null";
 				s.drawOn(graphics, scrollx, scrolly);
 			}
 		}
-		assert(renderableString != null): "renderableString attribute is null";	
+		assert (renderableString != null) : "renderableString attribute is null";
 		renderableString.drawOn(graphics, scrollx, scrolly);
 		if (sideGraphic != null) {
 			// sideGraphic.drawOn(g,
@@ -124,15 +124,15 @@ public class InfoBox implements Renderable, Tickable {
 		int dy = y - this.positionY;
 		this.positionX = x;
 		this.positionY = y;
-		assert(background != null): "background attribute is null";
+		assert (background != null) : "background attribute is null";
 		for (Sprite[] ss : background) {
-			assert(ss != null): "ss var is null";
+			assert (ss != null) : "ss var is null";
 			for (Sprite s : ss) {
-				assert(s != null): "s var is null";
+				assert (s != null) : "s var is null";
 				s.goTo(s.getX() + dx, s.getY() + dy);
 			}
 		}
-		assert(renderableString != null): "renderableString attribute is null";
+		assert (renderableString != null) : "renderableString attribute is null";
 		renderableString.goTo(renderableString.getX() + dx, renderableString.getY() + dy);
 	}
 
@@ -143,19 +143,17 @@ public class InfoBox implements Renderable, Tickable {
 			if (nextLetterCountdown <= 0) {
 				nextLetterCountdown = WAIT_BETWEEN_CHARS;
 				nextLetter();
+			} else {
+				// nothing
 			}
-			else{
-				//nothing
-			}
-		}
-		else{
-			//nothing
+		} else {
+			// nothing
 		}
 	}
 
 	public void nextLetter() {
-		assert(currentDisp != null): "currentDisp attribute is null";
-		assert(displayWhat != null): "displayWhat attribute is null";
+		assert (currentDisp != null) : "currentDisp attribute is null";
+		assert (displayWhat != null) : "displayWhat attribute is null";
 		if (currentDisp.length() < displayWhat.length()) {
 			String string = renderableString.represents;
 			char nextChar = displayWhat.charAt(currentDisp.length());
@@ -163,12 +161,12 @@ public class InfoBox implements Renderable, Tickable {
 			currentDisp += nextChar;
 			// System.out.format("Next character: %c%n", nextChar);
 			RenderableString tmpStr = new RenderableString(string, renderableString.getX(), renderableString.getY());
-			assert(tmpStr != null): "tmpStr var is null";
+			assert (tmpStr != null) : "tmpStr var is null";
 			if (tmpStr.width > width - tmpStr.getX() + positionX - BG_SPRITE_SIZE) {
 				// System.out.println("Making new line");
 				int whereNewLine = tmpStr.represents.lastIndexOf(" ") + 1;
 				StringBuilder sb = new StringBuilder(tmpStr.represents);
-				assert(sb != null): "sb var is null";
+				assert (sb != null) : "sb var is null";
 				if (whereNewLine == sb.toString().length()) {
 					sb.replace(sb.toString().length() - 1, sb.toString().length(), "\n");
 				} else {

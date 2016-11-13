@@ -26,7 +26,7 @@ public class MoneyParticle implements RenderableTickable {
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
-		assert(g != null): "Parameter Graphics2D is null";
+		assert (g != null) : "Parameter Graphics2D is null";
 		sprite.drawOn(g, scrollx, scrolly);
 	}
 
@@ -62,9 +62,8 @@ public class MoneyParticle implements RenderableTickable {
 		lifetime++;
 		if (lifetime > LIFE_SPAN) {
 			dead = true;
-		}
-		else{
-			//nothing
+		} else {
+			// nothing
 		}
 		goTo(positionX, positionY - 1);
 	}
