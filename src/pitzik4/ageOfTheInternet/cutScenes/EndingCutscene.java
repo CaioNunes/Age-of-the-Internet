@@ -1,3 +1,6 @@
+// File:EndingCutscene.java
+//Objective: last cut scene in the game
+
 package pitzik4.ageOfTheInternet.cutScenes;
 
 import java.awt.Dimension;
