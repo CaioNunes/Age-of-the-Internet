@@ -1,3 +1,6 @@
+// File: ChurchCutscene.java
+//Objective: cut scene when player get in a church and need to hack it
+
 package pitzik4.ageOfTheInternet.cutScenes;
 
 import java.awt.Dimension;
