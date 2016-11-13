@@ -1,3 +1,6 @@
+// File:HackerCutscene.java
+//Objective: cut scene saying for player that have others hackers
+
 package pitzik4.ageOfTheInternet.cutScenes;
 
 import java.awt.Dimension;
