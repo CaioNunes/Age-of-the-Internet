@@ -1,3 +1,6 @@
+// File:StartingCutscene.java
+//Objective: first cut scene of the game
+
 package pitzik4.ageOfTheInternet.cutScenes;
 
 import java.awt.Dimension;
