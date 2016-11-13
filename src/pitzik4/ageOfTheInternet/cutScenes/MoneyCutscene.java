@@ -1,3 +1,5 @@
+// File:MoneyCutscne.java
+//Objective: first time that palyer won money in the game
 package pitzik4.ageOfTheInternet.cutScenes;
 
 import java.awt.Dimension;
