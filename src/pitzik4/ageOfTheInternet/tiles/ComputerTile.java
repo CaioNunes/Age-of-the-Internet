@@ -28,6 +28,10 @@ public class ComputerTile extends Tile {
 	}
 
 	@Override
+	/*
+	 * The tick method set the behavior of the many things. And this override 
+	 * of the ComputerTile show if the computer can be hacked by the cost or unhacked.
+	 */
 	public void tick() {
 		if (owner.mouseInsideOf(getX(), getY(), Sprite.SPRITE_WIDTH, Sprite.SPRITE_HEIGHT)) {
 			if (owner.mouseDown) {
