@@ -139,6 +139,10 @@ public class Button implements Renderable, Tickable {
 	}
 
 	@Override
+	/*
+	 * The tick method set the behavior of the many things. And this override 
+	 * of the button, showing if is possible be clicked and be scrolled.
+	 */
 	public void tick() {
 		if (owner.mouseInsideOf(positionX, positionY, width, Sprite.SPRITE_HEIGHT)) {
 			beScrolled(true);
