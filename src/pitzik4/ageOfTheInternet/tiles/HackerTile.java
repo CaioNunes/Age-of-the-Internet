@@ -166,6 +166,11 @@ public class HackerTile extends Tile {
 		}
 	}
 
+	/*
+	 * The method unhack verify the ComputerTile was hacked and in sequence
+	 * allows the tile to be unhacked and after unhacked enable again the 
+	 * option to be hacked
+	 */
 	public void unHack() {
 		if (yoursLeft < TRIES_TO_HACK) {
 			initiatedUnhacking = true;
