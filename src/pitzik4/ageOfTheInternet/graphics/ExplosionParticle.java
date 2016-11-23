@@ -70,6 +70,8 @@ public class ExplosionParticle implements RenderableTickable {
 		lifetime++;
 		if (lifetime > LIFE_SPAN) {
 			dead = true;
+		} else {
+			// DO NOTHING
 		}
 		positionX += Math.cos(direction);
 		positionY += Math.sin(direction);
