@@ -84,6 +84,15 @@ public class Game extends Applet
 
 	// return player level.
 
+	/**
+	 * 
+	 * s
+	 * @param levelNumber
+	 * @return
+	 * 
+	 * this class is about the player level, 
+	 * his max level is seven, and min is 1
+	 */
 	private Stage remakeLevel(int levelNumber) {
 		assert (levelNumber >= 0 && levelNumber <= 11) : "Error on index value !";
 
