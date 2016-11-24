@@ -64,7 +64,7 @@ public class Game extends Applet
 	public static final int WIDTH = 640;
 	public static final int HEIGHT = 480;
 	public static final String NAME = "Age of the Internet";
-	public static final double TICKS_PER_MILLI = 20.0 / 1000.0;
+	public static final double TICKS_PER_MILLI = (double) 20.0 / 1000.0;
 
 	@Override
 	public void init() {
@@ -146,7 +146,7 @@ public class Game extends Applet
 
 	@Override
 	public void start() {
-		Background backGround = new Background(0, 0, WIDTH / Screen.POOR_RES, HEIGHT / Screen.POOR_RES);
+		Background backGround = new Background(0, 0, (int) (WIDTH / Screen.POOR_RES), (int) (HEIGHT / Screen.POOR_RES));
 		screen.addRenderable(backGround);
 		addTickable(backGround);
 		beginGame();
@@ -213,7 +213,7 @@ public class Game extends Applet
 
 			if (slowness != 0) {
 				try {
-					long MILISSECONDS = (int) Math.round(100.0 / (double) slowness);
+					long MILISSECONDS = (long) Math.round(100.0 / (double) slowness);
 					Thread.sleep(MILISSECONDS);
 				} catch (InterruptedException e) {
 
@@ -305,7 +305,7 @@ public class Game extends Applet
 		screen.addRenderable(lvl);
 		addTickable(lvl);
 		currentLevel = lvl;
-		screen.scrollTo(0 - (WIDTH / 2 - lvl.getWidth()) / 2, 0 - (HEIGHT / 2 - lvl.getHeight()) / 2);
+		screen.scrollTo(0 - (int) ((WIDTH / 2 - lvl.getWidth()) / 2), 0 - (int) ((HEIGHT / 2 - lvl.getHeight()) / 2));
 		CorporationTile.resetStats();
 		HackerTile.resetStats();
 		level++;
