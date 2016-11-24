@@ -21,11 +21,11 @@ public class LoseScreen implements RenderableTickable {
 
 		blueFrame_bg = new BlueFrame(x, y, width, height);
 		youLose = new RenderableString("Level Unsuccessful", 0, 0);
-		youLose.goTo(x + ((width - youLose.width) / 2), y + (height / 3 - youLose.height / 2));
+		youLose.goTo(x + (int) ((width - youLose.width) / 2), y + (int) (height / 3 - youLose.height / 2));
 		loseReason = new RenderableString(reason, 0, 0);
-		loseReason.goTo(x + ((width - loseReason.width) / 2), y + (height / 2 - loseReason.height / 2));
+		loseReason.goTo(x + (int) ((width - loseReason.width) / 2), y + (int) (height / 2 - loseReason.height / 2));
 		try {
-			retry = new Button(owner, x + width / 4, y + (height / 3) * 2, width / 2, "Retry");
+			retry = new Button(owner, x + (int) (width / 4), y + (int) ((height / 3) * 2), (int) (width / 2), "Retry");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
