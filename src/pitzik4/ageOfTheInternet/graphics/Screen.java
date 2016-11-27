@@ -46,8 +46,8 @@ public class Screen implements Tickable {
 		BufferedImage bufferedImageOut = null;
 		try {
 			bufferedImageOut = ImageIO.read(Game.class.getResourceAsStream("/" + name + ".gif"));
-		} catch (IOException exception) {
-			exception.printStackTrace();
+		} catch (IOException ioException) {
+			ioException.printStackTrace();
 		}
 		return bufferedImageOut;
 	}
