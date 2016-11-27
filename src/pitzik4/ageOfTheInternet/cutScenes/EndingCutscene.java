@@ -94,6 +94,12 @@ public class EndingCutscene implements Stage {
 		return new Animation(sprites, 1, element_x_position, element_y_position, false);
 	}
 
+	/*
+	 * this structure analyse if the player are in the  part of the game called Ending
+	 * and if he is play a cut Scene
+	 * this is the last cut scene in the game
+	 */
+	
 	public EndingCutscene(Game owner) {
 		if (owner != null) {
 			this.owner = owner;
