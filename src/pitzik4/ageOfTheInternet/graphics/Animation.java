@@ -12,26 +12,26 @@ public class Animation implements RenderableTickable {
 	private int[] durations;
 	private int currentFrame = 0;
 	private int countDown = 0;
-	private int x = 0;
-	private int y = 0;
+	private int positionX = 0;
+	private int positionY = 0;
 	private boolean looping = false;
 	private boolean going = false;
 
-	public Animation(Renderable[] frames, int[] durations, int x, int y, boolean looping) {
+	public Animation(Renderable[] frames, int[] durations, int positionX, int positionY, boolean looping) {
 		assert (frames != null) : "Parameter Renderable[]-Frames is null";
 		assert (durations != null) : "Parameter Int[]-Durations is null";
 
 		this.setFrames(frames);
 		this.setDurations(durations);
 		this.setCountDown(durations[getCurrentFrame()]);
-		this.setX(x);
-		this.setY(y);
+		this.setX(positionX);
+		this.setY(positionY);
 		this.setLooping(looping);
 	}
 
-	public Animation(Renderable[] frames, int duration, int x, int y, boolean looping) {
+	public Animation(Renderable[] frames, int duration, int positionX, int positionY, boolean looping) {
 		// Assert is not allowed in this line.
-		this(frames, new int[frames.length], x, y, looping);
+		this(frames, new int[frames.length], positionX, positionY, looping);
 		int[] durs = new int[frames.length];
 
 		for (int i = 0; i < durs.length; i++) {
@@ -41,19 +41,19 @@ public class Animation implements RenderableTickable {
 		this.setDurations(durs);
 	}
 
-	public Animation(int[] frames, int[] durations, int x, int y, boolean looping) {
+	public Animation(int[] frames, int[] durations, int positionX, int positionY, boolean looping) {
 		// Assert is not allowed in this line.
-		this(new Renderable[frames.length], durations, x, y, looping);
+		this(new Renderable[frames.length], durations, positionX, positionY, looping);
 		for (int i = 0; i < this.getFrames().length; i++) {
-			this.getFrames()[i] = new Sprite(frames[i], x, y, false);
+			this.getFrames()[i] = new Sprite(frames[i], positionX, positionY, false);
 		}
 	}
 
-	public Animation(int[] frames, int duration, int x, int y, boolean looping) {
+	public Animation(int[] frames, int duration, int positionX, int positionY, boolean looping) {
 		// Assert is not allowed in this line.
-		this(new Renderable[frames.length], duration, x, y, looping);
+		this(new Renderable[frames.length], duration, positionX, positionY, looping);
 		for (int i = 0; i < this.getFrames().length; i++) {
-			this.getFrames()[i] = new Sprite(frames[i], x, y, false);
+			this.getFrames()[i] = new Sprite(frames[i], positionX, positionY, false);
 		}
 	}
 
@@ -74,12 +74,12 @@ public class Animation implements RenderableTickable {
 
 	@Override
 	public int getX() {
-		return x;
+		return positionX;
 	}
 
 	@Override
 	public int getY() {
-		return y;
+		return positionY;
 	}
 
 	@Override
@@ -188,11 +188,11 @@ public class Animation implements RenderableTickable {
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		this.positionX = x;
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.positionY = y;
 	}
 
 }
