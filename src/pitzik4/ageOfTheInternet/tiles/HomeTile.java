@@ -53,12 +53,20 @@ public class HomeTile extends Tile {
 				rightClickMenu = null;
 			}
 		}
+		
+		object_ending(RI_CLI_MENU_OPTIONS);
+		object_ending(RI_CLI_MENU_TITLE);
 	}
 
 	@Override
 	public int hackCost() {
 		int cost = 0;
 		return cost;
+	}
+	
+	//make it easyer to the garbage collector get it
+	private void object_ending(Object object){
+        object = null;
 	}
 
 }
