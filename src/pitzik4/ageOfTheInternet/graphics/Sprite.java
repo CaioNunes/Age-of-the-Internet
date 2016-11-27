@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public class Sprite implements Renderable {
 	private int positionX = 0;
 	private int positionY = 0;
-	private BufferedImage image;
+	private BufferedImage bufferedImage;
 	public static final int SPRITE_WIDTH = 16;
 	public static final int SPRITE_HEIGHT = 16;
 	public static final int LETTER_WIDTH = 8;
@@ -18,8 +18,8 @@ public class Sprite implements Renderable {
 		assert (spritesheet != null) : "Paramater BufferedImage is null";
 		this.positionX = x;
 		this.positionY = y;
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphics = image.createGraphics();
+		bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = bufferedImage.createGraphics();
 		graphics.drawImage(spritesheet, 0 - ((which * width) % spritesheet.getWidth()),
 				0 - (((which) / (spritesheet.getWidth() / width)) * height), null);
 		graphics.dispose();
@@ -36,14 +36,14 @@ public class Sprite implements Renderable {
 
 	@Override
 	public BufferedImage draw() {
-		assert (image != null) : "Paramater BufferedImage is null";
-		return image;
+		assert (bufferedImage != null) : "Paramater BufferedImage is null";
+		return bufferedImage;
 	}
 
 	@Override
 	public void drawOn(Graphics2D g, int scrollx, int scrolly) {
 		assert (g != null) : "Paramater Graphics2D is null";
-		g.drawImage(image, positionX - scrollx, positionY - scrolly, null);
+		g.drawImage(bufferedImage, positionX - scrollx, positionY - scrolly, null);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class Sprite implements Renderable {
 
 	public void mergeSprite(Sprite spr) {
 		assert (spr != null) : "Paramater Sprite is null";
-		Graphics2D graphics = image.createGraphics();
+		Graphics2D graphics = bufferedImage.createGraphics();
 		graphics.drawImage(spr.draw(), 0, 0, null);
 		graphics.dispose();
 	}
