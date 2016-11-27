@@ -30,7 +30,10 @@ public class ChurchCutscene implements Stage {
 	private static final int DEFAULT_WIDTH = 320;
 	private static final int DEFAULT_HEIGHT = 240;
 
-	
+	/*
+	 * this structure analyse if the player are in the  part of the game called Church
+	 * and if he is play a cut Scene
+	 */
 	public ChurchCutscene(Game owner) {
 		if (owner != null) {
 			this.owner = owner;
