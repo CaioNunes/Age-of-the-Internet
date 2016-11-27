@@ -95,6 +95,8 @@ public class InfoBox implements Renderable, Tickable {
 			// sideGraphic.getY()+scrolly-BG_SPRITE_SIZE-y);
 			graphics.drawImage(sideGraphic.draw(), positionX - scrollx + BG_SPRITE_SIZE,
 					(positionY + positionY + height - sGrHeight) / 2, null);
+		} else {
+			// DO NOTHING
 		}
 	}
 
@@ -144,10 +146,10 @@ public class InfoBox implements Renderable, Tickable {
 				nextLetterCountdown = WAIT_BETWEEN_CHARS;
 				nextLetter();
 			} else {
-				// nothing
+				// DO NOTHING
 			}
 		} else {
-			// nothing
+			// DO NOTHING
 		}
 	}
 
@@ -180,11 +182,17 @@ public class InfoBox implements Renderable, Tickable {
 					going = false;
 					tmpStr = renderableString;
 					// System.out.println("Too tall, stopping");
+				} else {
+					// DO NOTHING
 				}
+			} else {
+				// DO NOTHING
 			}
 			renderableString = tmpStr;
 			if (Character.isWhitespace(nextChar)) {
 				nextLetter();
+			} else {
+				// DO NOTHING
 			}
 		} else {
 			going = false;

@@ -120,44 +120,75 @@ public class Screen implements Tickable {
 		if (rumbleForce > 0) {
 			rumbleX = (byte) (rumbleRand.nextInt(rumbleForce) - (rumbleForce / 2));
 			rumbleY = (byte) (rumbleRand.nextInt(rumbleForce) - (rumbleForce / 2));
+		} else {
+			// DO NOTHING
 		}
+		
 		if (owner.keysDown.contains(37)) {
 			if (xVelocity > -6) {
 				xVelocity -= 1;
+			} else {
+				// DO NOTHING
 			}
+		} else {
+			// DO NOTHING
 		}
+		
 		if (owner.keysDown.contains(39)) {
 			if (xVelocity < 6) {
 				xVelocity += 1;
+			} else {
+				// DO NOTHING
 			}
+		} else {
+			// DO NOTHING
 		}
+		
 		if (owner.keysDown.contains(38)) {
 			if (yVelocity > -6) {
 				yVelocity -= 1;
+			} else {
+				// DO NOTHING
 			}
+		} else {
+			// DO NOTHING
 		}
+		
 		if (owner.keysDown.contains(40)) {
 			if (yVelocity < 6) {
 				yVelocity += 1;
+			} else {
+				// DO NOTHING
 			}
+		} else {
+			// DO NOTHING
 		}
+		
 		if (!(owner.keysDown.contains(37) || owner.keysDown.contains(39))) {
 			if (xVelocity < 0) {
 				xVelocity += 1;
 			} else if (xVelocity > 0) {
 				xVelocity -= 1;
+			} else {
+				// DO NOTHING
 			}
 		}
+		
 		if (!(owner.keysDown.contains(38) || owner.keysDown.contains(40))) {
 			if (yVelocity < 0) {
 				yVelocity += 1;
 			} else if (yVelocity > 0) {
 				yVelocity -= 1;
+			} else {
+				// DO NOTHING
 			}
 		}
+		
 		if (owner.currentLevel.isScrollable()) {
 			scrollx += xVelocity;
 			scrolly += yVelocity;
+		} else {
+			// DO NOTHING
 		}
 	}
 
@@ -204,6 +235,8 @@ public class Screen implements Tickable {
 			Renderable render = it.next();
 			if (render instanceof Menu) {
 				it.remove();
+			} else {
+				// DO NOTHING
 			}
 		}
 	}

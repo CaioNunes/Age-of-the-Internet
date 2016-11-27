@@ -60,6 +60,8 @@ public class ComputerTile extends Tile {
 				rightClickMenu = null;
 			}
 		}
+		object_ending(rightClickMenuOptions);
+		object_ending(rightClickMenu);
 	}
 
 	@Override
@@ -123,5 +125,9 @@ public class ComputerTile extends Tile {
 	public boolean isEvil() {
 		return theirs;
 	}
-
+	
+	//make it easyer to the garbage collector get it
+	private void object_ending(Object object){
+		object = null;
+	}
 }

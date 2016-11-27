@@ -132,10 +132,14 @@ public class Animation implements RenderableTickable {
 						this.setCurrentFrame(this.getCurrentFrame() - 1);
 						return;
 					}
+				} else {
+					// DO NOTHING
 				}
 				assert (this.getDurations() != null) : "Durations is null";
 				this.setCountDown(this.getDurations()[this.getCurrentFrame()]);
 			}
+		} else {
+			// DO NOTHING
 		}
 	}
 

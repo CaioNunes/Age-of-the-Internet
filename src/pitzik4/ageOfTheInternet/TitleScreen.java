@@ -18,7 +18,7 @@ public class TitleScreen implements Stage {
 
 	public TitleScreen(Game owner) {
 		try {
-			title = ImageIO.read(Game.class.getResourceAsStream("/title.gif"));
+			title = (BufferedImage) ImageIO.read(Game.class.getResourceAsStream("/title.gif"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

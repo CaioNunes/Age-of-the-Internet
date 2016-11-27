@@ -23,10 +23,14 @@ public class Background implements Renderable, Tickable {
 
 		if (width % Sprite.SPRITE_WIDTH != 0) {
 			throw new RuntimeException("Illegal width for Background: " + width);
+		} else {
+			// DO NOTHING
 		}
 
 		if (height % Sprite.SPRITE_HEIGHT != 0) {
 			throw new RuntimeException("Illegal height for Background: " + height);
+		} else {
+			// DO NOTHING
 		}
 
 		setTiles(new Sprite[height / Sprite.SPRITE_HEIGHT][width / Sprite.SPRITE_WIDTH + 1]);
@@ -152,15 +156,21 @@ public class Background implements Renderable, Tickable {
 						tiless.goTo(tiless.getX() + 1, tiless.getY());
 						if (tiless.getX() > getPositionX() + getWidth()) {
 							tiless.goTo(getPositionX() - Sprite.SPRITE_WIDTH + 1, tiless.getY());
+						} else {
+							// DO NOTHING
 						}
 					} else {
 						tiless.goTo(tiless.getX() - 1, tiless.getY());
 						if (tiless.getX() < getPositionX() - Sprite.SPRITE_WIDTH) {
 							tiless.goTo(getPositionX() + getWidth() - 1, tiless.getY());
+						} else {
+							// DO NOTHING
 						}
 					}
 				}
 			}
+		} else {
+			// DO NOTHING
 		}
 	}
 

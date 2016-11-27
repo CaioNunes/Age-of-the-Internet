@@ -27,14 +27,14 @@ public class Button implements Renderable, Tickable {
 		this.positionY = positionY;
 		this.width = width;
 
-		sprites = new Sprite[width / Sprite.SPRITE_WIDTH];
+		sprites = new Sprite[(int) (width / Sprite.SPRITE_WIDTH)];
 		spritesChecNULLk(sprites);
 		definfingSpriteLocation(sprites);
 
 		renderableString = new RenderableString(textRenderable, 0, 0);
 		rendStringNULL(renderableString);
 		final int stringWidth = renderableString.width;
-		renderableString.goTo(positionX + (width - stringWidth) / 2, positionY + 2);
+		renderableString.goTo(positionX + (int) ((width - stringWidth) / 2), positionY + 2);
 
 	}
 
@@ -69,7 +69,7 @@ public class Button implements Renderable, Tickable {
 		for (int i = 0; i < width / Sprite.SPRITE_WIDTH; i++) {
 			if (i == 0) {
 				sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
-			} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+			} else if (i == (int) (width / Sprite.SPRITE_WIDTH) - 1) {
 				sprites[i] = new Sprite(BUTTON_SPRITE + 2, positionX + i * Sprite.SPRITE_WIDTH, positionY, false);
 			} else {
 				sprites[i] = new Sprite(BUTTON_SPRITE + 1, positionX + i * Sprite.SPRITE_WIDTH, positionY, false);
@@ -173,7 +173,7 @@ public class Button implements Renderable, Tickable {
 				for (int i = 0; i < sprites.length; i++) {
 					if (i == 0) {
 						sprites[i] = new Sprite(BUTTON_SPRITE + 3, positionX, positionY, false);
-					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+					} else if (i == (int) (width / Sprite.SPRITE_WIDTH) - 1) {
 						sprites[i] = new Sprite(BUTTON_SPRITE + 5, positionX + i * Sprite.SPRITE_WIDTH, positionY,
 								false);
 					} else {
@@ -185,7 +185,7 @@ public class Button implements Renderable, Tickable {
 				for (int i = 0; i < sprites.length; i++) {
 					if (i == 0) {
 						sprites[i] = new Sprite(BUTTON_SPRITE, positionX, positionY, false);
-					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+					} else if (i == (int) (width / Sprite.SPRITE_WIDTH) - 1) {
 						sprites[i] = new Sprite(BUTTON_SPRITE + 2, positionX + i * Sprite.SPRITE_WIDTH, positionY,
 								false);
 					} else {
@@ -205,7 +205,7 @@ public class Button implements Renderable, Tickable {
 				for (int i = 0; i < sprites.length; i++) {
 					if (i == 0) {
 						sprites[i] = new Sprite(BUTTON_SPRITE + 6, positionX, positionY, false);
-					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+					} else if (i == (int) (width / Sprite.SPRITE_WIDTH) - 1) {
 						sprites[i] = new Sprite(BUTTON_SPRITE + 8, positionX + i * Sprite.SPRITE_WIDTH, positionY,
 								false);
 					} else {
@@ -217,7 +217,7 @@ public class Button implements Renderable, Tickable {
 				for (int i = 0; i < sprites.length; i++) {
 					if (i == 0) {
 						sprites[i] = new Sprite(BUTTON_SPRITE + 3, positionX, positionY, false);
-					} else if (i == width / Sprite.SPRITE_WIDTH - 1) {
+					} else if (i == (int) (width / Sprite.SPRITE_WIDTH) - 1) {
 						sprites[i] = new Sprite(BUTTON_SPRITE + 5, positionX + i * Sprite.SPRITE_WIDTH, positionY,
 								false);
 					} else {
