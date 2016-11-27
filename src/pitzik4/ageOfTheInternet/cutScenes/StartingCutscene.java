@@ -79,7 +79,11 @@ public class StartingCutscene implements Stage {
 		}
 		return new Animation(sprites, 1, element_x_position, element_y_position, false);
 	}
-
+	/*
+	 * this structure analyse if the player are in the  part of the game called Start
+	 * and if he is play a cut Scene
+	 * this is the first one , when the payer starts the game this cut scene are played
+	 */
 	
 	public StartingCutscene(Game owner) {
 		if (owner != null) {
