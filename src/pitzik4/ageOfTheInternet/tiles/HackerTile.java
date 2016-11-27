@@ -139,6 +139,8 @@ public class HackerTile extends Tile {
 		if (getSprite() instanceof Animation) {
 			((Animation) getSprite()).tick();
 		}
+	object_ending(riCliMenuOptions);
+	object_ending(rightClickMenu);
 	}
 
 	@Override
@@ -208,4 +210,9 @@ public class HackerTile extends Tile {
 		}
 	}
 
+	//make it easyer to the garbage collector get it
+	private void object_ending(Object object){
+		object = null;
+	}	
+	
 }

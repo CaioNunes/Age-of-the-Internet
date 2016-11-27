@@ -44,6 +44,8 @@ public class EndTile extends Tile {
 				rightClickMenu = null;
 			}
 		}
+		object_ending(riCliMenuTitle);
+		object_ending(riCliMenuOptions);
 	}
 
 	public void hack() {
@@ -59,6 +61,10 @@ public class EndTile extends Tile {
 	public int hackCost() {
 		int cost = 10;
 		return cost;
+	}
+	//make it easyer to the garbage collector get it
+	private void object_ending(Object object){
+		object = null;
 	}
 
 }
